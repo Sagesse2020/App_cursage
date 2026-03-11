@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Vente extends Model
 {
      protected $fillable = [
-        'chien_id', 'client_id', 'prix_vente',
+        'chien_id', 'client_id','user_id', 'prix_vente',
         'commission_partenaire', 'commission_cursage', 'date_vente'
     ];
 
@@ -19,5 +19,11 @@ class Vente extends Model
     public function client()
     {
         return $this->belongsTo(Client::class);
+    }
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

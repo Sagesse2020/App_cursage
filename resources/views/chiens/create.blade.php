@@ -1,81 +1,108 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Ajouter un chien</title>
 
-    <style>
-        body{
-            font-family: 'Segoe UI', sans-serif;
-            background:#f4f6f8;
-            padding:40px;
-        }
+<title>Ajouter chien</title>
 
-        .form-box{
-            max-width:600px;
-            background:#fff;
-            margin:auto;
-            padding:30px;
-            border-radius:14px;
-            box-shadow:0 15px 40px rgba(0,0,0,0.08);
-        }
+<style>
 
-        h1{
-            text-align:center;
-            margin-bottom:25px;
-        }
+body{
+font-family:Segoe UI;
+background:#f4f6f8;
+}
 
-        input, textarea{
-            width:100%;
-            padding:14px;
-            margin-bottom:15px;
-            border-radius:8px;
-            border:1px solid #ccc;
-            font-size:14px;
-        }
+.form{
 
-        textarea{
-            resize:none;
-            height:100px;
-        }
+max-width:600px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:10px;
 
-        button{
-            width:100%;
-            padding:14px;
-            background:#111;
-            color:#fff;
-            border:none;
-            border-radius:8px;
-            font-size:15px;
-            cursor:pointer;
-            transition:0.3s;
-        }
+}
 
-        button:hover{
-            background:#333;
-        }
-    </style>
+input,select,textarea{
+
+width:100%;
+padding:10px;
+margin:10px 0;
+border:1px solid #ddd;
+border-radius:6px;
+
+}
+
+button{
+
+background:#111;
+color:white;
+padding:12px;
+border:none;
+border-radius:6px;
+
+}
+
+</style>
+
 </head>
 
 <body>
 
-<div class="form-box">
-    <h1>Ajouter un chien</h1>
+<div class="form">
 
-    <form action="{{ route('chiens.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
+<h2>Ajouter un chien</h2>
 
-        <input type="text" name="nom" placeholder="Nom du chien" required>
-        <input type="text" name="race" placeholder="Race" required>
-        <input type="number" name="age" placeholder="Âge (ans)">
-        <input type="number" name="prix" placeholder="Prix (FCFA)">
+<form method="POST" enctype="multipart/form-data" action="{{ route('chiens.store') }}">
 
-        <input type="file" name="image">
+@csrf
 
-        <textarea name="description" placeholder="Description du chien"></textarea>
+<label>Nom</label>
+<input type="text" name="nom">
 
-        <button type="submit">Enregistrer le chien</button>
-    </form>
+<label>Race</label>
+<select name="race_id">
+
+@foreach($races as $race)
+
+<option value="{{ $race->id }}">
+{{ $race->nom }}
+</option>
+
+@endforeach
+
+</select>
+
+<label>Partenaire</label>
+
+<select name="partenaire_id">
+
+<option value="">Aucun</option>
+
+@foreach($partenaires as $p)
+
+<option value="{{ $p->id }}">
+{{ $p->nom }}
+</option>
+
+@endforeach
+
+</select>
+
+<label>Prix base</label>
+<input type="number" name="prix_base">
+
+<label>Photo</label>
+<input type="file" name="photo">
+
+<label>Date arrivée</label>
+<input type="date" name="date_arrive">
+
+<label>Notes</label>
+<textarea name="notes"></textarea>
+
+<button>Enregistrer</button>
+
+</form>
+
 </div>
 
 </body>

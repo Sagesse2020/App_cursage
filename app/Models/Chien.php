@@ -7,9 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 class Chien extends Model
 {
     protected $fillable = [
-        'nom_chien', 'race_id', 'partenaire_id', 'prix_base',
-        'prix_vacciné', 'prix_dressé', 'vacciné', 'dressé',
-        'statut', 'photo', 'date_arrivée'
+
+        'reference',
+        'nom',
+        'race_id',
+        'partenaire_id',
+        'prix_base',
+        'prix_vaccine',
+        'prix_dressage',
+        'vacciné',
+        'dresse',
+        'statut',
+        'provenance',
+        'photo',
+        'date_arrive',
+        'notes'
+
     ];
 
     public function race()
@@ -22,8 +35,8 @@ class Chien extends Model
         return $this->belongsTo(Partenaire::class);
     }
 
-    public function vente()
+    public function ventes()
     {
-        return $this->hasOne(Vente::class);
+        return $this->hasMany(Vente::class);
     }
 }

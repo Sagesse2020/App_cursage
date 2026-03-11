@@ -5,48 +5,60 @@
 <title>Ajouter une race</title>
 
 <style>
-body{background:#f4f6f8;font-family:'Segoe UI';padding:40px;}
-.form-box{
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#f4f6f8;
+    padding:40px;
+}
+form{
     max-width:600px;
     margin:auto;
     background:#fff;
     padding:30px;
     border-radius:14px;
-    box-shadow:0 15px 40px rgba(0,0,0,.08);
+    box-shadow:0 10px 30px rgba(0,0,0,.1);
 }
+label{display:block;margin-top:15px;font-weight:600;}
 input,textarea{
     width:100%;
-    padding:14px;
-    margin-bottom:15px;
-    border-radius:8px;
+    padding:10px;
+    margin-top:6px;
+    border-radius:6px;
     border:1px solid #ccc;
 }
 button{
-    width:100%;
-    padding:14px;
-    background:#111;
+    margin-top:20px;
+    background:#0a7;
     color:#fff;
     border:none;
-    border-radius:8px;
+    padding:12px;
+    width:100%;
+    border-radius:6px;
+    cursor:pointer;
 }
 </style>
 </head>
 
 <body>
-<div class="form-box">
-<h1>Ajouter une race</h1>
 
-<form method="POST" action="{{ route('races.store') }}" enctype="multipart/form-data">
+<form method="POST" enctype="multipart/form-data">
 @csrf
 
-<input type="text" name="nom" placeholder="Nom de la race" required>
-<input type="text" name="origine" placeholder="Origine">
-<input type="file" name="image">
+<h2>Nouvelle race</h2>
 
-<textarea name="description" placeholder="Description de la race"></textarea>
+<label>Nom</label>
+<input type="text" name="nom" required>
+
+<label>Origine</label>
+<input type="text" name="origine">
+
+<label>Description</label>
+<textarea name="description" rows="4"></textarea>
+
+<label>Image</label>
+<input type="file" name="image">
 
 <button>Enregistrer</button>
 </form>
-</div>
 </body>
 </html>

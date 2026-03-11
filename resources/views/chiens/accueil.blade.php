@@ -7,9 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ config('app.name')}}-Formulaire chiens</title>
      <style>
-        h1{
+    h1{
      color: red;
-     }
+    }
         .navbar{
             display: flex;
             justify-content: space-around;

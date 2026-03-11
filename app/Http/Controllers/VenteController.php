@@ -1,75 +1,125 @@
 <?php
+
 namespace App\Http\Controllers;
-use App\Models\Chien;
+
 use App\Models\Vente;
+use App\Models\Chien;
 use App\Models\Client;
-use App\Models\Transaction;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class VenteController extends Controller
 {
-    public function store(Request $request)
+
+    public function index()
     {
-        $request->validate([
-            'chien_id'=>'required|exists:chiens,id',
-            'client_id'=>'required|exists:clients,id',
-            'prix_vente'=>'required|numeric|min:0'
-        ]);
 
-        return DB::transaction(function() use ($request) {
-            $chien = Chien::lockForUpdate()->findOrFail($request->chien_id);
+        $ventes = Vente::with(['chien','client','user'])
+        ->latest()
+        ->get();
 
-            if($chien->statut !== 'disponible'){
-                return back()->withErrors('Chien non disponible.');
-            }
+        return view('ventes.index',compact('ventes'));
 
-            $prixVente = $request->prix_vente;
-            $commissionPartenaire = 0.00;
-            $commissionCursage = $prixVente;
-
-            if($chien->partenaire_id){
-                $part = $chien->partenaire;
-                $tauxPart = $part->pourcentage_commission ?? 20.00; // % pour partenaire
-                $commissionPartenaire = round(($tauxPart/100) * $prixVente, 2);
-                $commissionCursage = round($prixVente - $commissionPartenaire, 2);
-            }
-
-            $vente = Vente::create([
-                'chien_id'=>$chien->id,
-                'client_id'=>$request->client_id,
-                'user_id'=>auth()->id(),
-                'prix_vente'=>$prixVente,
-                'commission_partenaire'=>$commissionPartenaire,
-                'commission_cursage'=>$commissionCursage,
-                'statut_payment'=>'non_paye'
-            ]);
-
-            $chien->update(['statut'=>'vendu']);
-
-            Transaction::create([
-                'vente_id'=>$vente->id,
-                'type'=>'paiement_client',
-                'montant'=>$prixVente,
-                'destinataire'=>'CURSAGE (compte)',
-                'notes'=>'Paiement enregistré, à répartir'
-            ]);
-
-            return redirect()->route('ventes.show', $vente->id)->with('success','Vente enregistrée.');
-        });
     }
 
-    public function show(Vente $vente){
+
+    public function create()
+    {
+
+        $chiens = Chien::where('statut','disponible')->get();
+        $clients = Client::all();
+
+        return view('ventes.create',compact('chiens','clients'));
+
+    }
+
+
+    public function store(Request $request)
+    {
+
+        $data = $request->validate([
+
+            'chien_id'=>'required|exists:chiens,id',
+            'client_id'=>'required|exists:clients,id',
+
+            'prix_vente'=>'required|numeric',
+
+            'commission_partenaire'=>'nullable|numeric',
+
+            'commission_cursage'=>'nullable|numeric',
+
+            'date_vente'=>'required|date'
+
+        ]);
+
+        $data['user_id'] = Auth::id();
+
+        Vente::create($data);
+
+        Chien::where('id',$data['chien_id'])
+        ->update(['statut'=>'vendu']);
+
+        return redirect()
+        ->route('ventes.index')
+        ->with('success','Vente enregistrée avec succès');
+
+    }
+
+
+    public function edit(Vente $vente)
+    {
+
+        $chiens = Chien::all();
+        $clients = Client::all();
+
+        return view('ventes.edit',compact(
+            'vente','chiens','clients'
+        ));
+
+    }
+
+
+    public function show(Vente $vente)
+    {
         return view('ventes.show', compact('vente'));
     }
 
-    public function index(){
-        $query = Vente::with('chien.race','client','user');
-        if(auth()->user()->role === 'partner'){
-            $part = auth()->user()->partenaire;
-            $query->whereHas('chien', function($q) use ($part){ $q->where('partenaire_id', $part->id); });
-        }
-        $ventes = $query->orderBy('date_vente','desc')->paginate(20);
-        return view('ventes.index', compact('ventes'));
+
+    public function update(Request $request,Vente $vente)
+    {
+
+        $data = $request->validate([
+
+            'chien_id'=>'required',
+            'client_id'=>'required',
+
+            'prix_vente'=>'required|numeric',
+
+            'commission_partenaire'=>'nullable|numeric',
+
+            'commission_cursage'=>'nullable|numeric',
+
+            'date_vente'=>'required|date'
+
+        ]);
+
+        $vente->update($data);
+
+        return redirect()
+        ->route('ventes.index')
+        ->with('success','Vente modifiée');
+
     }
+
+
+    public function destroy(Vente $vente)
+    {
+
+        $vente->delete();
+
+        return back()
+        ->with('success','Vente supprimée');
+
+    }
+
 }

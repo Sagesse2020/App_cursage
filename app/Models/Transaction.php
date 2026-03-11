@@ -6,13 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
 {
-     protected $fillable = [
+
+    protected $fillable = [
         'vente_id',
         'type',
         'montant',
         'destinataire',
         'date_transaction',
-        'notes'
+        'notes',
+        'user_id'
+    ];
+
+    // Conversion automatique en objet date
+    protected $casts = [
+        'date_transaction' => 'datetime',
+        'date_vente' => 'datetime',
+        'created_at' => 'datetime',
     ];
 
     public function vente()
@@ -20,31 +29,8 @@ class Transaction extends Model
         return $this->belongsTo(Vente::class);
     }
 
-    /* =========================
-       Calcul des totaux
-    ==========================*/
-
-    public static function totalEntrees()
-    {
-        return self::whereIn('type', [
-            'paiement_client',
-            'versement_cursage'
-        ])->sum('montant');
-    }
-
-    public static function totalSorties()
-    {
-        return self::where('type', 'paiement_partenaire')
-            ->sum('montant');
-    }
-
-    public static function solde()
-    {
-        return self::totalEntrees() - self::totalSorties();
-    }
-
     public function user()
-{
-    return $this->belongsTo(User::class);
-}
+    {
+        return $this->belongsTo(User::class);
+    }
 }

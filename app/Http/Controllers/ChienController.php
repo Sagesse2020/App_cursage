@@ -1,59 +1,122 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Chien;
+use App\Models\Race;
+use App\Models\Partenaire;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ChienController extends Controller
 {
+
     public function index()
     {
-        $chiens = Chien::latest()->paginate(10);
+        $chiens = Chien::with('race')->latest()->get();
+
         return view('chiens.index', compact('chiens'));
     }
 
+
     public function create()
     {
-        return view('chiens.create');
+        $races = Race::all();
+        $partenaires = Partenaire::all();
+        $chiens = Chien::all();
+
+        return view('chiens.create', compact('chiens','races','partenaires'));
     }
+
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nom' => 'required',
-            'race' => 'required',
-            'age' => 'required|numeric',
-            'prix' => 'required|numeric',
-            'image' => 'image|nullable'
+
+        $data = $request->validate([
+
+            'nom'=>'nullable|string',
+
+            'race_id'=>'required|exists:races,id',
+
+            'partenaire_id'=>'nullable|exists:partenaires,id',
+
+            'prix_base'=>'required|numeric',
+
+            'prix_vaccine'=>'nullable|numeric',
+
+            'prix_dressage'=>'nullable|numeric',
+
+            'photo'=>'nullable|image',
+
+            'date_arrive'=>'nullable|date',
+
+            'notes'=>'nullable|string'
+
         ]);
 
-        $data = $request->all();
+        $data['reference'] = 'DOG-'.Str::upper(Str::random(6));
 
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('chiens', 'public');
+        if($request->hasFile('photo')){
+            $data['photo'] = $request->file('photo')->store('chiens','public');
         }
 
         Chien::create($data);
 
-        return redirect()->route('chiens.index')->with('success','Chien ajouté');
+        return redirect()->route('chiens.index')
+        ->with('success','Chien ajouté');
     }
+
 
     public function edit(Chien $chien)
     {
-        return view('chiens.edit', compact('chien'));
+        $races = Race::all();
+        $partenaires = Partenaire::all();
+
+        return view('chiens.edit',compact(
+            'chien','races','partenaires'
+        ));
     }
+
 
     public function update(Request $request, Chien $chien)
     {
-        $chien->update($request->all());
 
-        return redirect()->route('chiens.index')->with('success','Chien modifié');
+        $data = $request->validate([
+
+            'nom'=>'nullable|string',
+
+            'race_id'=>'required',
+
+            'partenaire_id'=>'nullable',
+
+            'prix_base'=>'required|numeric',
+
+            'prix_vaccine'=>'nullable|numeric',
+
+            'prix_dressage'=>'nullable|numeric',
+
+            'photo'=>'nullable|image',
+
+            'date_arrive'=>'nullable|date',
+
+            'notes'=>'nullable|string'
+
+        ]);
+
+        if($request->hasFile('photo')){
+            $data['photo'] = $request->file('photo')->store('chiens','public');
+        }
+
+        $chien->update($data);
+
+        return redirect()->route('chiens.index');
     }
+
 
     public function destroy(Chien $chien)
     {
         $chien->delete();
 
-        return back()->with('success','Chien supprimé');
+        return back();
     }
 }

@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Publication extends Model
 {
-    protected $fillable=['user_id','contenu','image'];
+
+    protected $fillable = ['titre','contenu','image','user_id'];
+
+    // Relation vers l'utilisateur qui a publié
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 
 }

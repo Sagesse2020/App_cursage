@@ -1,13 +1,15 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Race;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class RaceController extends Controller
 {
     /**
-     * Afficher la liste des races
+     * Liste des races
      */
     public function index()
     {
@@ -16,7 +18,7 @@ class RaceController extends Controller
     }
 
     /**
-     * Afficher le formulaire de création
+     * Formulaire création
      */
     public function create()
     {
@@ -24,27 +26,36 @@ class RaceController extends Controller
     }
 
     /**
-     * Enregistrer une nouvelle race
+     * Enregistrement
      */
     public function store(Request $request)
     {
         $request->validate([
-            'nom' => 'required|string|max:255|unique:races,nom',
+            'nom' => 'required|string|max:150|unique:races,nom',
+            'origine' => 'nullable|string|max:150',
             'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
+        // 🔥 UPLOAD IMAGE
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('races', 'public');
+        }
 
         Race::create([
             'nom' => $request->nom,
+            'origine' => $request->origine,
             'description' => $request->description,
+            'image' => $imagePath,
         ]);
 
-        return redirect()
-            ->route('races.index')
+        return redirect()->route('races.index')
             ->with('success', 'Race ajoutée avec succès.');
     }
 
     /**
-     * Afficher une race précise
+     * Affichage d’une race
      */
     public function show(Race $race)
     {
@@ -52,7 +63,7 @@ class RaceController extends Controller
     }
 
     /**
-     * Afficher le formulaire d’édition
+     * Formulaire édition
      */
     public function edit(Race $race)
     {
@@ -60,35 +71,50 @@ class RaceController extends Controller
     }
 
     /**
-     * Mettre à jour une race
+     * Mise à jour
      */
     public function update(Request $request, Race $race)
     {
         $request->validate([
-            'nom' => 'required|string|max:255|unique:races,nom,' . $race->id,
+            'nom' => 'required|string|max:150|unique:races,nom,' . $race->id,
+            'origine' => 'nullable|string|max:150',
             'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
+        // 🔥 SI NOUVELLE IMAGE → SUPPRIMER L’ANCIENNE
+        if ($request->hasFile('image')) {
+            if ($race->image && Storage::disk('public')->exists($race->image)) {
+                Storage::disk('public')->delete($race->image);
+            }
+
+            $race->image = $request->file('image')->store('races', 'public');
+        }
 
         $race->update([
             'nom' => $request->nom,
+            'origine' => $request->origine,
             'description' => $request->description,
+            'image' => $race->image,
         ]);
 
-        return redirect()
-            ->route('races.index')
+        return redirect()->route('races.index')
             ->with('success', 'Race modifiée avec succès.');
     }
 
     /**
-     * Supprimer une race
+     * Suppression
      */
     public function destroy(Race $race)
     {
+        // 🔥 SUPPRESSION IMAGE
+        if ($race->image && Storage::disk('public')->exists($race->image)) {
+            Storage::disk('public')->delete($race->image);
+        }
+
         $race->delete();
 
-        return redirect()
-            ->route('races.index')
+        return redirect()->route('races.index')
             ->with('success', 'Race supprimée avec succès.');
     }
 }
-

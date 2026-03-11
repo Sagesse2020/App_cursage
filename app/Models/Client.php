@@ -2,14 +2,29 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Client extends Model
+class Client extends Authenticatable
 {
-      protected $fillable = ['nom', 'telephone', 'email', 'adresse'];
+    use HasFactory;
+
+    protected $fillable = [
+        'nom',
+        'email',
+        'telephone',
+        'password',
+        'adresse'
+    ];
+
+    protected $hidden = [
+        'password'
+    ];
 
     public function ventes()
     {
         return $this->hasMany(Vente::class);
     }
+
 }
+

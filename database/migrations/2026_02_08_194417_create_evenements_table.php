@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('evenements', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-        $table->string('titre');
-        $table->text('description');
-        $table->dateTime('date_event');
-        $table->string('lieu')->nullable();
-        $table->timestamps();
-});
+        Schema::create('evenements', function(Blueprint $table){
+            $table->id();
+            $table->string('titre', 150);
+            $table->text('description')->nullable();
+            $table->date('date');
+            $table->string('image')->nullable(); // image de l'événement
+            $table->timestamps();
+        });
 
     }
 

@@ -13,8 +13,15 @@ use App\Http\Controllers\RaceController;
 use App\Http\Controllers\StatistiqueController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClotureController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\TresorerieController;
+use App\Http\Controllers\PublicationController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\FactureController;
+use App\Http\Controllers\ServiceController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -77,11 +84,6 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function(){
     Route::resource('chiens', ChienController::class);
-    Route::resource('partenaires', PartenaireController::class)->middleware(''); // simple gate needed
-    Route::resource('clients', ClientController::class);
-    Route::post('ventes', [VenteController::class,'store'])->name('ventes.store');
-    Route::get('ventes', [VenteController::class,'index'])->name('ventes.index');
-    Route::get('ventes/{vente}', [VenteController::class,'show'])->name('ventes.show');
 
       // Profil utilisateur
         Route::get('/profil', [UserController::class, 'profil'])->name('profil');
@@ -118,6 +120,38 @@ Route::middleware(['auth'])->group(function(){
         return view('clients.accueil');
         })->name('clients');
 
+        Route::get('/DocumentAccueil', function () {
+        return view('documents.accueil');
+        })->name('documents');
+
+        Route::get('/EvenementAccueil', function () {
+        return view('evenements.accueil');
+        })->name('evenements');
+
+        Route::get('/PublicationAccueil', function () {
+        return view('publications.accueil');
+        })->name('publications');
+
+        Route::get('/VenteAccueil', function () {
+        return view('ventes.accueil');
+        })->name('ventes');
+
+        Route::get('/TransactionAccueil', function () {
+        return view('transactions.accueil');
+        })->name('transactions');
+
+        Route::get('/FactureAccueil', function () {
+        return view('factures.accueil');
+        })->name('factures');
+
+        Route::get('/ServiceAccueil', function () {
+        return view('services.accueil');
+        })->name('services');
+
+        Route::get('/PartenaireAccueil', function () {
+        return view('partenaires.accueil');
+        })->name('partenaires');
+
         Route::get('/statistique', [StatistiqueController::class, 'index'])
         ->name('statistiques')
         ->middleware('auth');
@@ -134,30 +168,7 @@ Route::middleware(['auth'])->group(function(){
     // -----------------------
     // CLIENTS
     // ------------------------
-      // vue de creation d'un client
-  Route::get('/createClient', [ClientController::class, 'create'])->name('clients.create');
-  Route::post('/createClient', [ClientController::class, 'store'])->name('clients.store');
-  // vue d'affichage de la liste des clients
-  Route::get('/indexClient', [ClientController::class, 'index'])->name('clients.index');
-  // Modifier des clients
-  Route::get('/clients/{id}/edit', [ClientController::class, 'edit'])->name('clients.edit');
-  Route::put('/clients/{id}', [ClientController::class, 'update'])->name('clients.update');
-  // Supprimer des clients
-  Route::delete('/clients/{id}', [ClientController::class, 'destroy'])->name('clients.destroy');
-
-   // -----------------------
-    // CHIENS
-    // ------------------------
-      // vue de creation d'un chien
-  Route::get('/createChien', [ChienController::class, 'create'])->name('chiens.create');
-  Route::post('/createChien', [ChienController::class, 'store'])->name('chiens.store');
-  // vue d'affichage de la liste des chiens
-  Route::get('/indexChien', [ChienController::class, 'index'])->name('chiens.index');
-  // Modifier des chiens
-  Route::get('/chiens/{id}/edit', [ChienController::class, 'edit'])->name('chiens.edit');
-  Route::put('/chiens/{id}', [ChienController::class, 'update'])->name('chiens.update');
-  // Supprimer des chiens
-  Route::delete('/chiens/{id}', [ChienController::class, 'destroy'])->name('chiens.destroy');
+    Route::resource('clients',ClientController::class);
 
   // -----------------------
     //  RACES
@@ -175,11 +186,72 @@ Route::middleware(['auth'])->group(function(){
   // Supprimer des chiens
   Route::delete('/races/{id}', [RaceController::class, 'destroy'])->name('races.destroy');
 
+
+  // -----------------------
+    //  DOCUMENTS
+    // ------------------------
+Route::resource('documents', DocumentController::class);
+   // -----------------------
+    //  EVENEMENTS
+    // ------------------------
+      // vue de creation d'un evenement
+  Route::get('/createEvenement', [EvenementController::class, 'create'])->name('evenements.create');
+  Route::post('/createEvenement', [EvenementController::class, 'store'])->name('evenements.store');
+  Route::get('/showEvenement', [EvenementController::class, 'show'])->name('evenements.show');
+      // vue d'affichage de la liste des evenements
+  Route::get('/indexEvenement', [EvenementController::class, 'index'])->name('evenements.index');
+
+  // Modifier des evenements
+  Route::get('/evenement/{id}/edit', [EvenementController::class, 'edit'])->name('evenements.edit');
+  Route::put('/evenement/{id}', [EvenementController::class, 'update'])->name('evenements.update');
+  // Supprimer des documents
+  Route::delete('/evenement/{id}', [EvenementController::class, 'destroy'])->name('evenements.destroy');
+
+// -----------------------
+    // PUBLICATIONS
+    // ------------------------
+Route::get('/publications', [PublicationController::class,'index'])->name('publications.index');
+Route::get('/publications/create', [PublicationController::class,'create'])->name('publications.create');
+Route::post('/publications', [PublicationController::class,'store'])->name('publications.store');
+Route::get('/publications/{publication}', [PublicationController::class,'show'])->name('publications.show');
+Route::get('/publications/{publication}/edit', [PublicationController::class,'edit'])->name('publications.edit');
+Route::put('/publications/{publication}', [PublicationController::class,'update'])->name('publications.update');
+Route::delete('/publications/{publication}', [PublicationController::class,'destroy'])->name('publications.destroy');
+
+
+  // -----------------------
+    //  COMMENTAIRES
+    // ------------------------
   Route::get('/commentaires', [CommentaireController::class, 'index'])->name('commentaires.index');
   Route::post('/commentaires', [CommentaireController::class, 'store'])->name('commentaires.store');
   Route::delete('/commentaires/{id}', [CommentaireController::class, 'destroy'])
     ->middleware('auth')
     ->name('commentaires.destroy');
 
+    // -----------------------
+    // TRANSACTION
+    // ------------------------
+    //Cette route genère automatiquement niveau laravel transactions.index,transactions.edit,transaction.update,transaction.create
+    Route::resource('transactions', TransactionController::class);
+
+     // -----------------------
+    // SERVICES
+    // ------------------------
+    Route::resource('services',ServiceController::class);
+
+     // -----------------------
+    // FACTURES
+    // ------------------------
+    Route::resource('factures',FactureController::class);
+
+     // -----------------------
+    // PARTENAIRES
+    // ------------------------
+    Route::resource('partenaires',PartenaireController::class);
+
+      // -----------------------
+    // VENTES
+    // ------------------------
+    Route::resource('ventes',VenteController::class);
 });
 

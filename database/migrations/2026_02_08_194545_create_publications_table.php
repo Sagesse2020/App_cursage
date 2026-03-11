@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-    Schema::create('publications', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('user_id')->constrained();
-    $table->text('contenu');
-    $table->string('image')->nullable();
-    $table->timestamps();
-    });
-
+            Schema::create('publications', function(Blueprint $table){
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // lien avec l'utilisateur
+            $table->string('titre', 150);
+            $table->text('contenu')->nullable();
+            $table->string('image')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**

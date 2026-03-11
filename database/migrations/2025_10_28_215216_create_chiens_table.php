@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('chiens', function (Blueprint $table) {
             $table->id();
-             $table->string('reference',50)->unique();
+            $table->string('reference',50)->unique();
             $table->string('nom',100)->nullable();
             $table->foreignId('race_id')->constrained('races')->cascadeOnDelete();
             $table->foreignId('partenaire_id')->nullable()->constrained('partenaires')->nullOnDelete();

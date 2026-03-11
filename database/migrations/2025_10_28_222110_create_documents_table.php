@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('documents', function (Blueprint $table) {
+        Schema::create('documents', function(Blueprint $table){
             $table->id();
+            $table->string('titre', 150);
+            $table->text('description')->nullable();
+            $table->string('fichier')->nullable(); // image, pdf, etc
             $table->timestamps();
         });
     }

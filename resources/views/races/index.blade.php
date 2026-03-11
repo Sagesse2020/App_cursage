@@ -10,10 +10,7 @@ body{
     background:#f4f6f8;
     padding:40px;
 }
-.container{
-    max-width:1200px;
-    margin:auto;
-}
+.container{max-width:1200px;margin:auto;}
 header{
     display:flex;
     justify-content:space-between;
@@ -44,27 +41,26 @@ h1{font-size:28px;}
     height:180px;
     object-fit:cover;
 }
-.card-content{
-    padding:18px;
-}
-.card-content h3{
-    margin:0;
-}
+.card-content{padding:18px;}
+.card-content h3{margin-bottom:6px;}
 .actions{
     margin-top:12px;
     display:flex;
     gap:10px;
 }
-.actions a{
+.actions a, .actions button{
     flex:1;
-    text-align:center;
     padding:8px;
     border-radius:6px;
+    border:none;
+    cursor:pointer;
+    text-align:center;
     text-decoration:none;
     color:#fff;
-    background:#0a7;
 }
-.actions a.details{background:#333;}
+.details{background:#333;}
+.edit{background:#0a7;}
+.delete{background:#c0392b;}
 </style>
 </head>
 
@@ -73,26 +69,26 @@ h1{font-size:28px;}
 
 <header>
     <h1>Races canines</h1>
-    <a href="{{ route('races.create') }}" class="btn">+ Ajouter une race</a>
+    <a href="{{ route('races.create') }}" class="btn">+ Ajouter</a>
 </header>
 
 <div class="grid">
 @foreach($races as $race)
 <div class="card">
-    <img src="{{ asset('storage/'.$race->image) }}">
+    <img src="{{ $race->image ? asset('storage/'.$race->image) : asset('images/no-image.png') }}">
+
     <div class="card-content">
         <h3>{{ $race->nom }}</h3>
         <p>{{ $race->origine }}</p>
 
         <div class="actions">
             <a href="{{ route('races.show',$race) }}" class="details">Voir</a>
-            <a href="{{ route('races.edit',$race) }}">Modifier</a>
+            <a href="{{ route('races.edit',$race) }}" class="edit">Modifier</a>
         </div>
     </div>
 </div>
 @endforeach
 </div>
-
 </div>
 </body>
 </html>

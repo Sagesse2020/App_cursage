@@ -39,16 +39,13 @@ tr:nth-child(even){ background:#1e293b; }
 
 <nav>
 <img src="{{ asset('logo_chorale.png') }}" class="logo">
-
 <ul>
-<li><a href="{{ route('admin') }}"><i class="fas fa-home"></i> Admin</a></li>
-<li><a href="{{ route('tresorerie.index') }}"><i class="fas fa-coins"></i> Trésorerie</a></li>
-<li><a href="{{ route('journal.index') }}"><i class="fas fa-book"></i> Journal</a></li>
-<li><a href="{{ route('gestion.index') }}"><i class="fas fa-cogs"></i> Gestion</a></li>
-<li><a href="{{ route('profil') }}"><i class="fas fa-user"></i> Profil</a></li>
+    <li><a href="{{ route('admin') }}"><i class="fas fa-home"></i>Admin</a></li>
+    <li><a href="{{ route('journal.index') }}"><i class="fas fa-book"></i>Journal</a></li>
+    <li><a href="{{ route('tresorerie.index') }}"><i class="fas fa-coins"></i>Trésorerie</a></li>
+    <li><a href="{{ route('gestion.index') }}"><i class="fas fa-cogs"></i>Gestion</a></li>
+    <li><a href="{{ route('profil') }}"><i class="fas fa-user"></i>Profil</a></li>
 </ul>
-</nav>
-
 <section class="admin-header">
 <h1>Trésorerie CURSAGE</h1>
 <p>Suivi financier global</p>
@@ -137,6 +134,6 @@ new Chart(ctx, {
         }]
     }
 });
-</script>*
+</script>
 </body>
 </html>

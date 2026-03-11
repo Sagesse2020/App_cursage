@@ -1,30 +1,73 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use App\Models\Partenaire;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PartenaireController extends Controller
 {
-    public function index()
-    { 
-        $partenaires = Partenaire::paginate(20); return view('partenaires.index', compact('partenaires'));
-    }
-    public function create()
-    { 
-        return view('partenaires.create'); 
-    }
-       public function store(Request $request){
-        $validated = $request->validate([
-            'name'=>'required|string|max:255',
-            'email'=>'nullable|email',
-            'telephone'=>'nullable|string|max:20',
-            'adresse'=>'nullable|string|max:255',
-            'commission_percent'=>'nullable|numeric|min:0|max:100',
-            'status'=>'required|in:actif,inactif'
-        ]);
 
-        Partenaire::create($validated);
+public function index()
+{
 
-        return redirect()->route('partenaires.create')->with('success', 'Partenaire ajouté !');
-    }
+$partenaires = Partenaire::latest()->get();
+
+return view('partenaires.index',compact('partenaires'));
+
+}
+
+public function create()
+{
+return view('partenaires.create');
+}
+
+public function store(Request $request)
+{
+
+$data = $request->validate([
+
+'nom'=>'required',
+'telephone'=>'nullable',
+'email'=>'nullable',
+'adresse'=>'nullable',
+'pourcentage_commission'=>'nullable',
+'notes'=>'nullable'
+
+]);
+
+$data['user_id'] = Auth::id();
+
+Partenaire::create($data);
+
+return redirect()->route('partenaires.index');
+
+}
+
+public function edit(Partenaire $partenaire)
+{
+
+return view('partenaires.edit',compact('partenaire'));
+
+}
+
+public function update(Request $request, Partenaire $partenaire)
+{
+
+$partenaire->update($request->all());
+
+return redirect()->route('partenaires.index');
+
+}
+
+public function destroy(Partenaire $partenaire)
+{
+
+$partenaire->delete();
+
+return back();
+
+}
+
 }

@@ -57,9 +57,6 @@ footer { margin-top:auto; background:#020617; padding:20px; text-align:center; c
 <img src="{{ asset('logo_chorale.png') }}" alt="Logo CURSAGE" class="logo">
 <ul>
     <li><a href="{{ route('admin') }}"><i class="fas fa-home"></i>Admin</a></li>
-    <li><a href="{{ route('journal.index') }}"><i class="fas fa-book"></i>Journal</a></li>
-    <li><a href="{{ route('tresorerie.index') }}"><i class="fas fa-coins"></i>Trésorerie</a></li>
-    <li><a href="{{ route('gestion.index') }}"><i class="fas fa-cogs"></i>Gestion</a></li>
     <li><a href="{{ route('profil') }}"><i class="fas fa-user"></i>Profil</a></li>
 </ul>
 </nav>
@@ -71,10 +68,6 @@ footer { margin-top:auto; background:#020617; padding:20px; text-align:center; c
 
 <section class="dashboard">
 <div class="cards">
-    <div class="card"><i class="fas fa-file-alt"></i><h3>Écritures récentes</h3><p>{{ $totalEntries ?? '...' }} écritures</p></div>
-    <div class="card"><i class="fas fa-calendar-alt"></i><h3>Clôture mensuelle</h3><p>Historique des clôtures</p></div>
-    <div class="card"><i class="fas fa-chart-bar"></i><h3>Graphiques</h3><p>Analyse visuelle des flux</p></div>
-    <div class="card"><i class="fas fa-file-export"></i><h3>Export PDF/Excel</h3><p>Téléchargement facile des rapports</p></div>
 </div>
 
 <!-- Graphique -->
@@ -87,8 +80,8 @@ footer { margin-top:auto; background:#020617; padding:20px; text-align:center; c
 <tr>
     <th>Date</th>
     <th>Compte</th>
-    <th>Débit (€)</th>
-    <th>Crédit (€)</th>
+    <th>Débit (FCFA)</th>
+    <th>Crédit (FCFA)</th>
     <th>Description</th>
 </tr>
 </thead>
