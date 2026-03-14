@@ -37,9 +37,13 @@ border-bottom:1px solid #333;
 }
 
 .btn{
-background:#00e6ff;
-padding:10px 15px;
-border-radius:6px;
+ padding: 6px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    background-color: #4CAF50; /* vert */
+    font-size: 13px;
+    transition: 0.3s;
 }
 
 @media(max-width:768px){
@@ -51,52 +55,56 @@ font-size:12px;
 </head>
 <body>
 
-<div class="container">
-
-<h2>Gestion des factures</h2>
-
 <a href="{{ route('factures.create') }}" class="btn">
 Nouvelle facture
 </a>
-
-<table class="table">
-
+<table class="table-pro">
+   <h2>Gestion des factures</h2>
+<thead>
 <tr>
-<th>ID</th>
-<th>Vente</th>
-<th>Type</th>
-<th>Actions</th>
+<th>N°</th>
+<th>Date</th>
+<th>Client</th>
+<th>Total</th>
+<th>Statut</th>
+<th>Action</th>
 </tr>
+</thead>
+
+<tbody>
 
 @foreach($factures as $facture)
 
 <tr>
 
-<td>{{ $facture->id }}</td>
+<td>{{ $facture->numero }}</td>
 
-<td>{{ $facture->vente->id ?? '-' }}</td>
+<td>{{ $facture->date->format('d/m/Y') }}</td>
 
-<td>{{ $facture->type }}</td>
+<td>{{ $facture->client->nom ?? '-' }}</td>
+
+<td>{{ number_format($facture->total,0,',',' ') }} CFA</td>
+
+<td>{{ $facture->statut }}</td>
 
 <td>
 
-<a href="{{ route('factures.edit',$facture->id) }}">Modifier</a>
+<a href="{{ route('factures.show',$facture->id)}}" class="btn">
+Voir
+</a>
 
-<form method="POST" action="{{ route('factures.destroy',$facture->id) }}">
-@csrf
-@method('DELETE')
-<button>Supprimer</button>
-</form>
-
+<a href="{{ route('factures.print',$facture->id)}}" class="btn">
+Imprimer
+</a>
 </td>
 
 </tr>
 
 @endforeach
 
+</tbody>
+
 </table>
-
-</div>
-
+</table>
 </body>
 </html>

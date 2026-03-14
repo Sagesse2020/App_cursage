@@ -1,65 +1,106 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Créer une transaction</title>
+<title>Créer facture</title>
+
 <style>
 
-.form-container{
-max-width:600px;
-margin:auto;
-padding:30px;
+body{
+font-family:Arial;
+background:#f5f6fa;
 }
 
-input,select,textarea{
+.container{
+width:600px;
+margin:auto;
+margin-top:40px;
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+input,select{
 width:100%;
 padding:10px;
-margin:10px 0;
-background:#111827;
-border:none;
-color:white;
+margin-top:8px;
+margin-bottom:20px;
+border:1px solid #ccc;
 border-radius:6px;
 }
 
 button{
 background:#00e6ff;
-padding:12px;
 border:none;
+padding:12px;
+width:100%;
 border-radius:6px;
-cursor:pointer;
+font-weight:bold;
 }
+
 </style>
 </head>
+
 <body>
 
-<h2>Créer facture</h2>
+<div class="container">
 
-<form method="POST" action="{{ route('factures.store') }}" enctype="multipart/form-data">
+<h2>Nouvelle facture</h2>
+
+<form method="POST" action="{{ route('factures.store') }}">
 
 @csrf
 
-<label>Vente</label>
+<label>Client</label>
+<select name="client_id">
 
-<select name="vente_id">
-
-@foreach($ventes as $vente)
-
-<option value="{{ $vente->id }}">
-Vente #{{ $vente->id }}
+@foreach($clients as $client)
+<option value="{{ $client->id }}">
+{{ $client->nom }}
 </option>
-
 @endforeach
 
 </select>
 
-<label>Type</label>
 
-<input type="text" name="type" value="vente">
+<label>Vente</label>
+<select name="vente_id">
 
-<button>Enregistrer</button>
+<option value="">Aucune</option>
+
+@foreach($ventes as $vente)
+<option value="{{ $vente->id }}">
+Vente #{{ $vente->id }}
+</option>
+@endforeach
+
+</select>
+
+
+<label>Date facture</label>
+<input type="date" name="date">
+
+
+<label>Total (CFA)</label>
+<input type="number" name="total">
+
+
+<label>Statut</label>
+<select name="statut">
+
+<option value="brouillon">Brouillon</option>
+<option value="envoyee">Envoyée</option>
+<option value="payee">Payée</option>
+
+</select>
+
+<button type="submit">
+Enregistrer une facture
+</button>
 
 </form>
 
 </div>
+
 </body>
 </html>

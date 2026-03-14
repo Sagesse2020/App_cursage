@@ -204,6 +204,16 @@ color:#94a3b8;
 font-size:14px
 }
 
+/* ===== INFO TEXT ===== */
+.info-text{
+    margin-top:auto;
+    font-size:15px;
+    color:#555;
+    background:#020617;
+    padding:12px 18px;
+    border-radius:6px;
+}
+
 /* ================= FOOTER ================= */
 
 footer{
@@ -267,13 +277,23 @@ box-shadow:none
 <li><a href="{{ route('races') }}"><i class="fas fa-dog"></i> Races</a></li>
 <li><a href="{{ route('chiens') }}"><i class="fas fa-paw"></i> Chiens</a></li>
 <li><a href="{{ route('ventes') }}"><i class="fas fa-book"></i> Ventes</a></li>
+<li><a href="{{ route('services') }}"><i class="fas fa-book"></i> Services</a></li>
 
 </ul>
 
 </li>
 
-<li><a href="{{ route('services') }}"><i class="fas fa-book"></i> Services</a></li>
+<li class="dropdown">
+
+<a href="#"><i class="fas fa-folder-open"></i>Gestion humaine</a>
+
+<ul class="dropdown-content">
+
 <li><a href="{{ route('clients') }}"><i class="fas fa-book"></i> Clients</a></li>
+<li><a href="{{ route('partenaires') }}"><i class="fas fa-book"></i> Partenaires</a></li>
+</ul>
+</li>
+
 <li><a href="{{ route('journal.index') }}"><i class="fas fa-book"></i> Journal</a></li>
 
 <li class="dropdown">
@@ -303,6 +323,7 @@ box-shadow:none
 <a href="#"><i class="fas fa-coins"></i>Gestion financière</a>
 
 <ul class="dropdown-content">
+<li><a href="{{ route('services') }}"><i class="fas fa-book"></i> Services</a></li>
 
 <li><a href="{{ route('tresorerie.index') }}"><i class="fas fa-coins"></i> Trésorerie</a></li>
 
@@ -329,6 +350,7 @@ box-shadow:none
 </ul>
 
 </nav>
+
 
 <!-- ================= HEADER ================= -->
 
@@ -420,6 +442,10 @@ Partenariat • Collaboration sécurisée
 
 <footer>
 
+<p class="info-text">
+            Les éléments ci-dessus présentent les fonctionnalités disponibles dans l’application.
+            Utilisez le menu en haut pour y accéder.
+</p>
 <p>© 2025 CURSAGE — Administration centrale</p>
 
 </footer>

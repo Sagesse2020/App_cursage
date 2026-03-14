@@ -8,54 +8,96 @@ use Illuminate\Http\Request;
 class ServiceController extends Controller
 {
 
-public function index()
-{
+    /**
+     * Liste des services
+     */
+    public function index()
+    {
+        $services = Service::latest()->paginate(10);
 
-$services = Service::latest()->get();
+        return view('services.index',compact('services'));
+    }
 
-return view('services.index',compact('services'));
 
-}
+    /**
+     * Formulaire création service
+     */
+    public function create()
+    {
+        return view('services.create');
+    }
 
-public function create()
-{
 
-return view('services.create');
+    /**
+     * Enregistrer service
+     */
+    public function store(Request $request)
+    {
 
-}
+        $data = $request->validate([
 
-public function store(Request $request)
-{
+            'nom'=>'required|string|max:255',
 
-Service::create($request->all());
+            'description'=>'required|string',
 
-return redirect()->route('services.index');
+            'prix_vente'=>'required|numeric|min:0',
 
-}
+            'statut'=>'required|in:en_cours,termine'
 
-public function edit(Service $service)
-{
+        ]);
 
-return view('services.edit',compact('service'));
+        Service::create($data);
 
-}
+        return redirect()
+        ->route('services.index')
+        ->with('success','Service enregistré avec succès');
+    }
 
-public function update(Request $request, Service $service)
-{
 
-$service->update($request->all());
+    /**
+     * Formulaire modification
+     */
+    public function edit(Service $service)
+    {
+        return view('services.edit',compact('service'));
+    }
 
-return redirect()->route('services.index');
 
-}
+    /**
+     * Mise à jour service
+     */
+    public function update(Request $request, Service $service)
+    {
 
-public function destroy(Service $service)
-{
+        $data = $request->validate([
 
-$service->delete();
+            'nom'=>'required|string|max:255',
 
-return back();
+            'description'=>'required|string',
 
-}
+            'prix_vente'=>'required|numeric|min:0',
+
+            'statut'=>'required|in:en_cours,termine'
+
+        ]);
+
+        $service->update($data);
+
+        return redirect()
+        ->route('services.index')
+        ->with('success','Service modifié avec succès');
+    }
+
+
+    /**
+     * Supprimer service
+     */
+    public function destroy(Service $service)
+    {
+        $service->delete();
+
+        return back()
+        ->with('success','Service supprimé');
+    }
 
 }

@@ -21,8 +21,8 @@ class Chien extends Model
         'provenance',
         'photo',
         'date_arrive',
-        'notes'
-
+        'notes',
+        'age'
     ];
 
     public function race()

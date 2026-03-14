@@ -18,6 +18,15 @@
             flex-direction: column;
         }
 
+        /* ===== INFO TEXT ===== */
+.info-text{
+    font-size:15px;
+    color:#555;
+    background:#020617;
+    padding:12px 18px;
+    border-radius:6px;
+}
+
         /* ===== NAVBAR ===== */
         header {
             background: #1e3a8a;
@@ -150,7 +159,6 @@
         CURSAGE est votre plateforme professionnelle pour le suivi des chiens,
         des services informatiques et des opérations en toute transparence et sécurité.
     </p>
-
     <div class="cards">
         <div class="card">
             <i class="fas fa-dog"></i>
@@ -189,6 +197,10 @@
 </main>
 
 <footer>
+     <p class="info-text">
+            Les éléments ci-dessous présentent les fonctionnalités disponibles dans l’application.
+            Utilisez le menu en haut pour y accéder.
+        </p>
     © {{ date('Y') }} CURSAGE — Plateforme professionnelle & sécurisée
 </footer>
 

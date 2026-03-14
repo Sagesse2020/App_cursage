@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Partenaire;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,12 +21,13 @@ return view('partenaires.index',compact('partenaires'));
 
 public function create()
 {
-return view('partenaires.create');
+     $users = User::all();
+     $partenaires = Partenaire::all();
+return view('partenaires.create', compact('users'));
 }
 
 public function store(Request $request)
 {
-
 $data = $request->validate([
 
 'nom'=>'required',

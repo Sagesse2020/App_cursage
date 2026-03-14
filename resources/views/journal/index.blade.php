@@ -75,27 +75,27 @@ footer { margin-top:auto; background:#020617; padding:20px; text-align:center; c
 
 <!-- Tableau des écritures -->
 <h2 style="margin-top:40px; color:#00e6ff;">Détail des écritures</h2>
-<table>
-<thead>
-<tr>
-    <th>Date</th>
-    <th>Compte</th>
-    <th>Débit (FCFA)</th>
-    <th>Crédit (FCFA)</th>
-    <th>Description</th>
-</tr>
-</thead>
-<tbody>
-@foreach(\App\Models\Transaction::orderBy('created_at','desc')->get() as $tx)
-<tr>
-    <td>{{ $tx->created_at->format('d/m/Y') }}</td>
-    <td>{{ $tx->compte }}</td>
-    <td>{{ number_format($tx->debit,2,',',' ') }}</td>
-    <td>{{ number_format($tx->credit,2,',',' ') }}</td>
-    <td>{{ $tx->description }}</td>
-</tr>
-@endforeach
-</tbody>
+<table class="table-pro">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Compte</th>
+            <th>Débit (CFA)</th>
+            <th>Crédit (CFA)</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($journal as $entry)
+        <tr>
+            <td>{{ $entry['date'] }}</td>
+            <td>{{ $entry['compte'] }}</td>
+            <td class="text-right">{{ number_format($entry['debit'], 0, ',', ' ') }}</td>
+            <td class="text-right">{{ number_format($entry['credit'], 0, ',', ' ') }}</td>
+            <td>{{ $entry['description'] }}</td>
+        </tr>
+        @endforeach
+    </tbody>
 </table>
 </section>
 

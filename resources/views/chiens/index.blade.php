@@ -142,11 +142,10 @@ Ajouter un chien
 
 <h3>{{ $chien->nom }}</h3>
 
-<p>{{ $chien->race->nom ?? 'Race inconnue' }}</p>
-
 <div class="price">
-{{ number_format($chien->prix_base,0,',',' ') }} FCFA
+ <p>Prix de base :</p>{{ number_format($chien->prix_base,0,',',' ') }} FCFA
 </div>
+
 
 <p>Statut : {{ $chien->statut }}</p>
 
@@ -167,6 +166,9 @@ Modifier
 Supprimer
 </button>
 
+<a href="{{ route('chiens.show',$chien) }}" class="btn-edit">
+Voir
+</a>
 </form>
 
 </div>

@@ -33,4 +33,19 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+       public static function solde()
+    {
+       return self::totalEntrees() - self::totalSorties();
+    }
+
+   public static function totalEntrees()
+   {
+    return self::whereIn('type',['paiement_client','versement_cursage'])->sum('montant');
+   }
+
+    public static function totalSorties()
+   {
+    return self::where('type',['paiement_partenaire'])->sum('montant');
+   }
 }

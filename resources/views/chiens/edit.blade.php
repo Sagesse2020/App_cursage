@@ -57,6 +57,14 @@ action="{{ route('chiens.update',$chien) }}">
 
 <input type="number" name="prix_base" value="{{ $chien->prix_base }}">
 
+<input type="number" name="prix_vaccine" value="{{ $chien->prix_vaccine }}">
+
+<input type="number" name="prix_dressage" value="{{ $chien->prix_dressage }}">
+
+<input type="text" name="age" value="{{ $chien->age}}">
+
+<input type="text" name="notes" value="{{ $chien->notes}}">
+
 <button>Modifier</button>
 
 </form>

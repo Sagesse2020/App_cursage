@@ -33,11 +33,6 @@ Route::get('/infos', function () {
 
 
 Route::middleware(['auth'])->group(function () {
-
-    Route::get('/partner/create', function () {
-        return view('parternaires.create');
-    });
-
     Route::resource('chiens', ChienController::class);
 });
 
@@ -174,23 +169,15 @@ Route::middleware(['auth'])->group(function(){
     //  RACES
     // ------------------------
       // vue de creation d'une race
-  Route::get('/createRace', [RaceController::class, 'create'])->name('races.create');
-  Route::post('/createRace', [RaceController::class, 'store'])->name('races.store');
-  Route::get('/showRace', [RaceController::class, 'show'])->name('races.show');
-      // vue d'affichage de la liste des races
-  Route::get('/indexRace', [RaceController::class, 'index'])->name('races.index');
-
-  // Modifier des races
-  Route::get('/races/{id}/edit', [RaceController::class, 'edit'])->name('races.edit');
-  Route::put('/races/{id}', [RaceController::class, 'update'])->name('races.update');
-  // Supprimer des chiens
-  Route::delete('/races/{id}', [RaceController::class, 'destroy'])->name('races.destroy');
+ Route::resource('races',RaceController::class);
 
 
   // -----------------------
     //  DOCUMENTS
     // ------------------------
 Route::resource('documents', DocumentController::class);
+Route::get('/factures/{facture}/print', [FactureController::class,'print'])
+    ->name('factures.print');
    // -----------------------
     //  EVENEMENTS
     // ------------------------

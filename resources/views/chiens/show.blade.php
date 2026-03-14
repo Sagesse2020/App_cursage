@@ -2,9 +2,10 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>{{ $race->nom }}</title>
+<title>{{ $chien->nom }}</title>
 
 <style>
+
 body{
 font-family:'Segoe UI',sans-serif;
 background:#eef2f5;
@@ -132,22 +133,63 @@ padding:20px;
 </head>
 
 <body>
+
 <div class="container">
 
 <div class="image">
-    <img src="{{ $race->image ? asset('storage/'.$race->image) : asset('images/no-image.png') }}">
+<img src="{{ asset('storage/'.$chien->photo) }}" alt="{{ $chien->nom }}">
 </div>
 
 <div class="content">
-    <h1>{{ $race->nom }}</h1>
-    <strong>Origine :</strong> {{ $race->origine ?? '—' }}
 
-    <p style="margin-top:15px;">
-        {{ $race->description ?? 'Aucune description.' }}
-    </p>
+<h1>{{ $chien->nom }}</h1>
 
-    <a href="{{ route('races.index') }}" class="back">← Retour</a>
+<div class="info">
+<strong>Race :</strong> {{ $chien->race->nom ?? 'Race inconnue' }}
 </div>
+
+<div class="info">
+<strong>Partenaire :</strong> {{ $chien->partenaire->nom ?? 'Aucun partenaire' }}
 </div>
+
+<div class="info">
+<strong>Age :</strong> {{ $chien->age ?? 'Age inconnu' }}
+</div>
+
+<div class="price-box">
+
+<div class="price">
+<span>Prix de base</span>
+<span>{{ number_format($chien->prix_base,0,',',' ') }} FCFA</span>
+</div>
+
+<div class="price">
+<span>Prix avec vaccin</span>
+<span>{{ number_format($chien->prix_vaccine,0,',',' ') }} FCFA</span>
+</div>
+
+<div class="price">
+<span>Prix dressage</span>
+<span>{{ number_format($chien->prix_dressage,0,',',' ') }} FCFA</span>
+</div>
+
+</div>
+
+<div class="status">
+Statut : {{ $chien->statut }}
+</div>
+
+<div class="notes">
+{{ $chien->notes }}
+</div>
+
+<a href="{{ route('chiens.index') }}" class="back">
+← Retour à la liste
+</a>
+
+</div>
+
+</div>
+
 </body>
 </html>

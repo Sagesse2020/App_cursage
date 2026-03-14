@@ -43,34 +43,32 @@ margin-top:30px
 </style>
 </head>
 <body>
-    <h2>Services CURSAGE</h2>
+ <h1>Ajouter service</h1>
 
-<a href="{{ route('services.create') }}">Ajouter service</a>
+<form method="POST" action="{{ route('services.store') }}"  enctype="multipart/form-data">
 
-<div class="cards">
+@csrf
 
-@foreach($services as $service)
+<label>Nom</label>
+<input type="text" name="nom" required>
 
-<div class="card">
+<label>Description</label>
+<textarea name="description"></textarea>
 
-<h3>{{ $service->nom }}</h3>
+<label>Prix (FCFA)</label>
+<input type="number" name="prix_vente">
 
-<p>{{ $service->description }}</p>
+<label>Statut</label>
 
-<p>{{ $service->prix_vente }} FCFA</p>
+<select name="statut">
 
-<p>Status : {{ $service->statut }}</p>
+<option value="en_cours">En cours</option>
+<option value="termine">Terminé</option>
 
-<a href="{{ route('services.edit',$service->id) }}">
-Modifier
-</a>
+</select>
 
-</div>
+<button>Enregistrer</button>
 
-@endforeach
-
-</div>
-
-</body>
+</form>
 </body>
 </html>

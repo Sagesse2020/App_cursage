@@ -50,8 +50,9 @@ class ChienController extends Controller
 
             'date_arrive'=>'nullable|date',
 
-            'notes'=>'nullable|string'
+            'notes'=>'nullable|string',
 
+            'age'=>'nullable|string'
         ]);
 
         $data['reference'] = 'DOG-'.Str::upper(Str::random(6));
@@ -85,10 +86,6 @@ class ChienController extends Controller
 
             'nom'=>'nullable|string',
 
-            'race_id'=>'required',
-
-            'partenaire_id'=>'nullable',
-
             'prix_base'=>'required|numeric',
 
             'prix_vaccine'=>'nullable|numeric',
@@ -97,9 +94,9 @@ class ChienController extends Controller
 
             'photo'=>'nullable|image',
 
-            'date_arrive'=>'nullable|date',
+            'notes'=>'nullable|string',
 
-            'notes'=>'nullable|string'
+            'age'=>'nullable|string'
 
         ]);
 
@@ -110,6 +107,11 @@ class ChienController extends Controller
         $chien->update($data);
 
         return redirect()->route('chiens.index');
+    }
+
+     public function show(Chien $chien)
+    {
+        return view('chiens.show', compact('chien'));
     }
 
 

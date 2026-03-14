@@ -2,12 +2,12 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Ajouter une race</title>
+<title>Modifier le chien</title>
 
 <style>
 body{
     font-family:'Segoe UI',sans-serif;
-    background:#f4f6f8;
+    background:#eef2f5;
     padding:40px;
 }
 form{
@@ -17,6 +17,13 @@ form{
     padding:30px;
     border-radius:14px;
     box-shadow:0 10px 30px rgba(0,0,0,.1);
+}
+img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    border-radius:10px;
+    margin-bottom:15px;
 }
 label{display:block;margin-top:15px;font-weight:600;}
 input,textarea{
@@ -28,36 +35,32 @@ input,textarea{
 }
 button{
     margin-top:20px;
-    background:#0a7;
+    background:#333;
     color:#fff;
     border:none;
     padding:12px;
     width:100%;
     border-radius:6px;
-    cursor:pointer;
 }
 </style>
 </head>
 
 <body>
-<form method="POST" action="{{ route('races.store') }}" enctype="multipart/form-data">
+
+<form method="POST" enctype="multipart/form-data"
+action="{{ route('races.update',$race) }}">
+
 @csrf
+@method('PUT')
 
-<h2>Nouvelle race</h2>
+<input type="text" name="nom" value="{{ $race->nom }}">
 
-<label>Nom</label>
-<input type="text" name="nom" required>
+<input type="text" name="origine" value="{{ $race->origine }}">
 
-<label>Origine</label>
-<input type="text" name="origine">
+<input type="text" name="description" value="{{ $race->description }}">
 
-<label>Description</label>
-<textarea name="description" rows="4"></textarea>
+<button>Modifier</button>
 
-<label>Image</label>
-<input type="file" name="image">
-
-<button>Enregistrer</button>
 </form>
 </body>
 </html>

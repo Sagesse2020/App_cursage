@@ -90,6 +90,12 @@ border-radius:6px;
 <label>Prix base</label>
 <input type="number" name="prix_base">
 
+<label>Prix avec vaccin</label>
+<input type="number" name="prix_vaccine">
+
+<label>Prix de dressage</label>
+<input type="number" name="prix_dressage">
+
 <label>Photo</label>
 <input type="file" name="photo">
 
@@ -98,6 +104,9 @@ border-radius:6px;
 
 <label>Notes</label>
 <textarea name="notes"></textarea>
+
+<label>Age</label>
+<textarea name="age"></textarea>
 
 <button>Enregistrer</button>
 
