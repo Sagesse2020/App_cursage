@@ -329,7 +329,8 @@ box-shadow:none
 
 <li><a href="{{ route('gestion.index') }}"><i class="fas fa-cogs"></i> Gestion</a></li>
 
-<li><a href="{{ route('graphique') }}"><i class="fas fa-chart-line"></i> Statistiques</a></li>
+<li><a href="{{ route('graphique') }}"><i class="fas fa-chart-line"></i> Graphique</a></li>
+<li><a href="{{ route('statistiques') }}"><i class="fas fa-chart-line"></i> Statistiques</a></li>
 
 <li><a href="{{ route('transactions') }}"><i class="fas fa-exchange-alt"></i> Transactions</a></li>
 

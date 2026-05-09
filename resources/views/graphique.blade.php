@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Statistiques CURSAGE</title>
+<title>Graphique CURSAGE</title>
 
 <style>
 body {
@@ -25,19 +25,30 @@ canvas {
 </div>
 
 <script>
-const data = @json($donnees); // [1000, 2000, 1500...]
+const data = @json($donnees);
 
 const ctx = document.getElementById("graph").getContext("2d");
+
 ctx.strokeStyle = "#00e6ff";
 ctx.lineWidth = 3;
 
+const max = Math.max(...data);
+
 ctx.beginPath();
+
 data.forEach((v,i)=>{
+
     let x = i * 100 + 50;
-    let y = 250 - v/10;
-    if(i===0) ctx.moveTo(x,y);
-    else ctx.lineTo(x,y);
+
+    let y = 250 - ((v / max) * 200);
+
+    if(i===0)
+        ctx.moveTo(x,y);
+    else
+        ctx.lineTo(x,y);
+
 });
+
 ctx.stroke();
 </script>
 </body>

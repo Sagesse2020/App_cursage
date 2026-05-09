@@ -53,6 +53,7 @@ class TransactionController extends Controller
 
         // Validation des données du formulaire
         $data = $request->validate([
+            'user_id' => 'nullable|exists:users,id',
 
             'vente_id' => 'nullable|exists:ventes,id',
 
@@ -62,10 +63,9 @@ class TransactionController extends Controller
 
             'destinataire' => 'nullable|string|max:255',
 
-            'date_transaction' => 'nullable|date',
+            'date_transaction' => 'required|date',
 
             'notes' => 'nullable|string'
-
         ]);
 
         /*
