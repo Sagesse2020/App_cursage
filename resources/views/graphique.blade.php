@@ -35,24 +35,35 @@ canvas {
 
 <div class="container">
     <h1>📈 Évolution mensuelle des transactions</h1>
-    <canvas id="graph" width="900" height="400"></canvas>
+    <canvas id="graph"></canvas>
 </div>
 
 <script>
-// 📦 données Laravel
-const data = @json(array_values($donnees));
+const data = @json($donnees ?? []);
+const labels = @json($labels ?? []);
 
-// 🧠 Canvas
+// 🔥 sécurité
+if (!Array.isArray(data) || data.length !== 12) {
+    console.error("Données invalides :", data);
+}
+
+// 🖥️ canvas
 const canvas = document.getElementById("graph");
 const ctx = canvas.getContext("2d");
 
-const width = canvas.width;
-const height = canvas.height;
+// 🎯 résolution propre (évite bug flou)
+const dpr = window.devicePixelRatio || 1;
+canvas.width = 900 * dpr;
+canvas.height = 400 * dpr;
+ctx.scale(dpr, dpr);
 
-// 🔥 sécurité anti crash
+const width = 900;
+const height = 400;
+
+// 📊 max valeur
 const max = Math.max(...data, 1);
 
-// 📏 espacement dynamique
+// 📏 espacement
 const stepX = width / (data.length - 1);
 
 // 🎨 style ligne
@@ -61,23 +72,18 @@ ctx.lineWidth = 3;
 
 ctx.beginPath();
 
-// 📊 tracé de la courbe
 data.forEach((v, i) => {
 
     const x = i * stepX;
     const y = height - (v / max) * (height - 60);
 
-    if (i === 0) {
-        ctx.moveTo(x, y);
-    } else {
-        ctx.lineTo(x, y);
-    }
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
 });
 
 ctx.stroke();
 
-
-// 🔵 points visibles (effet pro)
+// 🔵 points
 data.forEach((v, i) => {
 
     const x = i * stepX;
@@ -88,8 +94,15 @@ data.forEach((v, i) => {
     ctx.arc(x, y, 4, 0, Math.PI * 2);
     ctx.fill();
 });
-dd($donnees)
-console.log(@json($donnees));
+
+// 🧠 labels mois
+ctx.fillStyle = "#94a3b8";
+ctx.font = "12px Segoe UI";
+
+labels.forEach((label, i) => {
+    const x = i * stepX;
+    ctx.fillText(label, x, height - 10);
+});
 </script>
 
 </body>

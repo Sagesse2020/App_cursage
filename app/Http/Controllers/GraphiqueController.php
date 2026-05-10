@@ -9,26 +9,33 @@ class GraphiqueController extends Controller
 {
     public function index()
     {
-        $raw = DB::table('transactions')
-            ->selectRaw('MONTH(date_transaction) as mois, SUM(montant) as total')
-            ->whereNotNull('date_transaction')
-            ->whereYear('date_transaction', Carbon::now()->year)
-            ->groupBy('mois')
-            ->orderBy('mois')
-            ->get();
+       $raw = DB::table('transactions')
+    ->selectRaw('MONTH(date_transaction) as mois, SUM(montant) as total')
+    ->whereNotNull('date_transaction')
+    ->where('date_transaction', '!=', '')
+    ->whereRaw("date_transaction REGEXP '^[0-9]{4}-[0-9]{2}-[0-9]{2}'")
+    ->whereYear('date_transaction', date('Y'))
+    ->groupBy('mois')
+    ->orderBy('mois')
+    ->get();
 
-        // 📊 init 12 mois
-        $donnees = array_fill(1, 12, 0);
+        // 📊 12 mois complets (IMPORTANT)
+        $donnees = array_fill(0, 12, 0);
 
         foreach ($raw as $r) {
-            if ($r->mois >= 1 && $r->mois <= 12) {
-                $donnees[$r->mois] = (float) $r->total;
+            $index = ((int)$r->mois) - 1;
+
+            if ($index >= 0 && $index < 12) {
+                $donnees[$index] = (float) $r->total;
             }
         }
 
-        // 🔥 DEBUG IMPORTANT (à activer si bug)
-        // dd($donnees);
+        // 🧠 Labels pour affichage pro
+        $labels = [
+            "Jan", "Fév", "Mar", "Avr", "Mai", "Juin",
+            "Juil", "Août", "Sep", "Oct", "Nov", "Déc"
+        ];
 
-        return view('graphique', compact('donnees'));
+        return view('graphique', compact('donnees', 'labels'));
     }
 }

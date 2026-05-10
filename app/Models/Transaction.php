@@ -20,6 +20,7 @@ class Transaction extends Model
 
     // Conversion automatique en objet date
     protected $casts = [
+        'date_transaction'=> 'datetime',
         'date_vente' => 'datetime',
         'created_at' => 'datetime',
     ];
