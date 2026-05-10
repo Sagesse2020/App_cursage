@@ -6,6 +6,7 @@ use App\Models\Transaction;
 use App\Models\Vente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class TransactionController extends Controller
 {
@@ -40,8 +41,9 @@ class TransactionController extends Controller
     {
         // Récupération des ventes pour associer une transaction à une vente
         $ventes = Vente::all();
+        $users = User::all();
 
-        return view('transactions.create',compact('ventes'));
+        return view('transactions.create',compact('ventes','users'));
     }
 
 
@@ -53,7 +55,6 @@ class TransactionController extends Controller
 
         // Validation des données du formulaire
         $data = $request->validate([
-            'user_id' => 'nullable|exists:users,id',
 
             'vente_id' => 'nullable|exists:ventes,id',
 

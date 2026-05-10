@@ -60,6 +60,7 @@ cursor:pointer;
 
 <input type="text" name="destinataire">
 
+
 <label>Vente liée</label>
 
 <select name="vente_id">
@@ -73,6 +74,9 @@ cursor:pointer;
 @endforeach
 
 </select>
+<label>Date transaction</label>
+
+<input type="date" name="date_transaction" required>
 
 <label>Notes</label>
 

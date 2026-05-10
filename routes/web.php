@@ -31,6 +31,9 @@ Route::get('/infos', function () {
     return view('infos');
 })->name('infos');
 
+Route::get('/aide', function () {
+    return view('aide');
+})->name('aide');
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('chiens', ChienController::class);
@@ -84,6 +87,7 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/profil', [UserController::class, 'profil'])->name('profil');
         Route::get('/edit', [UserController::class, 'profile'])->name('profile');
         Route::post('/userStore', [UserController::class, 'store'])->name('users.store');
+        Route::post('/userCreate', [UserController::class, 'create'])->name('users.create');
         Route::post('/update', [UserController::class, 'update'])->name('profile-update');
         Route::post('/profile/photo', [UserController::class, 'updatePhoto'])->name('profile.photo');
         Route::get('/usersIndex', [UserController::class, 'index'])->name('users.index');

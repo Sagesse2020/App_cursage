@@ -8,6 +8,7 @@ class Transaction extends Model
 {
 
     protected $fillable = [
+        'user_id',
         'vente_id',
         'type',
         'montant',
@@ -19,7 +20,6 @@ class Transaction extends Model
 
     // Conversion automatique en objet date
     protected $casts = [
-        'date_transaction' => 'datetime',
         'date_vente' => 'datetime',
         'created_at' => 'datetime',
     ];

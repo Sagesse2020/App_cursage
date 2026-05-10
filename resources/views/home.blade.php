@@ -1,164 +1,181 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>CURSAGE | Accueil</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>CURSAGE | Accueil</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="{{ asset('fontawesome/css/all.min.css') }}">
+<link rel="stylesheet" href="{{ asset('fontawesome/css/all.min.css') }}">
 
-    <style>
-        body {
-            margin: 0;
-            font-family: "Segoe UI", Tahoma, sans-serif;
-            background: linear-gradient(135deg, #eef2ff, #dbeafe);
-            color: #1f2937;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* ===== INFO TEXT ===== */
-.info-text{
-    font-size:15px;
-    color:#555;
-    background:#020617;
-    padding:12px 18px;
-    border-radius:6px;
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
 }
 
-        /* ===== NAVBAR ===== */
-        header {
-            background: #1e3a8a;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #fff;
-            box-shadow: 0 6px 15px rgba(0,0,0,.15);
-        }
+body{
+    background:#0b1020;
+    color:#fff;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+}
 
-        header img {
-            height: 48px;
-        }
+/* ================= NAVBAR ================= */
+header{
+    background:#020617;
+    padding:15px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    box-shadow:0 4px 15px rgba(0,0,0,0.3);
+}
 
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            margin-left: 20px;
-            font-weight: 600;
-            transition: color .3s;
-        }
+header img{
+    height:45px;
+}
 
-        nav a:hover {
-            color: #00ffd6;
-        }
+nav a{
+    color:#cbd5e1;
+    text-decoration:none;
+    margin-left:18px;
+    font-weight:600;
+    padding:8px 12px;
+    border-radius:6px;
+    transition:0.3s;
+}
 
-        /* ===== MAIN ===== */
-        main {
-            flex: 1;
-            padding: 3rem 1.5rem;
-            text-align: center;
-        }
+nav a:hover{
+    background:#00e6ff;
+    color:#0b1020;
+}
 
-        h1 {
-            font-size: 2.6rem;
-            color: #1e3a8a;
-            margin-bottom: 10px;
-        }
+/* ================= MAIN ================= */
+main{
+    flex:1;
+    padding:50px 20px;
+    text-align:center;
+}
 
-        .subtitle {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: auto;
-            color: #374151;
-        }
+h1{
+    font-size:38px;
+    color:#00e6ff;
+    margin-bottom:10px;
+}
 
-        /* ===== CARDS ===== */
-        .cards {
-            margin-top: 3rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 20px;
-            max-width: 1000px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+.subtitle{
+    font-size:16px;
+    max-width:700px;
+    margin:auto;
+    color:#cbd5e1;
+}
 
-        .card {
-            background: #fff;
-            padding: 1.8rem;
-            border-radius: 16px;
-            box-shadow: 0 12px 25px rgba(0,0,0,.1);
-            transition: transform .3s, box-shadow .3s;
-        }
+/* ================= CARDS ================= */
+.cards{
+    margin-top:40px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:20px;
+    max-width:1000px;
+    margin-left:auto;
+    margin-right:auto;
+}
 
-        .card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 18px 35px rgba(0,0,0,.15);
-        }
+.card{
+    background:#111827;
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+    transition:0.3s;
+    box-shadow:0 10px 25px rgba(0,0,0,0.25);
+}
 
-        .card i {
-            font-size: 2.2rem;
-            color: #1e40af;
-            margin-bottom: 10px;
-        }
+.card:hover{
+    transform:translateY(-8px);
+}
 
-        .card h3 {
-            margin: 8px 0;
-            font-size: 1.2rem;
-        }
+.card i{
+    font-size:32px;
+    color:#00e6ff;
+    margin-bottom:10px;
+}
 
-        .card .value {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #020617;
-        }
+.card h3{
+    margin:10px 0;
+    font-size:18px;
+}
 
-        /* ===== MESSAGE ===== */
-        .message {
-            margin-top: 3rem;
-            background: #1e40af;
-            color: #e0f2fe;
-            padding: 2rem;
-            border-radius: 18px;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-            box-shadow: 0 10px 25px rgba(0,0,0,.25);
-        }
+.card .value{
+    font-size:28px;
+    font-weight:bold;
+    color:#fff;
+}
 
-        /* ===== FOOTER ===== */
-        footer {
-            background: #020617;
-            color: #94a3b8;
-            text-align: center;
-            padding: 1.2rem;
-            font-size: .9rem;
-        }
-    </style>
+/* ================= MESSAGE ================= */
+.message{
+    margin-top:50px;
+    background:linear-gradient(135deg,#111827,#0f172a);
+    padding:30px;
+    border-radius:18px;
+    max-width:900px;
+    margin-left:auto;
+    margin-right:auto;
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+    color:#cbd5e1;
+}
+
+.message h2{
+    color:#00e6ff;
+    margin-bottom:10px;
+}
+
+/* ================= FOOTER ================= */
+footer{
+    background:#020617;
+    color:#94a3b8;
+    text-align:center;
+    padding:15px;
+    font-size:14px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:768px){
+    h1{font-size:26px}
+}
+</style>
 </head>
+
 <body>
 
 <header>
     <img src="{{ asset('logo_cursage.png') }}" alt="CURSAGE">
+
     <nav>
-        <a href="{{ route('home') }}"><i class="fas fa-home"></i> Accueil</a>
+        <a href="{{ route('welcome')}}"><i class="fas fa-home"></i> Accueil</a>
         <a href="{{ route('profil') }}"><i class="fas fa-user"></i> Profil</a>
+        <a href="{{ route('aide')}}"><i class="fas fa-user"></i>Aide</a>
         <a href="{{ route('logout') }}"
-           onclick="event.preventDefault();document.getElementById('logout-form').submit();">
            <i class="fas fa-sign-out-alt"></i> Déconnexion
         </a>
-        <form id="logout-form" method="POST" action="{{ route('logout') }}" style="display:none;">@csrf</form>
+
+        <form id="logout-form" method="POST" action="{{ route('logout') }}" style="display:none;">
+            @csrf
+        </form>
     </nav>
 </header>
 
 <main>
     <h1>Bienvenue sur CURSAGE 👋</h1>
+
     <p class="subtitle">
         CURSAGE est votre plateforme professionnelle pour le suivi des chiens,
         des services informatiques et des opérations en toute transparence et sécurité.
     </p>
+
+    <!-- BODY ORIGINAL CONSERVÉ -->
     <div class="cards">
         <div class="card">
             <i class="fas fa-dog"></i>
@@ -197,10 +214,6 @@
 </main>
 
 <footer>
-     <p class="info-text">
-            Les éléments ci-dessous présentent les fonctionnalités disponibles dans l’application.
-            Utilisez le menu en haut pour y accéder.
-        </p>
     © {{ date('Y') }} CURSAGE — Plateforme professionnelle & sécurisée
 </footer>
 
