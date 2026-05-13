@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ config('app.name')}}-Formulaire publications</title>
+    <title>{{ config('app.name')}}-Formulaire commandes</title>
      <style>
         h1{
      color: red;
@@ -43,10 +43,10 @@
     <div class="container">
       <ul class="collapse navbar-collapse" id="navbarSupportedContent">
       <li class="nav-item">
-      <a class="nav-link @if(Request::route()->getName() == 'publications.create') active @endif" aria-current="page" href="{{ route('publications.create') }}">Enregistrer une publication</a>
+      <a class="nav-link @if(Request::route()->getName() == 'commandes.create') active @endif" aria-current="page" href="{{ route('commandes.create') }}">Enregistrer une commande</a>
       </li>
        <li class="nav-item">
-       <a class="nav-link @if(Request::route()->getName() == 'publications.index') active @endif" aria-current="page" href="{{ route('publications.index') }}">Liste des publications</a>
+       <a class="nav-link @if(Request::route()->getName() == 'commandes.index') active @endif" aria-current="page" href="{{ route('commandes.index') }}">Liste des commandes</a>
        </li>
        <li class="nav-item">
          <a class="nav-link active" aria-current="page" href="{{ route('admin') }}">Accueil</a>

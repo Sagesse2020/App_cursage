@@ -212,7 +212,7 @@ footer{
     </p>
 
     <button class="btn-contact"
-        onclick="window.location.href='mailto:contact@cursage.com'">
+        onclick="window.location.href='mailto:contact@cursagesolutions.com'">
         Nous contacter
     </button>
 </section>

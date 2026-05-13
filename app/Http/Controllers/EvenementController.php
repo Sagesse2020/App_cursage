@@ -40,9 +40,12 @@ class EvenementController extends Controller
         return redirect()->route('evenements.index')->with('success','Événement ajouté.');
     }
 
-    public function show(Evenement $evenement){
-        return view('evenements.show', compact('evenement'));
-    }
+public function show(Evenement $evenement)
+{
+    $evenement->load('comments.user');
+
+    return view('evenements.show', compact('evenement'));
+}
 
     public function edit(Evenement $evenement){
         return view('evenements.edit', compact('evenement'));

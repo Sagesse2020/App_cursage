@@ -25,16 +25,11 @@ scroll-behavior:smooth;
 }
 
 body{
-
 background:
 radial-gradient(circle at top left,#111827,#020617 60%);
-
 color:#f5f6fa;
-
 min-height:100vh;
-
 overflow-x:hidden;
-
 }
 
 /* ================= SCROLLBAR ================= */
@@ -51,14 +46,10 @@ border-radius:20px;
 /* ================= NAVBAR ================= */
 
 nav{
-
 position:fixed;
-
 top:0;
 left:0;
-
 width:100%;
-
 z-index:999;
 
 display:flex;
@@ -74,46 +65,71 @@ backdrop-filter:blur(18px);
 border-bottom:1px solid rgba(255,255,255,.05);
 
 box-shadow:0 8px 35px rgba(0,0,0,.35);
-
 }
 
-/* ================= LOGO ================= */
+/* ===== LOGO ===== */
 
-.logo{
-
-width:170px;
-
-max-height:70px;
-
-object-fit:contain;
-
-transition:.4s;
-
+.logo-container{
+display:flex;
+align-items:center;
+gap:12px;
 }
 
-.logo:hover{
+.logo-img{
+width:55px;
+height:55px;
+object-fit:cover;
+border-radius:14px;
+
+background:#fff;
+padding:4px;
+
+box-shadow:
+0 5px 18px rgba(0,230,255,.25);
+
+transition:.3s;
+}
+
+.logo-img:hover{
 transform:scale(1.05);
+}
+
+.logo-text{
+display:flex;
+flex-direction:column;
+line-height:1.1;
+}
+
+.logo-text .title{
+font-size:22px;
+font-weight:800;
+letter-spacing:1px;
+
+background:linear-gradient(90deg,#00e6ff,#4facfe);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.logo-text small{
+font-size:11px;
+color:#94a3b8;
+margin-top:2px;
 }
 
 /* ================= MENU ================= */
 
 nav ul{
-
 display:flex;
-
 gap:14px;
-
 list-style:none;
-
 align-items:center;
-
 }
 
 nav ul li{
 position:relative;
 }
 
-/* ================= BOUTON MENU ================= */
+/* ================= LIENS ================= */
 
 nav ul li a{
 
@@ -139,7 +155,6 @@ text-decoration:none;
 transition:.35s ease;
 
 backdrop-filter:blur(12px);
-
 }
 
 nav ul li a:hover{
@@ -152,7 +167,6 @@ transform:translateY(-3px);
 
 box-shadow:
 0 10px 25px rgba(0,230,255,.25);
-
 }
 
 nav ul li a i{
@@ -185,7 +199,6 @@ border:1px solid rgba(255,255,255,.05);
 box-shadow:0 15px 35px rgba(0,0,0,.45);
 
 animation:fadeUp .35s ease;
-
 }
 
 .dropdown:hover .dropdown-content{
@@ -211,7 +224,6 @@ border-radius:12px;
 background:none;
 
 border:none;
-
 }
 
 .dropdown-content a:hover{
@@ -219,21 +231,15 @@ border:none;
 padding-left:20px;
 
 background:rgba(0,230,255,.08);
-
 }
 
-/* ================= MOBILE BUTTON ================= */
+/* ================= MOBILE ================= */
 
 .menu-toggle{
-
 display:none;
-
 font-size:28px;
-
 cursor:pointer;
-
 color:#00e6ff;
-
 }
 
 /* ================= HEADER ================= */
@@ -252,53 +258,6 @@ background:
 linear-gradient(rgba(2,6,23,.82),rgba(2,6,23,.9)),
 url('https://images.unsplash.com/photo-1551288049-bebda4e38f71')
 center/cover;
-
-}
-
-/* ================= GLOW ================= */
-
-.admin-header::before{
-
-content:"";
-
-position:absolute;
-
-width:500px;
-height:500px;
-
-background:rgba(0,230,255,.08);
-
-border-radius:50%;
-
-top:-200px;
-right:-150px;
-
-filter:blur(80px);
-
-animation:float 8s ease infinite;
-
-}
-
-.admin-header::after{
-
-content:"";
-
-position:absolute;
-
-width:400px;
-height:400px;
-
-background:rgba(0,124,240,.08);
-
-border-radius:50%;
-
-bottom:-180px;
-left:-120px;
-
-filter:blur(80px);
-
-animation:float 10s ease infinite;
-
 }
 
 /* ================= TITRE ================= */
@@ -318,21 +277,12 @@ background:linear-gradient(90deg,#00e6ff,#4facfe);
 -webkit-text-fill-color:transparent;
 
 margin-bottom:18px;
-
-animation:fadeUp 1s ease;
-
 }
 
 .admin-header p{
-
 position:relative;
-
 font-size:22px;
-
 color:#cbd5e1;
-
-animation:fadeUp 1.2s ease;
-
 }
 
 /* ================= STATS ================= */
@@ -350,7 +300,6 @@ justify-content:center;
 gap:25px;
 
 flex-wrap:wrap;
-
 }
 
 .stat-box{
@@ -368,7 +317,6 @@ width:220px;
 border-radius:24px;
 
 transition:.4s;
-
 }
 
 .stat-box:hover{
@@ -376,7 +324,6 @@ transition:.4s;
 transform:translateY(-8px);
 
 box-shadow:0 15px 40px rgba(0,230,255,.12);
-
 }
 
 .stat-box h2{
@@ -386,26 +333,18 @@ font-size:38px;
 color:#00e6ff;
 
 margin-bottom:10px;
-
 }
 
 .stat-box span{
-
 color:#94a3b8;
-
 font-size:14px;
-
 }
 
 /* ================= DASHBOARD ================= */
 
 .dashboard{
-
 padding:80px 35px;
-
 }
-
-/* ================= CARDS ================= */
 
 .cards{
 
@@ -414,7 +353,6 @@ display:grid;
 grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
 
 gap:28px;
-
 }
 
 /* ================= CARD ================= */
@@ -438,27 +376,6 @@ border:1px solid rgba(255,255,255,.05);
 transition:.4s ease;
 
 box-shadow:0 15px 40px rgba(0,0,0,.35);
-
-}
-
-.card::before{
-
-content:"";
-
-position:absolute;
-
-width:260px;
-height:260px;
-
-background:rgba(0,230,255,.05);
-
-border-radius:50%;
-
-top:-120px;
-right:-120px;
-
-transition:.5s;
-
 }
 
 .card:hover{
@@ -466,11 +383,6 @@ transition:.5s;
 transform:translateY(-12px);
 
 box-shadow:0 20px 50px rgba(0,230,255,.12);
-
-}
-
-.card:hover::before{
-transform:scale(1.3);
 }
 
 .card i{
@@ -480,7 +392,6 @@ font-size:48px;
 margin-bottom:20px;
 
 color:#00e6ff;
-
 }
 
 .card h3{
@@ -488,7 +399,6 @@ color:#00e6ff;
 font-size:24px;
 
 margin-bottom:14px;
-
 }
 
 .card p{
@@ -498,7 +408,6 @@ line-height:1.8;
 color:#94a3b8;
 
 font-size:14px;
-
 }
 
 /* ================= FOOTER ================= */
@@ -514,50 +423,9 @@ background:#020617;
 border-top:1px solid rgba(255,255,255,.05);
 
 color:#94a3b8;
-
-}
-
-/* ================= ANIMATIONS ================= */
-
-@keyframes fadeUp{
-
-from{
-opacity:0;
-transform:translateY(35px);
-}
-
-to{
-opacity:1;
-transform:translateY(0);
-}
-
-}
-
-@keyframes float{
-
-0%{
-transform:translateY(0);
-}
-
-50%{
-transform:translateY(25px);
-}
-
-100%{
-transform:translateY(0);
-}
-
 }
 
 /* ================= RESPONSIVE ================= */
-
-@media(max-width:1100px){
-
-.admin-header h1{
-font-size:52px;
-}
-
-}
 
 @media(max-width:950px){
 
@@ -586,7 +454,6 @@ padding:20px;
 border-radius:18px;
 
 background:rgba(2,6,23,.95);
-
 }
 
 nav ul.active{
@@ -602,12 +469,6 @@ top:12px;
 width:100%;
 
 box-shadow:none;
-
-}
-
-.hero-stats{
-flex-direction:column;
-align-items:center;
 }
 
 .admin-header{
@@ -644,6 +505,22 @@ width:100%;
 
 }
 
+/* ================= ANIMATION ================= */
+
+@keyframes fadeUp{
+
+from{
+opacity:0;
+transform:translateY(35px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
 </style>
 
 </head>
@@ -654,13 +531,26 @@ width:100%;
 
 <nav>
 
-<img src="{{ asset('logo_chorale.png') }}" class="logo">
+<div class="logo-container">
+
+<img src="{{ asset('images/cursage.png') }}"
+alt="Logo CURSAGE"
+class="logo-img">
+
+<div class="logo-text">
+<span class="title">CURSAGE</span>
+<small>Plateforme intelligente</small>
+</div>
+
+</div>
 
 <div class="menu-toggle" id="menuToggle">
 <i class="fas fa-bars"></i>
 </div>
 
 <ul id="navMenu">
+
+{{-- ================= ADMIN 2 & 3 ================= --}}
 
 @if(auth()->user()->niveau_admin >= 2)
 
@@ -677,6 +567,7 @@ Gestion Canine
 <li><a href="{{ route('chiens') }}">Chiens</a></li>
 <li><a href="{{ route('ventes') }}">Ventes</a></li>
 <li><a href="{{ route('services') }}">Services</a></li>
+<li><a href="{{ route('produits') }}">Produits</a></li>
 
 </ul>
 
@@ -693,6 +584,7 @@ Gestion humaine
 
 <li><a href="{{ route('clients') }}">Clients</a></li>
 <li><a href="{{ route('partenaires') }}">Partenaires</a></li>
+<li><a href="{{ route('fournisseurs') }}">Fournisseurs</a></li>
 
 </ul>
 
@@ -710,8 +602,7 @@ Gestion analytique
 <li><a href="{{ route('statistiques') }}">Statistiques</a></li>
 <li><a href="{{ route('commentaires.index') }}">Commentaires</a></li>
 <li><a href="{{ route('journal.index') }}">Journal</a></li>
-<li><a href="{{ route('gestion.index') }}">Gestion</a></li>
-<li><a href="{{ route('graphique') }}">Graphique</a></li>
+<li><a href="{{ route('graphique') }}">Graphiques</a></li>
 
 </ul>
 
@@ -721,13 +612,13 @@ Gestion analytique
 
 <a href="#">
 <i class="fas fa-folder-open"></i>
-Contenu
+Gestion contenu
 </a>
 
 <ul class="dropdown-content">
 
 <li><a href="{{ route('documents') }}">Documents</a></li>
-<li><a href="{{ route('evenements') }}">Evenements</a></li>
+<li><a href="{{ route('evenements') }}">Évènements</a></li>
 <li><a href="{{ route('publications') }}">Publications</a></li>
 
 </ul>
@@ -736,13 +627,15 @@ Contenu
 
 @endif
 
+{{-- ================= ADMIN 3 SEULEMENT ================= --}}
+
 @if(auth()->user()->niveau_admin == 3)
 
 <li class="dropdown">
 
 <a href="#">
 <i class="fas fa-user-cog"></i>
-Utilisateurs
+Gestion Utilisateurs
 </a>
 
 <ul class="dropdown-content">
@@ -758,7 +651,7 @@ Utilisateurs
 
 <a href="#">
 <i class="fas fa-coins"></i>
-Finances
+Gestion Financière
 </a>
 
 <ul class="dropdown-content">
@@ -773,6 +666,62 @@ Finances
 </li>
 
 @endif
+
+{{-- ================= PARTENAIRES : NIVEAU 1 ================= --}}
+
+@if(auth()->user()->niveau_admin == 1)
+
+<li class="dropdown">
+
+<a href="#">
+<i class="fas fa-handshake"></i>
+Espace Partenaire
+</a>
+
+<ul class="dropdown-content">
+
+<li>
+<a href="{{ route('produits') }}">
+<i class="fas fa-box"></i>
+Mes Produits
+</a>
+</li>
+
+<li>
+<a href="{{ route('ventes') }}">
+<i class="fas fa-shopping-cart"></i>
+Mes Ventes
+</a>
+</li>
+
+<li>
+<a href="{{ route('publications') }}">
+<i class="fas fa-bullhorn"></i>
+Publicités
+</a>
+</li>
+
+<li>
+<a href="{{ route('commentaires.index') }}">
+<i class="fas fa-comments"></i>
+Commentaires
+</a>
+</li>
+
+<li>
+<a href="{{ route('statistiques') }}">
+<i class="fas fa-chart-pie"></i>
+Mes Statistiques
+</a>
+</li>
+
+</ul>
+
+</li>
+
+@endif
+
+{{-- ================= COMMUN ================= --}}
 
 <li>
 <a href="{{ route('profil') }}">
@@ -806,7 +755,7 @@ Vision stratégique • Contrôle total
 
 @elseif(auth()->user()->niveau_admin == 2)
 
-Opérations terrain • Suivi global
+Opérations terrain • Supervision avancée
 
 @else
 
@@ -852,12 +801,15 @@ Partenariat • Collaboration sécurisée
 <h3>Gestion utilisateurs</h3>
 
 <p>
-Création, sécurité, permissions et contrôle des accès utilisateurs.
+Création des comptes, permissions,
+sécurité et contrôle complet du système.
 </p>
 
 </div>
 
 @endif
+
+@if(auth()->user()->niveau_admin >= 2)
 
 <div class="card">
 
@@ -866,7 +818,8 @@ Création, sécurité, permissions et contrôle des accès utilisateurs.
 <h3>Gestion canine</h3>
 
 <p>
-Suivi des chiens, ventes, partenaires et gestion des services.
+Gestion des chiens, ventes,
+services et suivi opérationnel.
 </p>
 
 </div>
@@ -878,7 +831,8 @@ Suivi des chiens, ventes, partenaires et gestion des services.
 <h3>Gestion analytique</h3>
 
 <p>
-Graphiques, statistiques, commentaires et journal système.
+Statistiques, graphiques,
+journal système et suivi des performances.
 </p>
 
 </div>
@@ -890,10 +844,15 @@ Graphiques, statistiques, commentaires et journal système.
 <h3>Gestion contenu</h3>
 
 <p>
-Publications, documents, événements et contenus multimédia.
+Publications, documents,
+évènements et contenus multimédias.
 </p>
 
 </div>
+
+@endif
+
+@if(auth()->user()->niveau_admin == 3)
 
 <div class="card">
 
@@ -902,10 +861,58 @@ Publications, documents, événements et contenus multimédia.
 <h3>Gestion financière</h3>
 
 <p>
-Transactions, trésorerie, facturation et clôture financière.
+Transactions, trésorerie,
+facturation et contrôle financier global.
 </p>
 
 </div>
+
+@endif
+
+{{-- ================= PARTENAIRE ================= --}}
+
+@if(auth()->user()->niveau_admin == 1)
+
+<div class="card">
+
+<i class="fas fa-handshake"></i>
+
+<h3>Espace partenaire</h3>
+
+<p>
+Gestion des produits partenaires,
+publicités, ventes et commissions.
+</p>
+
+</div>
+
+<div class="card">
+
+<i class="fas fa-bullhorn"></i>
+
+<h3>Publicités</h3>
+
+<p>
+Suivi des publications sponsorisées
+et visibilité des produits partenaires.
+</p>
+
+</div>
+
+<div class="card">
+
+<i class="fas fa-chart-pie"></i>
+
+<h3>Statistiques ventes</h3>
+
+<p>
+Consultation des ventes,
+performances et commissions générées.
+</p>
+
+</div>
+
+@endif
 
 </div>
 
@@ -914,7 +921,7 @@ Transactions, trésorerie, facturation et clôture financière.
 <footer>
 
 <p>
-© 2025 CURSAGE — Administration centrale
+© {{ date('Y') }} CURSAGE — Administration centrale
 </p>
 
 </footer>

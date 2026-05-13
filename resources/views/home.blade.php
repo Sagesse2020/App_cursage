@@ -15,6 +15,56 @@
     font-family:"Segoe UI",sans-serif;
 }
 
+/* ===== LOGO ===== */
+
+.logo-container{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.logo-img{
+width:55px;
+height:55px;
+object-fit:cover;
+border-radius:14px;
+
+/* Effet premium */
+background:#fff;
+padding:4px;
+
+box-shadow:
+0 5px 18px rgba(0,230,255,.25);
+
+transition:.3s;
+}
+
+.logo-img:hover{
+transform:scale(1.05);
+}
+
+.logo-text{
+display:flex;
+flex-direction:column;
+line-height:1.1;
+}
+
+.logo-text .title{
+font-size:22px;
+font-weight:800;
+letter-spacing:1px;
+
+background:linear-gradient(90deg,#00e6ff,#4facfe);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.logo-text small{
+font-size:11px;
+color:#94a3b8;
+margin-top:2px;
+}
+
 body{
     background:#0b1020;
     color:#fff;
@@ -151,7 +201,16 @@ footer{
 <body>
 
 <header>
-    <img src="{{ asset('logo_cursage.png') }}" alt="CURSAGE">
+   <div class="logo-container">
+
+    <img src="{{ asset('images/logo-cursage.png') }}" alt="Logo CURSAGE" class="logo-img">
+
+    <div class="logo-text">
+        <span class="title">CURSAGE</span>
+        <small>Plateforme intelligente</small>
+    </div>
+
+</div>
 
     <nav>
         <a href="{{ route('welcome')}}"><i class="fas fa-home"></i> Accueil</a>

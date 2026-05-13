@@ -107,7 +107,7 @@ footer{
     <div class="card">
         <h3>🆘 Besoin d’assistance ?</h3>
         <p>
-            Contactez l’administrateur ou envoyez un mail à support@cursage.com
+            Contactez l’administrateur ou envoyez un mail à contatct@cursage.com
         </p>
     </div>
 

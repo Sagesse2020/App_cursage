@@ -111,7 +111,7 @@
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="profile-card">
-        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('images/default-avatar.png') }}"
+        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('images/Sommaire.jpg') }}"
              alt="" class="avatar" id="profilePreview">
         <form id="uploadForm" action="{{ route('profile.photo') }}" method="POST" enctype="multipart/form-data">
           @csrf

@@ -8,4 +8,9 @@ class Evenement extends Model
 {
 
     protected $fillable = ['titre','description','date','image'];
+
+    public function comments()
+{
+    return $this->morphMany(Comment::class, 'commentable');
+}
 }

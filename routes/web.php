@@ -21,7 +21,10 @@ use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\FactureController;
 use App\Http\Controllers\ServiceController;
-
+use App\Http\Controllers\FournisseurController;
+use App\Http\Controllers\CommandeController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ProduitController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -131,6 +134,9 @@ Route::middleware(['auth'])->group(function(){
         return view('publications.accueil');
         })->name('publications');
 
+        Route::post('/publications/{publication}/commander',  [CommandeController::class, 'store'])
+        ->name('publication.commander');
+
         Route::get('/VenteAccueil', function () {
         return view('ventes.accueil');
         })->name('ventes');
@@ -150,6 +156,15 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/PartenaireAccueil', function () {
         return view('partenaires.accueil');
         })->name('partenaires');
+
+         Route::get('/fournisseurAccueil', function () {
+        return view('fournisseurs.accueil');
+        })->name('fournisseurs');
+
+          Route::get('/produitAccueil', [ProduitController::class, 'accueil'])
+        ->name('produits');
+        Route::post('/produits/{produit}/commander', [CommandeController::class, 'store'])
+        ->name('produits.commander');
 
         Route::get('/statistique', [StatistiqueController::class, 'index'])
         ->name('statistiques')
@@ -188,7 +203,8 @@ Route::get('/factures/{facture}/print', [FactureController::class,'print'])
       // vue de creation d'un evenement
   Route::get('/createEvenement', [EvenementController::class, 'create'])->name('evenements.create');
   Route::post('/createEvenement', [EvenementController::class, 'store'])->name('evenements.store');
-  Route::get('/showEvenement', [EvenementController::class, 'show'])->name('evenements.show');
+  Route::get('/evenements/{evenement}', [EvenementController::class, 'show'])
+    ->name('evenements.show');
       // vue d'affichage de la liste des evenements
   Route::get('/indexEvenement', [EvenementController::class, 'index'])->name('evenements.index');
 
@@ -244,5 +260,28 @@ Route::delete('/publications/{publication}', [PublicationController::class,'dest
     // VENTES
     // ------------------------
     Route::resource('ventes',VenteController::class);
+
+     // -----------------------
+    // FOURNISSEURS
+    // ------------------------
+    Route::resource('fournisseurs',FournisseurController::class);
+
+        // -----------------------
+    // PRODUITS
+    // ------------------------
+    Route::resource('produits',ProduitController::class);
+
+    // -----------------------
+    // COMMENTS
+    // ------------------------
+Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+
+ // -----------------------
+    // COMMANDES
+    // ------------------------
+Route::post('/commandes', [CommandeController::class, 'store'])->name('commandes.store');
+Route::get('/commandes', [CommandeController::class, 'index'])->name('commandes.index');
+Route::get('/commandes/{commande}', [CommandeController::class, 'show'])->name('commandes.show');
+Route::post('/commandes/{commande}/status', [CommandeController::class, 'updateStatus'])->name('commandes.status');
 });
 
