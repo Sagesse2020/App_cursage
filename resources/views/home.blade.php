@@ -214,12 +214,12 @@ footer{
 
     <nav>
         <a href="{{ route('welcome')}}"><i class="fas fa-home"></i> Accueil</a>
+        <a href="{{ route('commandes.create') }}">Commander des produits</a>
         <a href="{{ route('profil') }}"><i class="fas fa-user"></i> Profil</a>
         <a href="{{ route('aide')}}"><i class="fas fa-user"></i>Aide</a>
         <a href="{{ route('logout') }}"
-           <i class="fas fa-sign-out-alt"></i> Déconnexion
+        <i class="fas fa-sign-out-alt"></i> Déconnexion
         </a>
-
         <form id="logout-form" method="POST" action="{{ route('logout') }}" style="display:none;">
             @csrf
         </form>

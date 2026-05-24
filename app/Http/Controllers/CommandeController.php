@@ -3,49 +3,76 @@
 namespace App\Http\Controllers;
 
 use App\Models\Commande;
+use App\Models\Produit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CommandeController extends Controller
 {
-      public function index()
+    // ================= CREATE =================
+
+    public function create()
     {
-        $commandes = Commande::with('user')->latest()->get();
+        $produits = Produit::all();
+        $commandes = Commande::all();
+        return view('commandes.create', compact('commandes','produits'));
+    }
+
+    // ================= INDEX =================
+
+    public function index()
+    {
+        $commandes = Commande::with('user')
+            ->latest()
+            ->get();
+
         return view('commandes.index', compact('commandes'));
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'produit_nom' => 'required',
-            'quantite' => 'required|integer|min:1',
-            'prix_unitaire' => 'required|numeric',
-            'mode_paiement' => 'required'
-        ]);
+    // ================= STORE =================
 
-        $total = $request->quantite * $request->prix_unitaire;
+   public function store(Request $request)
+{
+    $request->validate([
+        'produit_id' => 'required|exists:produits,id',
+        'quantite' => 'required|integer|min:1',
+        'mode_paiement' => 'required'
+    ]);
 
-         Commande::create([
-            'user_id' => Auth::user(),
-            'produit_nom' => $request->produit_nom,
-            'quantite' => $request->quantite,
-            'prix_unitaire' => $request->prix_unitaire,
-            'montant_total' => $total,
-            'mode_paiement' => $request->mode_paiement,
-        ]);
+    $produit = Produit::findOrFail($request->produit_id);
 
-        return back()->with('success','Commande enregistrée');
-    }
+    $total = $produit->prix_vente * $request->quantite;
+
+    Commande::create([
+        'user_id' => Auth::id(),
+        'produit_nom' => $produit->nom,
+        'quantite' => $request->quantite,
+        'prix_unitaire' => $produit->prix_vente,
+        'montant_total' => $total,
+        'mode_paiement' => $request->mode_paiement,
+    ]);
+
+    return redirect()->route('commandes.index')
+        ->with('success', 'Commande enregistrée avec succès');
+}
+    // ================= SHOW =================
 
     public function show(Commande $commande)
     {
         return view('commandes.show', compact('commande'));
     }
 
-    public function updateStatus(Request $request, Commande $commande)
-    {
+    // ================= UPDATE STATUS =================
+
+    public function updateStatus(
+        Request $request,
+        Commande $commande
+    ) {
+
         $commande->update([
+
             'statut' => $request->statut
+
         ]);
 
         return back();

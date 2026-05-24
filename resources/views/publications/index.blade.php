@@ -55,23 +55,10 @@ small{color:#777}
         <h3>{{ $pub->titre }}</h3>
         <small>Par {{ $pub->user->name ?? 'Utilisateur inconnu' }}</small>
         <p>{{ Str::limit($pub->contenu,120) }}</p>
-        <form method="POST" action="{{ route('produits.commander', $produit->id) }}">
-@csrf
-
-<input type="number" name="quantite" value="1" min="1">
-
-<button type="submit" style="
-padding:10px;
-background:#00e6ff;
-border:none;
-border-radius:10px;
-cursor:pointer;
-">
-Commander
-</button>
-
-</form>
         <div class="actions">
+                    <a href="{{ route('commandes.create',$pub) }}">
+                    Commander
+                    </a>
             <a href="{{ route('publications.show',$pub) }}">Voir</a>
 
             @if(auth()->id() === $pub->user_id || auth()->user()->niveau == 3)

@@ -576,12 +576,28 @@ Gestion Canine
 <li class="dropdown">
 
 <a href="#">
+<i class="fas fa-dog"></i>
+Gestion ventes
+</a>
+
+<ul class="dropdown-content">
+<li><a href="{{ route('categories') }}">Categories</a></li>
+<li><a href="{{ route('produits') }}">Produits</a></li>
+<li><a href="{{ route('commandes') }}">Commandes</a></li>
+
+</ul>
+
+</li>
+
+<li class="dropdown">
+
+<a href="#">
 <i class="fas fa-users"></i>
 Gestion humaine
 </a>
 
 <ul class="dropdown-content">
-
+<li><a href="{{ route('employes') }}">Employes</a></li>
 <li><a href="{{ route('clients') }}">Clients</a></li>
 <li><a href="{{ route('partenaires') }}">Partenaires</a></li>
 <li><a href="{{ route('fournisseurs') }}">Fournisseurs</a></li>
@@ -688,7 +704,7 @@ Mes Produits
 </li>
 
 <li>
-<a href="{{ route('ventes') }}">
+<a href="{{ route('ventes.index') }}">
 <i class="fas fa-shopping-cart"></i>
 Mes Ventes
 </a>
@@ -697,7 +713,7 @@ Mes Ventes
 <li>
 <a href="{{ route('publications') }}">
 <i class="fas fa-bullhorn"></i>
-Publicités
+Publications
 </a>
 </li>
 
@@ -711,7 +727,7 @@ Commentaires
 <li>
 <a href="{{ route('statistiques') }}">
 <i class="fas fa-chart-pie"></i>
-Mes Statistiques
+Statistiques
 </a>
 </li>
 

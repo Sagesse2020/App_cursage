@@ -25,6 +25,8 @@ use App\Http\Controllers\FournisseurController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProduitController;
+use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\EmployeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -134,6 +136,12 @@ Route::middleware(['auth'])->group(function(){
         return view('publications.accueil');
         })->name('publications');
 
+                })->name('evenements');
+
+        Route::get('/Employeaccueil', function () {
+        return view('employes.accueil');
+        })->name('employes');
+
         Route::post('/publications/{publication}/commander',  [CommandeController::class, 'store'])
         ->name('publication.commander');
 
@@ -157,9 +165,17 @@ Route::middleware(['auth'])->group(function(){
         return view('partenaires.accueil');
         })->name('partenaires');
 
+        Route::get('/CategorieAccueil', function () {
+        return view('categories.accueil');
+        })->name('categories');
+
          Route::get('/fournisseurAccueil', function () {
         return view('fournisseurs.accueil');
         })->name('fournisseurs');
+
+          Route::get('/commandeAccueil', function () {
+        return view('commandes.accueil');
+        })->name('commandes');
 
           Route::get('/produitAccueil', [ProduitController::class, 'accueil'])
         ->name('produits');
@@ -271,17 +287,48 @@ Route::delete('/publications/{publication}', [PublicationController::class,'dest
     // ------------------------
     Route::resource('produits',ProduitController::class);
 
+        // -----------------------
+    // CATEGORIE
+    // ------------------------
+    Route::resource('categories', CategorieController::class);
+
     // -----------------------
     // COMMENTS
     // ------------------------
 Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
 
+
+    // -----------------------
+    // EMPLOYE
+    // ------------------------
+Route::post('/employe', [EmployeController::class, 'store'])->name('comments.store');
+
  // -----------------------
     // COMMANDES
-    // ------------------------
-Route::post('/commandes', [CommandeController::class, 'store'])->name('commandes.store');
-Route::get('/commandes', [CommandeController::class, 'index'])->name('commandes.index');
-Route::get('/commandes/{commande}', [CommandeController::class, 'show'])->name('commandes.show');
-Route::post('/commandes/{commande}/status', [CommandeController::class, 'updateStatus'])->name('commandes.status');
-});
+// ================= COMMANDES =================
+
+Route::get(
+    '/commandes/create',
+    [CommandeController::class, 'create']
+)->name('commandes.create');
+
+Route::post(
+    '/commandes',
+    [CommandeController::class, 'store']
+)->name('commandes.store');
+
+Route::get(
+    '/commandes',
+    [CommandeController::class, 'index']
+)->name('commandes.index');
+
+Route::get(
+    '/commandes/{commande}',
+    [CommandeController::class, 'show']
+)->name('commandes.show');
+
+Route::post(
+    '/commandes/{commande}/status',
+    [CommandeController::class, 'updateStatus']
+)->name('commandes.status');
 

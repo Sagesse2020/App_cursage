@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>{{ $evenement->titre }}</title>
+<title></title>
 
 <style>
 body{

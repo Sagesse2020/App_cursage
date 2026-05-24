@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Modifier publication</title>
+<title>Modifier produit</title>
 <style>
 body{font-family:Segoe UI;background:#f4f6f8;padding:40px}
 form{

@@ -2,85 +2,91 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Publications</title>
+<title>Liste produits</title>
+
 <style>
-body{font-family:Segoe UI;background:#f4f6f8;padding:40px}
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-    gap:25px;
-}
-.card{
-    background:#fff;
-    border-radius:16px;
-    box-shadow:0 10px 25px rgba(0,0,0,.1);
-    overflow:hidden;
-}
-.card img{
+table{
     width:100%;
-    height:200px;
-    object-fit:cover;
+    border-collapse: collapse;
 }
-.content{padding:20px}
-small{color:#777}
-.actions{
-    display:flex;
-    gap:10px;
-    margin-top:15px;
-}
-.actions a{
-    flex:1;
-    text-align:center;
+
+th, td{
+    border:1px solid #ccc;
     padding:10px;
-    border-radius:8px;
-    text-decoration:none;
-    color:#fff;
-    background:#0a7;
+    text-align:center;
 }
-.actions .danger{background:#c00}
+
+th{
+    background:#f2f2f2;
+}
+
+a{
+    text-decoration:none;
+    margin:0 5px;
+}
+
+.btn{
+    padding:6px 10px;
+    border-radius:5px;
+}
+
+.show{background:green;color:white;}
+.edit{background:orange;color:white;}
+.delete{background:red;color:white;}
+.add{background:blue;color:white;padding:8px 12px;}
 </style>
+
 </head>
+
 <body>
 
-<h1>Publications</h1>
-<a href="{{ route('publications.create') }}">➕ Nouvelle publication</a>
+<h1>Liste des produits</h1>
 
-<div class="grid">
-@foreach($publications as $pub)
-<div class="card">
-    @if($pub->image)
-        <img src="{{ asset('storage/'.$pub->image) }}">
-    @endif
-    <div class="content">
-        <h3>{{ $pub->titre }}</h3>
-        <small>Par {{ $pub->user->name ?? 'Utilisateur inconnu' }}</small>
-        <p>{{ Str::limit($pub->contenu,120) }}</p>
-         <form method="POST" action="{{ route('produits.commander', $produit->id) }}">
+<a href="{{ route('produits.create') }}" class="add">+ Ajouter produit</a>
+
+<br><br>
+
+<table>
+
+<tr>
+<th>Nom</th>
+<th>Catégorie</th>
+<th>Prix vente</th>
+<th>Stock</th>
+<th>Actions</th>
+</tr>
+
+@foreach($produits as $produit)
+
+<tr>
+
+<td>{{ $produit->nom }}</td>
+
+<td>{{ $produit->categorie->nom ?? '' }}</td>
+
+<td>{{ $produit->prix_vente }}</td>
+
+<td>{{ $produit->stock }}</td>
+
+<td>
+
+<a href="{{ route('produits.show',$produit->id) }}" class="btn show">Voir</a>
+
+<a href="{{ route('produits.edit',$produit->id) }}" class="btn edit">Modifier</a>
+
+<form method="POST" action="{{ route('produits.destroy',$produit->id) }}" style="display:inline;">
 @csrf
-
-<input type="number" name="quantite" value="1" min="1">
-
-<button type="submit" style="
-padding:10px;
-background:#00e6ff;
-border:none;
-border-radius:10px;
-cursor:pointer;
-">
-Commander
-</button>
-
+@method('DELETE')
+<button class="btn delete">Supprimer</button>
 </form>
-        <div class="actions">
-            <a href="{{ route('publications.show',$pub) }}">Voir</a>
 
-            @if(auth()->id() === $pub->user_id || auth()->user()->niveau == 3)
-                <a href="{{ route('publications.edit',$pub) }}">Modifier</a>
-            @endif
-        </div>
-    </div>
-</div>
+</td>
+
+</tr>
+
 @endforeach
-</div>
+
+</table>
+
 </body>
 </html>

@@ -3,34 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <title>Créer produit</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial;
+    background:#0f172a;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+.card{
+    width:100%;
+    max-width:650px;
+    background:#fff;
+    padding:25px;
+    border-radius:12px;
+}
+
+h1{
+    text-align:center;
+    color:#0f172a;
+}
+
+label{
+    display:block;
+    margin-top:10px;
+    font-weight:bold;
+    color:#111;
+}
+
+input,textarea,select{
+    width:100%;
+    padding:10px;
+    margin-top:5px;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
+button{
+    width:100%;
+    margin-top:20px;
+    padding:12px;
+    background:#2563eb;
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+</style>
+
 </head>
 
 <body>
+
+<div class="card">
 
 <h1>Créer un produit</h1>
 
 <form method="POST" action="{{ route('produits.store') }}" enctype="multipart/form-data">
 @csrf
 
-<input type="text" name="nom" placeholder="Nom"><br><br>
+<label>Nom produit</label>
+<input type="text" name="nom" placeholder="Ex: Berger Allemand">
 
-<textarea name="description" placeholder="Description"></textarea><br><br>
+<label>Description</label>
+<textarea name="description" placeholder="Description du produit"></textarea>
 
+<label>Catégorie</label>
 <select name="categorie_id">
 @foreach($categories as $cat)
 <option value="{{ $cat->id }}">{{ $cat->nom }}</option>
 @endforeach
-</select><br><br>
+</select>
 
-<input type="number" name="prix_achat" placeholder="Prix achat"><br><br>
-<input type="number" name="prix_vente" placeholder="Prix vente"><br><br>
-<input type="number" name="stock" placeholder="Stock"><br><br>
+<label>Prix achat</label>
+<input type="number" name="prix_achat">
 
-<input type="file" name="photo"><br><br>
+<label>Prix vente</label>
+<input type="number" name="prix_vente">
 
-<button>Créer</button>
+<label>Stock</label>
+<input type="number" name="stock">
+
+<label>Photo</label>
+<input type="file" name="photo">
+
+<button>Créer produit</button>
 
 </form>
+
+</div>
 
 </body>
 </html>
