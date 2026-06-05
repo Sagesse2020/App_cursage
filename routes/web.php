@@ -43,6 +43,7 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\DecesController;
 use App\Http\Controllers\BeneficeController;
 use App\Http\Controllers\FicheSuiviController;
+use App\Http\Controllers\PaiementController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -195,10 +196,13 @@ Route::middleware(['auth'])->group(function(){
         return view('naissances.accueil');
         })->name('naissances');
 
-        
-        Route::get('/SuiviAccueil', function () {
-        return view('suivi_chiens.accueil');
-        })->name('suivi_chiens');
+        Route::get('/DecesAccueil', function () {
+        return view('deces.accueil');
+        })->name('deces');
+
+        Route::get('/FicheAccueil', function () {
+        return view('fiches_suivi.accueil');
+        })->name('fiches_suivi');
 
         Route::get('/FactureAccueil', function () {
         return view('factures.accueil');
@@ -223,6 +227,10 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/AchatAccueil', function () {
         return view('achats.accueil');
         })->name('achats');
+
+        Route::get('/PaiementAccueil', function () {
+        return view('paiements.accueil');
+        })->name('paiements');
 
         Route::get('/DepenseAccueil', function () {
         return view('depenses.accueil');
@@ -408,6 +416,11 @@ Route::delete('/publications/{publication}', [PublicationController::class,'dest
     // BENEFICES
     // ------------------------
   Route::resource('benefices', BeneficeController::class);
+
+     // -----------------------
+    // PAIEMENTS
+    // ------------------------
+  Route::resource('paiements', PaiementController::class);
 
    // -----------------------
     // PERTES

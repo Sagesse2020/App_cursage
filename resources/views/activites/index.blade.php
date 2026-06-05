@@ -143,7 +143,7 @@ margin-top:20px;
 
 <option value="">Tous modules</option>
 
-<option value="Produit">Produit</option>
+<option value="Produit">Produit</option> 
 <option value="Commande">Commande</option>
 <option value="Employee">Employé</option>
 <option value="Transaction">TRansaction</option>
