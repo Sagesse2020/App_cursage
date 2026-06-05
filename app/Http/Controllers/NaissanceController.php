@@ -3,63 +3,77 @@
 namespace App\Http\Controllers;
 
 use App\Models\Naissance;
+use App\Models\Reproduction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NaissanceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $naissances = Naissance::with('reproduction')
+            ->latest()
+            ->paginate(10);
+
+        return view('naissances.index', compact('naissances'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $reproductions = Reproduction::with(['male','femelle'])->get();
+        return view('naissances.create', compact('reproductions'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'reproduction_id' => 'required',
+            'date_naissance' => 'required|date',
+        ]);
+
+        Naissance::create([
+            'reproduction_id' => $request->reproduction_id,
+            'date_naissance' => $request->date_naissance,
+            'nombre_males' => $request->nombre_males,
+            'nombre_femelles' => $request->nombre_femelles,
+            'nombre_morts' => $request->nombre_morts,
+            'observation' => $request->observation,
+            'user_id' => Auth::id(),
+        ]);
+
+        return redirect()->route('naissances.index')
+            ->with('success','Naissance enregistrée');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Naissance $naissance)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Naissance $naissance)
     {
-        //
+        $reproductions = Reproduction::with(['male','femelle'])->get();
+        return view('naissances.edit', compact('naissance','reproductions'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Naissance $naissance)
     {
-        //
+        $request->validate([
+            'reproduction_id' => 'required',
+            'date_naissance' => 'required',
+        ]);
+
+        $naissance->update($request->all());
+
+        return redirect()->route('naissances.index')
+            ->with('success','Naissance modifiée');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    public function show(Naissance $naissance)
+    {
+        return view('naissances.show', compact('naissance'));
+    }
+
     public function destroy(Naissance $naissance)
     {
-        //
+        $naissance->delete();
+
+        return redirect()->route('naissances.index')
+            ->with('success','Naissance supprimée');
     }
 }

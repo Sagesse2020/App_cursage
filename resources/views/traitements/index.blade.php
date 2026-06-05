@@ -77,67 +77,52 @@ td{
 
 <div class="container">
 
-<h1>📦 Mouvements de stock</h1>
+<h1>📋 Liste des traitements</h1>
 
-<!-- ================= FILTRES RÉUTILISABLES ================= -->
-<form method="GET" class="filters">
+<a href="{{ route('traitements.create') }}" class="btn">+ Ajouter</a>
 
-<input type="text" name="produit" placeholder="Produit...">
+@if(session('success'))
+<p style="color:green">{{ session('success') }}</p>
+@endif
 
-<select name="type">
-    <option value="">Tous types</option>
-    <option value="entree">Entrée</option>
-    <option value="sortie">Sortie</option>
-</select>
-
-<input type="date" name="date_debut">
-<input type="date" name="date_fin">
-
-<button>Filtrer</button>
-
-</form>
-
-<!-- ================= TABLE ================= -->
-<table>
+<table width="100%" border="1" cellspacing="0" cellpadding="10">
 
 <tr>
-<th>Produit</th>
-<th>Type</th>
-<th>Quantité</th>
-<th>Motif</th>
-<th>Utilisateur</th>
-<th>Date</th>
+<th>Chien</th>
+<th>Traitement</th>
+<th>Début</th>
+<th>Fin</th>
+<th>Coût</th>
+<th>Actions</th>
 </tr>
 
-@foreach($mouvements as $mouvement)
+@foreach($traitements as $t)
 
 <tr>
-
-<td>{{ $mouvement->produit->nom ?? '' }}</td>
+<td>{{ $t->chien->nom ?? '-' }}</td>
+<td>{{ $t->nom_traitement }}</td>
+<td>{{ $t->date_debut }}</td>
+<td>{{ $t->date_fin }}</td>
+<td>{{ $t->cout }}</td>
 
 <td>
-<span class="{{ $mouvement->type }}">
-{{ $mouvement->type }}
-</span>
+
+<a href="{{ route('traitements.show',$t) }}">Voir</a>
+<a href="{{ route('traitements.edit',$t) }}">Modifier</a>
+
+<form action="{{ route('traitements.destroy',$t) }}" method="POST" style="display:inline;">
+@csrf @method('DELETE')
+<button onclick="return confirm('Supprimer ?')">X</button>
+</form>
+
 </td>
-
-<td>{{ $mouvement->quantite }}</td>
-
-<td>{{ $mouvement->motif }}</td>
-
-<td>{{ $mouvement->user->name ?? '' }}</td>
-
-<td>{{ $mouvement->created_at }}</td>
-
 </tr>
 
 @endforeach
 
 </table>
 
-<div class="pagination">
-{{ $mouvements->links() }}
-</div>
+{{ $traitements->links() }}
 
 </div>
 

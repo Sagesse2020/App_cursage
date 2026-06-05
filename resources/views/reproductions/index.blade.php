@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Mouvements de stock</title>
+<title>Liste des reproductions</title>
 
 <style>
 body{
@@ -76,69 +76,52 @@ td{
 <body>
 
 <div class="container">
+<h1>📋 Liste des reproductions</h1>
 
-<h1>📦 Mouvements de stock</h1>
+<a href="{{ route('reproductions.create') }}" class="btn">+ Ajouter</a>
 
-<!-- ================= FILTRES RÉUTILISABLES ================= -->
-<form method="GET" class="filters">
+@if(session('success'))
+<p style="color:green">{{ session('success') }}</p>
+@endif
 
-<input type="text" name="produit" placeholder="Produit...">
-
-<select name="type">
-    <option value="">Tous types</option>
-    <option value="entree">Entrée</option>
-    <option value="sortie">Sortie</option>
-</select>
-
-<input type="date" name="date_debut">
-<input type="date" name="date_fin">
-
-<button>Filtrer</button>
-
-</form>
-
-<!-- ================= TABLE ================= -->
-<table>
+<table width="100%" border="1" cellspacing="0" cellpadding="10">
 
 <tr>
-<th>Produit</th>
-<th>Type</th>
-<th>Quantité</th>
-<th>Motif</th>
-<th>Utilisateur</th>
+<th>Mâle</th>
+<th>Femelle</th>
 <th>Date</th>
+<th>Résultat</th>
+<th>La lignee du chien</th>
+<th>Actions</th>
 </tr>
 
-@foreach($mouvements as $mouvement)
+@foreach($reproductions as $r)
 
 <tr>
-
-<td>{{ $mouvement->produit->nom ?? '' }}</td>
+<td>{{ $r->male->nom ?? '-' }}</td>
+<td>{{ $r->femelle->nom ?? '-' }}</td>
+<td>{{ $r->date_reproduction }}</td>
+<td>{{ $r->resultat }}</td>
+<td>{{ $r->lignee_chien }}</td>
 
 <td>
-<span class="{{ $mouvement->type }}">
-{{ $mouvement->type }}
-</span>
+
+<a href="{{ route('reproductions.show',$r) }}">Voir</a>
+<a href="{{ route('reproductions.edit',$r) }}">Modifier</a>
+
+<form action="{{ route('reproductions.destroy',$r) }}" method="POST" style="display:inline;">
+@csrf @method('DELETE')
+<button onclick="return confirm('Supprimer ?')">X</button>
+</form>
+
 </td>
-
-<td>{{ $mouvement->quantite }}</td>
-
-<td>{{ $mouvement->motif }}</td>
-
-<td>{{ $mouvement->user->name ?? '' }}</td>
-
-<td>{{ $mouvement->created_at }}</td>
-
 </tr>
 
 @endforeach
 
 </table>
 
-<div class="pagination">
-{{ $mouvements->links() }}
-</div>
-
+{{ $reproductions->links() }}
 </div>
 
 </body>

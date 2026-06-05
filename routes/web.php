@@ -42,9 +42,7 @@ use App\Http\Controllers\SuiviChienController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\DecesController;
 use App\Http\Controllers\BeneficeController;
- 
-
-
+use App\Http\Controllers\FicheSuiviController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -352,16 +350,16 @@ Route::delete('/publications/{publication}', [PublicationController::class,'dest
     // ------------------------
     Route::resource('produits',ProduitController::class);
 
-        // -----------------------
+    // -----------------------
     // CATEGORIE
     // ------------------------
     Route::get('/categories', [CategorieController::class, 'index'])->name('categories.index');
-Route::get('/categories/create', [CategorieController::class, 'create'])->name('categories.create');
-Route::post('/categories', [CategorieController::class, 'store'])->name('categories.store');
-Route::get('/categories/{categorie}', [CategorieController::class, 'show'])->name('categories.show');
-Route::get('/categories/{categorie}/edit', [CategorieController::class, 'edit'])->name('categories.edit');
-Route::put('/categories/{categorie}', [CategorieController::class, 'update'])->name('categories.update');
-Route::delete('/categories/{categorie}', [CategorieController::class, 'destroy'])->name('categories.destroy');
+    Route::get('/categories/create', [CategorieController::class, 'create'])->name('categories.create');
+    Route::post('/categories', [CategorieController::class, 'store'])->name('categories.store');
+    Route::get('/categories/{categorie}', [CategorieController::class, 'show'])->name('categories.show');
+    Route::get('/categories/{categorie}/edit', [CategorieController::class, 'edit'])->name('categories.edit');
+    Route::put('/categories/{categorie}', [CategorieController::class, 'update'])->name('categories.update');
+    Route::delete('/categories/{categorie}', [CategorieController::class, 'destroy'])->name('categories.destroy');
 
     // -----------------------
     // COMMENTS
@@ -403,7 +401,7 @@ Route::delete('/categories/{categorie}', [CategorieController::class, 'destroy']
 
   Route::resource('reservations', ReservationController::class);
 
-  Route::resource('suivi_chiens', SuiviChienController::class);
+  Route::resource('fiches_suivi', FicheSuiviController::class);
 
   Route::resource('depenses', DepenseController::class);
    // -----------------------

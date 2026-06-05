@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Modifier produit</title>
+<title>Modifier fiche</title>
 
 <style>
 body{
@@ -39,9 +39,9 @@ img{
 
 <div class="form">
 
-<h1>✏️ Modifier traitement</h1>
+<h1>✏️ Modifier fiche de suivi</h1>
 
-<form method="POST" action="{{ route('traitements.update',$traitement) }}">
+<form method="POST" action="{{ route('fiches_suivi.update',$fiche) }}">
 @csrf
 @method('PUT')
 
@@ -50,25 +50,27 @@ img{
 <select name="chien_id">
 @foreach($chiens as $chien)
 <option value="{{ $chien->id }}"
-{{ $traitement->chien_id == $chien->id ? 'selected' : '' }}>
+{{ $fiche->chien_id == $chien->id ? 'selected' : '' }}>
 {{ $chien->nom }}
 </option>
 @endforeach
 </select>
 
-<input type="text" name="nom_traitement"
-value="{{ old('nom_traitement',$traitement->nom_traitement) }}">
+<input type="number" step="0.01" name="poids"
+value="{{ old('poids',$fiche->poids) }}">
 
-<input type="date" name="date_debut"
-value="{{ old('date_debut',$traitement->date_debut) }}">
+<input type="number" step="0.01" name="temperature"
+value="{{ old('temperature',$fiche->temperature) }}">
 
-<input type="date" name="date_fin"
-value="{{ old('date_fin',$traitement->date_fin) }}">
+<input type="text" name="etat_general"
+value="{{ old('etat_general',$fiche->etat_general) }}">
 
-<input type="number" step="0.01" name="cout"
-value="{{ old('cout',$traitement->cout) }}">
+<textarea name="alimentation">{{ old('alimentation',$fiche->alimentation) }}</textarea>
 
-<textarea name="description">{{ old('description',$traitement->description) }}</textarea>
+<textarea name="observation">{{ old('observation',$fiche->observation) }}</textarea>
+
+<input type="date" name="date_suivi"
+value="{{ old('date_suivi',$fiche->date_suivi) }}">
 
 </div>
 
@@ -77,7 +79,6 @@ value="{{ old('cout',$traitement->cout) }}">
 <button class="btn">Modifier</button>
 
 </form>
-
 </div>
 
 </body>

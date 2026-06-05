@@ -39,35 +39,49 @@ img{
 
 <div class="form">
 
-<h1>Modifier produit</h1>
+<h1>✏️ Modifier reproduction</h1>
 
-@if($produit->photo)
-<img src="{{ asset('storage/'.$produit->photo) }}">
-@endif
-
-<form method="POST" enctype="multipart/form-data" action="{{ route('produits.update',$produit->id) }}">
+<form method="POST" action="{{ route('reproductions.update',$reproduction) }}">
 @csrf
 @method('PUT')
 
-<input type="text" name="nom" value="{{ $produit->nom }}">
+<div class="grid">
 
-<textarea name="description">{{ $produit->description }}</textarea>
-
-<select name="categorie_id">
-@foreach($categories as $cat)
-<option value="{{ $cat->id }}" @selected($cat->id==$produit->categorie_id)>
-{{ $cat->nom }}
+<select name="male_id">
+@foreach($chiens as $chien)
+@if($chien->sexe == 'male')
+<option value="{{ $chien->id }}"
+{{ $reproduction->male_id == $chien->id ? 'selected' : '' }}>
+{{ $chien->nom }}
 </option>
+@endif
 @endforeach
 </select>
 
-<input type="number" name="prix_achat" value="{{ $produit->prix_achat }}">
-<input type="number" name="prix_vente" value="{{ $produit->prix_vente }}">
-<input type="number" name="stock" value="{{ $produit->stock }}">
+<select name="femelle_id">
+@foreach($chiens as $chien)
+@if($chien->sexe == 'femelle')
+<option value="{{ $chien->id }}"
+{{ $reproduction->femelle_id == $chien->id ? 'selected' : '' }}>
+{{ $chien->nom }}
+</option>
+@endif
+@endforeach
+</select>
 
-<input type="file" name="photo">
+<input type="date" name="date_reproduction"
+value="{{ old('date_reproduction',$reproduction->date_reproduction) }}">
 
-<button>Modifier</button>
+<input type="text" name="resultat"
+value="{{ old('resultat',$reproduction->resultat) }}">
+
+<textarea name="observations">{{ old('observations',$reproduction->observations) }}</textarea>
+
+</div>
+
+<br>
+
+<button class="btn">Modifier</button>
 
 </form>
 

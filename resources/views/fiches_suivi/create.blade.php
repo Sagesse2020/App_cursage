@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Creer une reproduction</title>
+<title>Créer fichier suivi</title>
 
 <style>
 body{
@@ -42,39 +42,32 @@ button{
 <body>
 
 <div class="form">
+<h1>📋 Ajouter une fiche de suivi</h1>
 
-<h1>🐶 Ajouter une reproduction</h1>
-
-<form method="POST" action="{{ route('reproductions.store') }}">
+<form method="POST" action="{{ route('fiches_suivi.store') }}">
 @csrf
 
 <div class="grid">
 
-<select name="male_id">
-<option value="">Chien mâle</option>
+<select name="chien_id">
+<option value="">Choisir un chien</option>
 @foreach($chiens as $chien)
-@if($chien->sexe == 'male')
 <option value="{{ $chien->id }}">{{ $chien->nom }}</option>
-@endif
 @endforeach
 </select>
 
-<select name="femelle_id">
-<option value="">Chien femelle</option>
-@foreach($chiens as $chien)
-@if($chien->sexe == 'femelle')
-<option value="{{ $chien->id }}">{{ $chien->nom }}</option>
-@endif
-@endforeach
-</select>
+<input type="number" step="0.01" name="poids" placeholder="Poids">
 
-<input type="date" name="date_reproduction">
+<input type="number" step="0.01" name="temperature" placeholder="Température">
 
-<input type="text" name="resultat" placeholder="Résultat">
+<input type="text" name="etat_general" placeholder="État général">
 
-<textarea name="observations" placeholder="Observations"></textarea>
+<textarea name="alimentation" placeholder="Alimentation"></textarea>
 
-<input type="text" name="lignee_chien">
+<textarea name="observation" placeholder="Observation"></textarea>
+
+<input type="date" name="date_suivi">
+
 </div>
 
 <br>
@@ -82,6 +75,7 @@ button{
 <button class="btn">Enregistrer</button>
 
 </form>
+
 </div>
 
 </body>

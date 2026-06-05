@@ -41,27 +41,15 @@ img{
 
 <div class="container">
 
-<h1>{{ $produit->nom }}</h1>
+<h1>🔎 Détail reproduction</h1>
 
-@if($produit->photo)
-<img src="{{ asset('storage/'.$produit->photo) }}">
-@endif
+<p><strong>Mâle :</strong> {{ $reproduction->male->nom }}</p>
+<p><strong>Femelle :</strong> {{ $reproduction->femelle->nom }}</p>
+<p><strong>Date :</strong> {{ $reproduction->date_reproduction }}</p>
+<p><strong>Résultat :</strong> {{ $reproduction->resultat }}</p>
+<p><strong>Observations :</strong> {{ $reproduction->observations }}</p>
 
-<p><strong>Description :</strong> {{ $produit->description }}</p>
-
-<p><strong>Catégorie :</strong> {{ $produit->categorie->nom ?? '' }}</p>
-
-<p><strong>Prix achat :</strong> {{ $produit->prix_achat }}</p>
-
-<p><strong>Prix vente :</strong> {{ $produit->prix_vente }}</p>
-
-<p><strong>Stock :</strong> {{ $produit->stock }}</p>
-
-<p><strong>Unité :</strong> {{ $produit->unite }}</p>
-
-<p><strong>Créé par :</strong> {{ $produit->user->name ?? '' }}</p>
-
-<a href="{{ route('produits.index') }}" class="back">← Retour</a>
+<a href="{{ route('reproductions.index') }}">Retour</a>
 
 </div>
 

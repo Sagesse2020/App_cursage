@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Créer mouvement</title>
+<title>Créer naissance</title>
 
 <style>
 body{
@@ -43,26 +43,38 @@ button{
 
 <div class="form">
 
-<h1>Nouveau mouvement stock</h1>
+<h1>🐶 Enregistrer une naissance</h1>
 
-<form method="POST">
+<form method="POST" action="{{ route('naissances.store') }}">
 @csrf
 
-<select name="produit_id">
-@foreach($produits as $p)
-<option value="{{ $p->id }}">{{ $p->nom }}</option>
+<div class="grid">
+
+<select name="reproduction_id">
+<option value="">Choisir reproduction</option>
+@foreach($reproductions as $r)
+<option value="{{ $r->id }}">
+{{ $r->male->nom }} × {{ $r->femelle->nom }} ({{ $r->date_reproduction }})
+</option>
 @endforeach
 </select>
 
-<select name="type">
-<option value="entree">Entrée</option>
-<option value="sortie">Sortie</option>
-</select>
+<input type="date" name="date_naissance">
 
-<input type="number" name="quantite" placeholder="Quantité">
-<input type="text" name="motif" placeholder="Motif">
+<input type="number" name="nombre_males" placeholder="Nombre mâles">
 
-<button>Enregistrer</button>
+<input type="number" name="nombre_femelles" placeholder="Nombre femelles">
+
+<input type="number" name="nombre_morts" placeholder="Nombre morts">
+
+<textarea name="observation" placeholder="Observation"></textarea>
+
+</div>
+
+<br>
+
+<button class="btn">Enregistrer</button>
+
 </form>
 </div>
 

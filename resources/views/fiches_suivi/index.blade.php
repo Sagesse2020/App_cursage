@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Mouvements de stock</title>
+<title>Fiches de suivi</title>
 
 <style>
 body{
@@ -77,67 +77,52 @@ td{
 
 <div class="container">
 
-<h1>📦 Mouvements de stock</h1>
+<h1>📊 Fiches de suivi</h1>
 
-<!-- ================= FILTRES RÉUTILISABLES ================= -->
-<form method="GET" class="filters">
+<a href="{{ route('fiches_suivi.create') }}" class="btn">+ Ajouter</a>
 
-<input type="text" name="produit" placeholder="Produit...">
+@if(session('success'))
+<p style="color:green">{{ session('success') }}</p>
+@endif
 
-<select name="type">
-    <option value="">Tous types</option>
-    <option value="entree">Entrée</option>
-    <option value="sortie">Sortie</option>
-</select>
-
-<input type="date" name="date_debut">
-<input type="date" name="date_fin">
-
-<button>Filtrer</button>
-
-</form>
-
-<!-- ================= TABLE ================= -->
-<table>
+<table width="100%" border="1" cellspacing="0" cellpadding="10">
 
 <tr>
-<th>Produit</th>
-<th>Type</th>
-<th>Quantité</th>
-<th>Motif</th>
-<th>Utilisateur</th>
+<th>Chien</th>
+<th>Poids</th>
+<th>Température</th>
+<th>État</th>
 <th>Date</th>
+<th>Actions</th>
 </tr>
 
-@foreach($mouvements as $mouvement)
+@foreach($fiches as $f)
 
 <tr>
-
-<td>{{ $mouvement->produit->nom ?? '' }}</td>
+<td>{{ $f->chien->nom ?? '-' }}</td>
+<td>{{ $f->poids }}</td>
+<td>{{ $f->temperature }}</td>
+<td>{{ $f->etat_general }}</td>
+<td>{{ $f->date_suivi }}</td>
 
 <td>
-<span class="{{ $mouvement->type }}">
-{{ $mouvement->type }}
-</span>
+
+<a href="{{ route('fiches_suivi.show',$f) }}">Voir</a>
+<a href="{{ route('fiches_suivi.edit',$f) }}">Modifier</a>
+
+<form action="{{ route('fiches_suivi.destroy',$f) }}" method="POST" style="display:inline;">
+@csrf @method('DELETE')
+<button onclick="return confirm('Supprimer ?')">X</button>
+</form>
+
 </td>
-
-<td>{{ $mouvement->quantite }}</td>
-
-<td>{{ $mouvement->motif }}</td>
-
-<td>{{ $mouvement->user->name ?? '' }}</td>
-
-<td>{{ $mouvement->created_at }}</td>
-
 </tr>
 
 @endforeach
 
 </table>
 
-<div class="pagination">
-{{ $mouvements->links() }}
-</div>
+{{ $fiches->links() }}
 
 </div>
 

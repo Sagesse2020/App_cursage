@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Détail produit</title>
+<title>Détail deces</title>
 
 <style>
 body{
@@ -41,28 +41,15 @@ img{
 
 <div class="container">
 
-<h1>{{ $produit->nom }}</h1>
+<h1>⚰️ Détail décès</h1>
 
-@if($produit->photo)
-<img src="{{ asset('storage/'.$produit->photo) }}">
-@endif
+<p><strong>Chien :</strong> {{ $deces->chien->nom }}</p>
+<p><strong>Cause :</strong> {{ $deces->cause }}</p>
+<p><strong>Date :</strong> {{ $deces->date_deces }}</p>
+<p><strong>Observation :</strong> {{ $deces->observation }}</p>
+<p><strong>Enregistré par :</strong> {{ $deces->user->name ?? '' }}</p>
 
-<p><strong>Description :</strong> {{ $produit->description }}</p>
-
-<p><strong>Catégorie :</strong> {{ $produit->categorie->nom ?? '' }}</p>
-
-<p><strong>Prix achat :</strong> {{ $produit->prix_achat }}</p>
-
-<p><strong>Prix vente :</strong> {{ $produit->prix_vente }}</p>
-
-<p><strong>Stock :</strong> {{ $produit->stock }}</p>
-
-<p><strong>Unité :</strong> {{ $produit->unite }}</p>
-
-<p><strong>Créé par :</strong> {{ $produit->user->name ?? '' }}</p>
-
-<a href="{{ route('produits.index') }}" class="back">← Retour</a>
-
+<a href="{{ route('deces.index') }}">Retour</a>
 </div>
 
 </body>

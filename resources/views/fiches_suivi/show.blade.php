@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Détail reservation</title>
+<title>Détail fiche</title>
 
 <style>
 body{
@@ -41,17 +41,18 @@ img{
 
 <div class="container">
 
-<h1>🔎 Détail réservation</h1>
+<h1>🔎 Détail fiche de suivi</h1>
 
-<p><strong>Chien :</strong> {{ $reservation->chien->nom }}</p>
-<p><strong>Client :</strong> {{ $reservation->client_nom }}</p>
-<p><strong>Contact :</strong> {{ $reservation->client_contact }}</p>
-<p><strong>Date :</strong> {{ $reservation->date_reservation }}</p>
-<p><strong>Statut :</strong> {{ $reservation->statut }}</p>
-<p><strong>Montant :</strong> {{ $reservation->montant_verse }}</p>
-<p><strong>Note :</strong> {{ $reservation->note }}</p>
+<p><strong>Chien :</strong> {{ $fiche->chien->nom }}</p>
+<p><strong>Poids :</strong> {{ $fiche->poids }}</p>
+<p><strong>Température :</strong> {{ $fiche->temperature }}</p>
+<p><strong>État général :</strong> {{ $fiche->etat_general }}</p>
+<p><strong>Alimentation :</strong> {{ $fiche->alimentation }}</p>
+<p><strong>Observation :</strong> {{ $fiche->observation }}</p>
+<p><strong>Date :</strong> {{ $fiche->date_suivi }}</p>
 
-<a href="{{ route('reservations.index') }}">Retour</a>
+<a href="{{ route('fiches_suivi.index') }}">Retour</a>
+
 </div>
 
 </body>

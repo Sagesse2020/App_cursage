@@ -2,9 +2,10 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Mouvements de stock</title>
+<title>Réservations</title>
 
 <style>
+
 body{
     font-family:Arial;
     background:#f1f5f9;
@@ -63,13 +64,18 @@ td{
     border-bottom:1px solid #eee;
 }
 
-/* BADGES */
-.entree{background:#16a34a;color:white;padding:5px 10px;border-radius:20px;}
-.sortie{background:#dc2626;color:white;padding:5px 10px;border-radius:20px;}
-
-.pagination{
-    margin-top:15px;
+/* STATUT */
+.statut{
+    padding:5px 10px;
+    border-radius:20px;
+    color:white;
+    font-size:12px;
 }
+
+.attente{background:#f59e0b;}
+.confirmee{background:#16a34a;}
+.annulee{background:#dc2626;}
+
 </style>
 </head>
 
@@ -77,57 +83,67 @@ td{
 
 <div class="container">
 
-<h1>📦 Mouvements de stock</h1>
+<h1>📅 Réservations</h1>
 
-<!-- ================= FILTRES RÉUTILISABLES ================= -->
 <form method="GET" class="filters">
 
-<input type="text" name="produit" placeholder="Produit...">
+<input type="text" name="client" placeholder="Client...">
 
-<select name="type">
-    <option value="">Tous types</option>
-    <option value="entree">Entrée</option>
-    <option value="sortie">Sortie</option>
+<select name="statut">
+    <option value="">Tous statuts</option>
+    <option value="attente">Attente</option>
+    <option value="confirmee">Confirmée</option>
+    <option value="annulee">Annulée</option>
 </select>
-
-<input type="date" name="date_debut">
-<input type="date" name="date_fin">
 
 <button>Filtrer</button>
 
 </form>
 
-<!-- ================= TABLE ================= -->
+@if(session('success'))
+<p style="color:green">{{ session('success') }}</p>
+@endif
+
 <table>
 
 <tr>
-<th>Produit</th>
-<th>Type</th>
-<th>Quantité</th>
-<th>Motif</th>
-<th>Utilisateur</th>
+<th>Chien</th>
+<th>Client</th>
+<th>Contact</th>
 <th>Date</th>
+<th>Statut</th>
+<th>Montant</th>
+<th>Actions</th>
 </tr>
 
-@foreach($mouvements as $mouvement)
+@foreach($reservations as $r)
 
 <tr>
 
-<td>{{ $mouvement->produit->nom ?? '' }}</td>
+<td>{{ $r->chien->nom ?? '' }}</td>
+<td>{{ $r->client_nom }}</td>
+<td>{{ $r->client_contact }}</td>
+<td>{{ $r->date_reservation }}</td>
 
 <td>
-<span class="{{ $mouvement->type }}">
-{{ $mouvement->type }}
+<span class="statut {{ $r->statut }}">
+{{ $r->statut }}
 </span>
 </td>
 
-<td>{{ $mouvement->quantite }}</td>
+<td>{{ $r->montant_verse }}</td>
 
-<td>{{ $mouvement->motif }}</td>
+<td>
 
-<td>{{ $mouvement->user->name ?? '' }}</td>
+<a href="{{ route('reservations.show',$r) }}">Voir</a>
+<a href="{{ route('reservations.edit',$r) }}">Modifier</a>
 
-<td>{{ $mouvement->created_at }}</td>
+<form action="{{ route('reservations.destroy',$r) }}" method="POST" style="display:inline;">
+@csrf @method('DELETE')
+<button onclick="return confirm('Supprimer ?')">X</button>
+</form>
+
+</td>
 
 </tr>
 
@@ -135,9 +151,7 @@ td{
 
 </table>
 
-<div class="pagination">
-{{ $mouvements->links() }}
-</div>
+{{ $reservations->links() }}
 
 </div>
 

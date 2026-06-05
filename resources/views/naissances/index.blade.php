@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Mouvements de stock</title>
+<title>Naissance de chien</title>
 
 <style>
 body{
@@ -77,57 +77,48 @@ td{
 
 <div class="container">
 
-<h1>📦 Mouvements de stock</h1>
+<h1>📦 Liste des naissances</h1>
 
-<!-- ================= FILTRES RÉUTILISABLES ================= -->
-<form method="GET" class="filters">
+<a href="{{ route('naissances.create') }}" class="btn">+ Ajouter</a>
 
-<input type="text" name="produit" placeholder="Produit...">
+@if(session('success'))
+<p style="color:green">{{ session('success') }}</p>
+@endif
 
-<select name="type">
-    <option value="">Tous types</option>
-    <option value="entree">Entrée</option>
-    <option value="sortie">Sortie</option>
-</select>
-
-<input type="date" name="date_debut">
-<input type="date" name="date_fin">
-
-<button>Filtrer</button>
-
-</form>
-
-<!-- ================= TABLE ================= -->
-<table>
+<table width="100%" border="1" cellspacing="0" cellpadding="10">
 
 <tr>
-<th>Produit</th>
-<th>Type</th>
-<th>Quantité</th>
-<th>Motif</th>
-<th>Utilisateur</th>
+<th>Mère / Père</th>
 <th>Date</th>
+<th>Mâles</th>
+<th>Femelles</th>
+<th>Morts</th>
+<th>Actions</th>
 </tr>
 
-@foreach($mouvements as $mouvement)
+@foreach($naissances as $n)
 
 <tr>
-
-<td>{{ $mouvement->produit->nom ?? '' }}</td>
-
 <td>
-<span class="{{ $mouvement->type }}">
-{{ $mouvement->type }}
-</span>
+{{ $n->reproduction->male->nom ?? '-' }}
+×
+{{ $n->reproduction->femelle->nom ?? '-' }}
 </td>
 
-<td>{{ $mouvement->quantite }}</td>
+<td>{{ $n->date_naissance }}</td>
+<td>{{ $n->nombre_males }}</td>
+<td>{{ $n->nombre_femelles }}</td>
+<td>{{ $n->nombre_morts }}</td>
 
-<td>{{ $mouvement->motif }}</td>
+<td>
+<a href="{{ route('naissances.show',$n) }}">Voir</a>
+<a href="{{ route('naissances.edit',$n) }}">Modifier</a>
 
-<td>{{ $mouvement->user->name ?? '' }}</td>
-
-<td>{{ $mouvement->created_at }}</td>
+<form action="{{ route('naissances.destroy',$n) }}" method="POST" style="display:inline;">
+@csrf @method('DELETE')
+<button onclick="return confirm('Supprimer ?')">X</button>
+</form>
+</td>
 
 </tr>
 
@@ -135,9 +126,7 @@ td{
 
 </table>
 
-<div class="pagination">
-{{ $mouvements->links() }}
-</div>
+{{ $naissances->links() }}
 
 </div>
 

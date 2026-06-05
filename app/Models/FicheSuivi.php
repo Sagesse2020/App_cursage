@@ -4,16 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Reservation extends Model
+class FicheSuivi extends Model
 {
+    protected $table = 'fiches_suivi';
+
     protected $fillable = [
         'chien_id',
-        'client_nom',
-        'client_contact',
-        'date_reservation',
-        'statut',
-        'montant_verse',
-        'note',
+        'poids',
+        'temperature',
+        'etat_general',
+        'alimentation',
+        'observation',
+        'date_suivi',
         'user_id',
     ];
 

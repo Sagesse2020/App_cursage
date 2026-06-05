@@ -570,6 +570,12 @@ Gestion Canine
 <li><a href="{{ route('services') }}">Services</a></li>
 <li><a href="{{ route('produits') }}">Produits</a></li>
 <li><a href="{{ route('consultations') }}"> Consultations vétérinaires</a></li>
+<li><a href="{{ route('traitements') }}"> Traitements </a></li>
+<li><a href="{{ route('reproductions') }}"> Reproductions des chiens</a></li>
+<li><a href="{{ route('naissances') }}"> Naissances des chiots</a></li>
+<li><a href="{{ route('fiches_suivi') }}"> Fiche de suivi des chiens</a></li>
+<li><a href="{{ route('reservations') }}"> Reservations</a></li>
+<li><a href="{{ route('deces') }}">Deces</a></li>
 
 </ul>
 

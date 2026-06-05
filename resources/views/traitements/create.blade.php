@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Créer mouvement</title>
+<title>Créer un traitement</title>
 
 <style>
 body{
@@ -43,26 +43,36 @@ button{
 
 <div class="form">
 
-<h1>Nouveau mouvement stock</h1>
+<h1>💊 Ajouter un traitement</h1>
 
-<form method="POST">
+<form method="POST" action="{{ route('traitements.store') }}">
 @csrf
 
-<select name="produit_id">
-@foreach($produits as $p)
-<option value="{{ $p->id }}">{{ $p->nom }}</option>
+<div class="grid">
+
+<select name="chien_id">
+<option value="">Choisir un chien</option>
+@foreach($chiens as $chien)
+<option value="{{ $chien->id }}">{{ $chien->nom }}</option>
 @endforeach
 </select>
 
-<select name="type">
-<option value="entree">Entrée</option>
-<option value="sortie">Sortie</option>
-</select>
+<input type="text" name="nom_traitement" placeholder="Nom traitement">
 
-<input type="number" name="quantite" placeholder="Quantité">
-<input type="text" name="motif" placeholder="Motif">
+<input type="date" name="date_debut">
 
-<button>Enregistrer</button>
+<input type="date" name="date_fin">
+
+<input type="number" step="0.01" name="cout" placeholder="Coût">
+
+<textarea name="description" placeholder="Description"></textarea>
+
+</div>
+
+<br>
+
+<button class="btn">Enregistrer</button>
+
 </form>
 </div>
 

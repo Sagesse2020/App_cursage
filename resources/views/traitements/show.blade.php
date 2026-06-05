@@ -43,25 +43,16 @@ img{
 
 <h1>{{ $produit->nom }}</h1>
 
-@if($produit->photo)
-<img src="{{ asset('storage/'.$produit->photo) }}">
-@endif
+<h1>🔎 Détail traitement</h1>
 
-<p><strong>Description :</strong> {{ $produit->description }}</p>
+<p><strong>Chien :</strong> {{ $traitement->chien->nom }}</p>
+<p><strong>Nom :</strong> {{ $traitement->nom_traitement }}</p>
+<p><strong>Date début :</strong> {{ $traitement->date_debut }}</p>
+<p><strong>Date fin :</strong> {{ $traitement->date_fin }}</p>
+<p><strong>Coût :</strong> {{ $traitement->cout }}</p>
+<p><strong>Description :</strong> {{ $traitement->description }}</p>
 
-<p><strong>Catégorie :</strong> {{ $produit->categorie->nom ?? '' }}</p>
-
-<p><strong>Prix achat :</strong> {{ $produit->prix_achat }}</p>
-
-<p><strong>Prix vente :</strong> {{ $produit->prix_vente }}</p>
-
-<p><strong>Stock :</strong> {{ $produit->stock }}</p>
-
-<p><strong>Unité :</strong> {{ $produit->unite }}</p>
-
-<p><strong>Créé par :</strong> {{ $produit->user->name ?? '' }}</p>
-
-<a href="{{ route('produits.index') }}" class="back">← Retour</a>
+<a href="{{ route('traitements.index') }}">Retour</a>
 
 </div>
 

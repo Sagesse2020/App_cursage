@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Détail produit</title>
+<title>Détail naissance</title>
 
 <style>
 body{
@@ -41,28 +41,21 @@ img{
 
 <div class="container">
 
-<h1>{{ $produit->nom }}</h1>
+<h1>👶 Détail naissance</h1>
 
-@if($produit->photo)
-<img src="{{ asset('storage/'.$produit->photo) }}">
-@endif
+<p><strong>Parents :</strong>
+{{ $naissance->reproduction->male->nom }}
+×
+{{ $naissance->reproduction->femelle->nom }}
+</p>
 
-<p><strong>Description :</strong> {{ $produit->description }}</p>
+<p><strong>Date :</strong> {{ $naissance->date_naissance }}</p>
+<p><strong>Mâles :</strong> {{ $naissance->nombre_males }}</p>
+<p><strong>Femelles :</strong> {{ $naissance->nombre_femelles }}</p>
+<p><strong>Morts :</strong> {{ $naissance->nombre_morts }}</p>
+<p><strong>Observation :</strong> {{ $naissance->observation }}</p>
 
-<p><strong>Catégorie :</strong> {{ $produit->categorie->nom ?? '' }}</p>
-
-<p><strong>Prix achat :</strong> {{ $produit->prix_achat }}</p>
-
-<p><strong>Prix vente :</strong> {{ $produit->prix_vente }}</p>
-
-<p><strong>Stock :</strong> {{ $produit->stock }}</p>
-
-<p><strong>Unité :</strong> {{ $produit->unite }}</p>
-
-<p><strong>Créé par :</strong> {{ $produit->user->name ?? '' }}</p>
-
-<a href="{{ route('produits.index') }}" class="back">← Retour</a>
-
+<a href="{{ route('naissances.index') }}">Retour</a>
 </div>
 
 </body>

@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Modifier produit</title>
+<title>Modifier naissance</title>
 
 <style>
 body{
@@ -39,38 +39,44 @@ img{
 
 <div class="form">
 
-<h1>Modifier produit</h1>
+<h1>✏️ Modifier naissance</h1>
 
-@if($produit->photo)
-<img src="{{ asset('storage/'.$produit->photo) }}">
-@endif
-
-<form method="POST" enctype="multipart/form-data" action="{{ route('produits.update',$produit->id) }}">
+<form method="POST" action="{{ route('naissances.update',$naissance) }}">
 @csrf
 @method('PUT')
 
-<input type="text" name="nom" value="{{ $produit->nom }}">
+<div class="grid">
 
-<textarea name="description">{{ $produit->description }}</textarea>
-
-<select name="categorie_id">
-@foreach($categories as $cat)
-<option value="{{ $cat->id }}" @selected($cat->id==$produit->categorie_id)>
-{{ $cat->nom }}
+<select name="reproduction_id">
+@foreach($reproductions as $r)
+<option value="{{ $r->id }}"
+{{ $naissance->reproduction_id == $r->id ? 'selected' : '' }}>
+{{ $r->male->nom }} × {{ $r->femelle->nom }}
 </option>
 @endforeach
 </select>
 
-<input type="number" name="prix_achat" value="{{ $produit->prix_achat }}">
-<input type="number" name="prix_vente" value="{{ $produit->prix_vente }}">
-<input type="number" name="stock" value="{{ $produit->stock }}">
+<input type="date" name="date_naissance"
+value="{{ old('date_naissance',$naissance->date_naissance) }}">
 
-<input type="file" name="photo">
+<input type="number" name="nombre_males"
+value="{{ old('nombre_males',$naissance->nombre_males) }}">
 
-<button>Modifier</button>
+<input type="number" name="nombre_femelles"
+value="{{ old('nombre_femelles',$naissance->nombre_femelles) }}">
+
+<input type="number" name="nombre_morts"
+value="{{ old('nombre_morts',$naissance->nombre_morts) }}">
+
+<textarea name="observation">{{ old('observation',$naissance->observation) }}</textarea>
+
+</div>
+
+<br>
+
+<button class="btn">Modifier</button>
 
 </form>
-
 </div>
 
 </body>

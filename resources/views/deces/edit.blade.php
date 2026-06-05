@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Modifier produit</title>
+<title>Modifier deces</title>
 
 <style>
 body{
@@ -39,35 +39,37 @@ img{
 
 <div class="form">
 
-<h1>Modifier produit</h1>
+<div class="container">
 
-@if($produit->photo)
-<img src="{{ asset('storage/'.$produit->photo) }}">
-@endif
+<h1>✏️ Modifier décès</h1>
 
-<form method="POST" enctype="multipart/form-data" action="{{ route('produits.update',$produit->id) }}">
+<form method="POST" action="{{ route('deces.update',$deces) }}">
 @csrf
 @method('PUT')
 
-<input type="text" name="nom" value="{{ $produit->nom }}">
+<div class="filters">
 
-<textarea name="description">{{ $produit->description }}</textarea>
-
-<select name="categorie_id">
-@foreach($categories as $cat)
-<option value="{{ $cat->id }}" @selected($cat->id==$produit->categorie_id)>
-{{ $cat->nom }}
+<select name="chien_id">
+@foreach($chiens as $chien)
+<option value="{{ $chien->id }}"
+{{ $deces->chien_id == $chien->id ? 'selected' : '' }}>
+{{ $chien->nom }}
 </option>
 @endforeach
 </select>
 
-<input type="number" name="prix_achat" value="{{ $produit->prix_achat }}">
-<input type="number" name="prix_vente" value="{{ $produit->prix_vente }}">
-<input type="number" name="stock" value="{{ $produit->stock }}">
+<input type="text" name="cause"
+value="{{ old('cause',$deces->cause) }}"
+placeholder="Cause">
 
-<input type="file" name="photo">
+<input type="date" name="date_deces"
+value="{{ old('date_deces',$deces->date_deces) }}">
+
+<textarea name="observation">{{ old('observation',$deces->observation) }}</textarea>
 
 <button>Modifier</button>
+
+</div>
 
 </form>
 

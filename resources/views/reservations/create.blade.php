@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Créer mouvement</title>
+<title>Créer reservation</title>
 
 <style>
 body{
@@ -42,27 +42,35 @@ button{
 <body>
 
 <div class="form">
+<h1>📅 Ajouter réservation</h1>
 
-<h1>Nouveau mouvement stock</h1>
-
-<form method="POST">
+<form method="POST" action="{{ route('reservations.store') }}">
 @csrf
 
-<select name="produit_id">
-@foreach($produits as $p)
-<option value="{{ $p->id }}">{{ $p->nom }}</option>
+<select name="chien_id">
+<option value="">Choisir chien</option>
+@foreach($chiens as $chien)
+<option value="{{ $chien->id }}">{{ $chien->nom }}</option>
 @endforeach
 </select>
 
-<select name="type">
-<option value="entree">Entrée</option>
-<option value="sortie">Sortie</option>
+<input type="text" name="client_nom" placeholder="Nom client">
+<input type="text" name="client_contact" placeholder="Contact">
+
+<input type="date" name="date_reservation">
+
+<select name="statut">
+<option value="attente">Attente</option>
+<option value="confirmee">Confirmée</option>
+<option value="annulee">Annulée</option>
 </select>
 
-<input type="number" name="quantite" placeholder="Quantité">
-<input type="text" name="motif" placeholder="Motif">
+<input type="number" name="montant_verse" placeholder="Montant versé">
+
+<textarea name="note" placeholder="Note"></textarea>
 
 <button>Enregistrer</button>
+
 </form>
 </div>
 
