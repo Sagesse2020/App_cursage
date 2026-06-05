@@ -37,7 +37,7 @@ h1{
 }
 
 .filters button{
-    padding:10px 15px;
+    padding:20px 25px;
     background:#2563eb;
     color:white;
     border:none;
@@ -135,12 +135,12 @@ td{
 
 <td>
 
-<a href="{{ route('reservations.show',$r) }}">Voir</a>
-<a href="{{ route('reservations.edit',$r) }}">Modifier</a>
+<a href="{{ route('reservations.show',$r) }}" class="btn">Voir</a>
+<a href="{{ route('reservations.edit',$r) }}" class="btn">Modifier</a>
 
 <form action="{{ route('reservations.destroy',$r) }}" method="POST" style="display:inline;">
 @csrf @method('DELETE')
-<button onclick="return confirm('Supprimer ?')">X</button>
+<button onclick="return confirm('Supprimer ?')">SupprimerX</button>
 </form>
 
 </td>

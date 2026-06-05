@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ config('app.name')}}-Formulaire Mouvement du stock</title>
+    <title>{{ config('app.name')}}-Formulaire Reservation</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}"> <!-- Si tu as des styles -->
      <style>
 *{
@@ -137,10 +137,10 @@ img{
     <div class="container">
       <ul class="collapse navbar-collapse" id="navbarSupportedContent">
       <li class="nav-item">
-      <a class="nav-link @if(Request::route()->getName() == 'mouvements_stock.create') active @endif" aria-current="page" href="{{ route('mouvements_stock.create') }}">Enregistrer un mouvement au niveau du stock</a>
+      <a class="nav-link @if(Request::route()->getName() == 'reservations.create') active @endif" aria-current="page" href="{{ route('reservations.create') }}">Enregistrer une reservation</a>
       </li>
        <li class="nav-item">
-       <a class="nav-link @if(Request::route()->getName() == 'mouvements_stock.index') active @endif" aria-current="page" href="{{ route('mouvements_stock.index') }}">Tous les mouvements du stock</a>
+       <a class="nav-link @if(Request::route()->getName() == 'reservations.index') active @endif" aria-current="page" href="{{ route('reservations.index') }}">Tous les mouvements du stock</a>
        </li>
        <li class="nav-item">
          <a class="nav-link active" aria-current="page" href="{{ route('welcome') }}">Accueil</a>
