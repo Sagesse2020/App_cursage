@@ -1,44 +1,73 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="fr">
 
-<title>Ajouter chien</title>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Ajouter un chien</title>
 
 <style>
 
 body{
 font-family:Segoe UI;
-background:#f4f6f8;
+background:#f1f5f9;
+padding:20px;
 }
 
-.form{
-
-max-width:600px;
+.container{
+max-width:1100px;
 margin:auto;
 background:white;
 padding:30px;
-border-radius:10px;
-
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
 }
 
-input,select,textarea{
+h1{
+margin-bottom:20px;
+color:#0f172a;
+}
 
+.grid{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
+gap:15px;
+}
+
+input,
+select,
+textarea{
 width:100%;
-padding:10px;
-margin:10px 0;
+padding:12px;
 border:1px solid #ddd;
-border-radius:6px;
-
+border-radius:10px;
+font-size:15px;
 }
 
-button{
+textarea{
+min-height:120px;
+}
 
-background:#111;
+.btn{
+background:#2563eb;
 color:white;
-padding:12px;
+padding:12px 20px;
 border:none;
-border-radius:6px;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+}
 
+.check{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.check input{
+width:auto;
 }
 
 </style>
@@ -47,19 +76,29 @@ border-radius:6px;
 
 <body>
 
-<div class="form">
+<div class="container">
 
-<h2>Ajouter un chien</h2>
+<h1>🐕 Ajouter un chien</h1>
 
-<form method="POST" enctype="multipart/form-data" action="{{ route('chiens.store') }}">
+<form
+action="{{ route('chiens.store') }}"
+method="POST"
+enctype="multipart/form-data">
 
 @csrf
 
-<label>Nom</label>
-<input type="text" name="nom">
+<div class="grid">
 
-<label>Race</label>
+<input type="text"
+name="nom"
+placeholder="Nom du chien"
+value="{{ old('nom') }}">
+
 <select name="race_id">
+
+<option value="">
+Choisir une race
+</option>
 
 @foreach($races as $race)
 
@@ -71,44 +110,150 @@ border-radius:6px;
 
 </select>
 
-<label>Partenaire</label>
-
 <select name="partenaire_id">
 
-<option value="">Aucun</option>
+<option value="">
+Aucun partenaire
+</option>
 
-@foreach($partenaires as $p)
+@foreach($partenaires as $partenaire)
 
-<option value="{{ $p->id }}">
-{{ $p->nom }}
+<option value="{{ $partenaire->id }}">
+{{ $partenaire->nom }}
 </option>
 
 @endforeach
 
 </select>
 
-<label>Prix base</label>
-<input type="number" name="prix_base">
+<input type="text"
+name="age"
+placeholder="Age">
 
-<label>Prix avec vaccin</label>
-<input type="number" name="prix_vaccine">
+<select name="sexe">
 
-<label>Prix de dressage</label>
-<input type="number" name="prix_dressage">
+<option value="">
+Sexe
+</option>
 
-<label>Photo</label>
-<input type="file" name="photo">
+<option value="male">
+Mâle
+</option>
 
-<label>Date arrivée</label>
-<input type="date" name="date_arrive">
+<option value="femelle">
+Femelle
+</option>
 
-<label>Notes</label>
-<textarea name="notes"></textarea>
+</select>
 
-<label>Age</label>
-<textarea name="age"></textarea>
+<input type="date"
+name="date_naissance">
 
-<button>Enregistrer</button>
+<input type="date"
+name="date_arrive">
+
+<input type="number"
+step="0.01"
+name="poids"
+placeholder="Poids">
+
+<input type="text"
+name="couleur"
+placeholder="Couleur">
+
+<input type="text"
+name="numero_puce"
+placeholder="Numéro puce">
+
+<input type="text"
+name="numero_pedigree"
+placeholder="Numéro pedigree">
+
+<input type="number"
+step="0.01"
+name="prix_base"
+placeholder="Prix base">
+
+<input type="number"
+step="0.01"
+name="prix_vaccine"
+placeholder="Prix vacciné">
+
+<input type="number"
+step="0.01"
+name="prix_dressage"
+placeholder="Prix dressage">
+
+<select name="statut">
+
+<option value="disponible">
+Disponible
+</option>
+
+<option value="reserve">
+Réservé
+</option>
+
+<option value="vendu">
+Vendu
+</option>
+
+<option value="en_soins">
+En soins
+</option>
+
+</select>
+
+<select name="provenance">
+
+<option value="cursage">
+Cursage
+</option>
+
+<option value="partenaire">
+Partenaire
+</option>
+
+</select>
+
+<input type="file"
+name="photo">
+
+</div>
+
+<br>
+
+<div class="check">
+
+<input type="checkbox"
+name="vacciné">
+
+<label>Vacciné</label>
+
+</div>
+
+<br>
+
+<div class="check">
+
+<input type="checkbox"
+name="dresse">
+
+<label>Dressé</label>
+
+</div>
+
+<br>
+
+<textarea
+name="notes"
+placeholder="Notes"></textarea>
+
+<br><br>
+
+<button class="btn">
+Enregistrer
+</button>
 
 </form>
 

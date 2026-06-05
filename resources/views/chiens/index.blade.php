@@ -262,13 +262,13 @@ FCFA
 
 <td>
 
-<a href="{{ route('chiens.show',$chien) }}">
+<a href="{{ route('chiens.show',$chien) }}" class="btn">
 Voir
 </a>
 
 |
 
-<a href="{{ route('chiens.edit',$chien) }}">
+<a href="{{ route('chiens.edit',$chien) }}" class="btn">
 Modifier
 </a>
 

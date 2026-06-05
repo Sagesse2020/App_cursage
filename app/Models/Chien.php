@@ -8,23 +8,29 @@ class Chien extends Model
 {
     protected $fillable = [
 
-        'reference',
-        'nom',
-        'race_id',
-        'partenaire_id',
-        'prix_base',
-        'prix_vaccine',
-        'prix_dressage',
-        'vacciné',
-        'dresse',
-        'statut',
-        'provenance',
-        'photo',
-        'date_arrive',
-        'notes',
-        'age'
-    ];
+'reference',
+'nom',
+'race_id',
+'partenaire_id',
+'prix_base',
+'prix_vaccine',
+'prix_dressage',
+'vacciné',
+'dresse',
+'statut',
+'provenance',
+'photo',
+'date_arrive',
+'notes',
+'age',
+'sexe',
+'date_naissance',
+'poids',
+'couleur',
+'numero_puce',
+'numero_pedigree'
 
+];
     public function race()
     {
         return $this->belongsTo(Race::class);
@@ -52,9 +58,7 @@ public function traitements()
 
 public function consultations()
 {
-    return $this->hasMany(
-        ConsultationVeterinaire::class
-    );
+    return $this->hasMany(Consultation::class);
 }
 
 public function reproductionsMale()

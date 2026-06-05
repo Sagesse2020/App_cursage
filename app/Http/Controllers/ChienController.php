@@ -18,6 +18,7 @@ class ChienController extends Controller
             'partenaire'
         ]);
 
+        // Recherche globale
         if($request->filled('search'))
         {
             $query->where(function($q) use ($request){
@@ -26,33 +27,42 @@ class ChienController extends Controller
                   ->orWhere('nom','like','%'.$request->search.'%')
                   ->orWhere('numero_puce','like','%'.$request->search.'%')
                   ->orWhere('numero_pedigree','like','%'.$request->search.'%');
-
             });
         }
 
+        // Race
         if($request->filled('race'))
         {
             $query->where('race_id',$request->race);
         }
 
+        // Sexe
         if($request->filled('sexe'))
         {
             $query->where('sexe',$request->sexe);
         }
 
+        // Statut
         if($request->filled('statut'))
         {
             $query->where('statut',$request->statut);
         }
 
-         if($request->filled('age'))
+        // Provenance
+        if($request->filled('provenance'))
         {
-            $query->where('age',$request->statut);
+            $query->where('provenance',$request->provenance);
+        }
+
+        // Age
+        if($request->filled('age'))
+        {
+            $query->where('age',$request->age);
         }
 
         $chiens = $query
             ->latest()
-            ->paginate(12)
+            ->paginate(10)
             ->withQueryString();
 
         $races = Race::orderBy('nom')->get();
@@ -68,9 +78,9 @@ class ChienController extends Controller
 
     public function create()
     {
-        $races = Race::all();
+        $races = Race::orderBy('nom')->get();
 
-        $partenaires = Partenaire::all();
+        $partenaires = Partenaire::orderBy('nom')->get();
 
         return view(
             'chiens.create',
@@ -85,50 +95,40 @@ class ChienController extends Controller
     {
         $data = $request->validate([
 
-            'nom'=>'nullable|string|max:100',
+            'nom'               => 'nullable|string|max:100',
+            'race_id'           => 'required|exists:races,id',
+            'partenaire_id'     => 'nullable|exists:partenaires,id',
 
-            'race_id'=>'required',
+            'prix_base'         => 'required|numeric|min:0',
+            'prix_vaccine'      => 'nullable|numeric|min:0',
+            'prix_dressage'     => 'nullable|numeric|min:0',
 
-            'partenaire_id'=>'nullable',
+            'date_arrive'       => 'nullable|date',
+            'date_naissance'    => 'nullable|date',
 
-            'prix_base'=>'required|numeric',
+            'poids'             => 'nullable|numeric|min:0',
 
-            'prix_vaccine'=>'nullable|numeric',
+            'couleur'           => 'nullable|string|max:100',
 
-            'prix_dressage'=>'nullable|numeric',
+            'numero_puce'       => 'nullable|string|max:255|unique:chiens,numero_puce',
 
-            'date_arrive'=>'nullable|date',
+            'numero_pedigree'   => 'nullable|string|max:255',
 
-            'date_naissance'=>'nullable|date',
+            'sexe'              => 'nullable|in:male,femelle',
 
-            'poids'=>'nullable|numeric',
+            'provenance'        => 'required|in:cursage,partenaire',
 
-            'couleur'=>'nullable|string',
+            'statut'            => 'required|in:disponible,reserve,vendu,en_soins',
 
-            'numero_puce'=>'nullable|string',
+            'age'               => 'required|string|max:50',
 
-            'numero_pedigree'=>'nullable|string',
+            'notes'             => 'nullable|string',
 
-            'sexe'=>'nullable',
-
-            'vacciné'=>'nullable',
-
-            'dresse'=>'nullable',
-
-            'provenance'=>'required',
-
-            'statut'=>'required',
-            
-            'age'=>'required',
-
-            'notes'=>'nullable|string',
-
-            'photo'=>'nullable|image'
-
+            'photo'             => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
         $data['reference'] =
-        'DOG-'.Str::upper(Str::random(8));
+        'DOG-' . strtoupper(Str::random(8));
 
         $data['vacciné'] =
         $request->has('vacciné');
@@ -139,18 +139,19 @@ class ChienController extends Controller
         if($request->hasFile('photo'))
         {
             $data['photo'] =
-            $request->file('photo')
-            ->store('chiens','public');
+            $request
+                ->file('photo')
+                ->store('chiens','public');
         }
 
         Chien::create($data);
 
         return redirect()
-        ->route('chiens.index')
-        ->with(
-            'success',
-            'Chien enregistré avec succès'
-        );
+            ->route('chiens.index')
+            ->with(
+                'success',
+                'Chien enregistré avec succès.'
+            );
     }
 
     public function show(Chien $chien)
@@ -163,9 +164,9 @@ class ChienController extends Controller
 
     public function edit(Chien $chien)
     {
-        $races = Race::all();
+        $races = Race::orderBy('nom')->get();
 
-        $partenaires = Partenaire::all();
+        $partenaires = Partenaire::orderBy('nom')->get();
 
         return view(
             'chiens.edit',
@@ -184,46 +185,36 @@ class ChienController extends Controller
     {
         $data = $request->validate([
 
-            'nom'=>'nullable|string|max:100',
+            'nom'               => 'nullable|string|max:100',
+            'race_id'           => 'required|exists:races,id',
+            'partenaire_id'     => 'nullable|exists:partenaires,id',
 
-            'race_id'=>'required',
+            'prix_base'         => 'required|numeric|min:0',
+            'prix_vaccine'      => 'nullable|numeric|min:0',
+            'prix_dressage'     => 'nullable|numeric|min:0',
 
-            'partenaire_id'=>'nullable',
+            'date_arrive'       => 'nullable|date',
+            'date_naissance'    => 'nullable|date',
 
-            'prix_base'=>'required|numeric',
+            'poids'             => 'nullable|numeric|min:0',
 
-            'prix_vaccine'=>'nullable|numeric',
+            'couleur'           => 'nullable|string|max:100',
 
-            'prix_dressage'=>'nullable|numeric',
+            'numero_puce'       => 'nullable|unique:chiens,numero_puce,'.$chien->id,
 
-            'date_arrive'=>'nullable|date',
+            'numero_pedigree'   => 'nullable|string|max:255',
 
-            'date_naissance'=>'nullable|date',
+            'sexe'              => 'nullable|in:male,femelle',
 
-            'poids'=>'nullable|numeric',
+            'provenance'        => 'required|in:cursage,partenaire',
 
-            'couleur'=>'nullable|string',
+            'statut'            => 'required|in:disponible,reserve,vendu,en_soins',
 
-            'numero_puce'=>'nullable|string',
+            'age'               => 'required|string|max:50',
 
-            'numero_pedigree'=>'nullable|string',
+            'notes'             => 'nullable|string',
 
-            'sexe'=>'nullable',
-
-            'vacciné'=>'nullable',
-
-            'dresse'=>'nullable',
-
-            'provenance'=>'required',
-
-            'statut'=>'required',
-
-            'age'=>'required',
-
-            'notes'=>'nullable|string',
-
-            'photo'=>'nullable|image'
-
+            'photo'             => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
         $data['vacciné'] =
@@ -237,22 +228,23 @@ class ChienController extends Controller
             if($chien->photo)
             {
                 Storage::disk('public')
-                ->delete($chien->photo);
+                    ->delete($chien->photo);
             }
 
             $data['photo'] =
-            $request->file('photo')
-            ->store('chiens','public');
+            $request
+                ->file('photo')
+                ->store('chiens','public');
         }
 
         $chien->update($data);
 
         return redirect()
-        ->route('chiens.index')
-        ->with(
-            'success',
-            'Chien modifié avec succès'
-        );
+            ->route('chiens.index')
+            ->with(
+                'success',
+                'Chien modifié avec succès.'
+            );
     }
 
     public function destroy(Chien $chien)
@@ -260,15 +252,16 @@ class ChienController extends Controller
         if($chien->photo)
         {
             Storage::disk('public')
-            ->delete($chien->photo);
+                ->delete($chien->photo);
         }
 
         $chien->delete();
 
-        return back()
-        ->with(
-            'success',
-            'Chien supprimé'
-        );
+        return redirect()
+            ->route('chiens.index')
+            ->with(
+                'success',
+                'Chien supprimé.'
+            );
     }
 }
