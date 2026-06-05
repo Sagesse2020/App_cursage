@@ -26,5 +26,12 @@ class Client extends Authenticatable
         return $this->hasMany(Vente::class);
     }
 
+    public function reservations()
+{
+    return $this->hasMany(
+        Reservation::class
+    );
+}
+
 }
 

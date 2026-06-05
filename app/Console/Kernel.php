@@ -25,6 +25,8 @@ class Kernel extends ConsoleKernel
         // Vérification quotidienne des hébergements / renouvellements
         $schedule->command('hebergements:check')
                  ->dailyAt('08:00');
+
+        $schedule->command('db:backup')->daily();
     }
 
     /**
@@ -32,6 +34,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
+        
         $this->load(__DIR__.'/Commands');
 
         require base_path('routes/console.php');

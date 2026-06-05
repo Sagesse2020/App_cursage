@@ -75,13 +75,14 @@ align-items:center;
 gap:12px;
 }
 
+
 .logo-img{
-width:55px;
-height:55px;
+width:60px;
+height:60px;
 object-fit:cover;
 border-radius:14px;
 
-background:#fff;
+background:rgba(0,230,255,.25);
 padding:4px;
 
 box-shadow:
@@ -533,7 +534,7 @@ transform:translateY(0);
 
 <div class="logo-container">
 
-<img src="{{ asset('images/cursage.png') }}"
+<img src="{{ asset('images/logo.png') }}"
 alt="Logo CURSAGE"
 class="logo-img">
 
@@ -568,6 +569,7 @@ Gestion Canine
 <li><a href="{{ route('ventes') }}">Ventes</a></li>
 <li><a href="{{ route('services') }}">Services</a></li>
 <li><a href="{{ route('produits') }}">Produits</a></li>
+<li><a href="{{ route('consultations') }}"> Consultations vétérinaires</a></li>
 
 </ul>
 
@@ -597,7 +599,7 @@ Gestion humaine
 </a>
 
 <ul class="dropdown-content">
-<li><a href="{{ route('employes') }}">Employes</a></li>
+<li><a href="{{ route('employees') }}">Employes</a></li>
 <li><a href="{{ route('clients') }}">Clients</a></li>
 <li><a href="{{ route('partenaires') }}">Partenaires</a></li>
 <li><a href="{{ route('fournisseurs') }}">Fournisseurs</a></li>
@@ -615,11 +617,27 @@ Gestion analytique
 
 <ul class="dropdown-content">
 
-<li><a href="{{ route('statistiques') }}">Statistiques</a></li>
+<li><a href="{{ route('statistiques') }}">Statistiques de connexion et de visites</a></li>
 <li><a href="{{ route('commentaires.index') }}">Commentaires</a></li>
 <li><a href="{{ route('journal.index') }}">Journal</a></li>
 <li><a href="{{ route('graphique') }}">Graphiques</a></li>
+<li><a href="{{ route('activites.index') }}">Historique de modification</a></li>
+<li><hr></li>
 
+<li><a href="{{ route('vaccinations') }}">Vaccinations</a></li>
+<li><a href="{{ route('traitements') }}">Traitements</a></li>
+<li><a href="{{ route('consultations') }}">Consultations vétérinaires</a></li>
+
+<li><hr></li>
+
+<li><a href="{{ route('naissances') }}">Naissances</a></li>
+<li><a href="{{ route('reproductions') }}">Reproductions</a></li>
+<li><a href="{{ route('deces.index') }}">Décès</a></li>
+
+<li><hr></li>
+
+<li><a href="{{ route('reservations') }}">Réservations</a></li>
+<li><a href="{{ route('suivi_chiens') }}">Fiches de suivi</a></li>
 </ul>
 
 </li>
@@ -672,10 +690,14 @@ Gestion Financière
 
 <ul class="dropdown-content">
 
+<li><a href="{{ route('mouvements_stock') }}">Mouvements du stock</a></li>
 <li><a href="{{ route('tresorerie.index') }}">Trésorerie</a></li>
 <li><a href="{{ route('transactions') }}">Transactions</a></li>
 <li><a href="{{ route('factures') }}">Factures</a></li>
 <li><a href="{{ route('cloture') }}">Clôture</a></li>
+<li><a href="{{ route('recettes.index') }}">Recettes</a></li>
+<li><a href="{{ route('benefices.index')}}">Benefices</a></li>
+<li><a href="{{ route('pertes.index')}}">Pertes</a></li>
 
 </ul>
 

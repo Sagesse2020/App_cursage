@@ -26,7 +26,25 @@ use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\CategorieController;
-use App\Http\Controllers\EmployeController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ActiviteController;
+use App\Http\Controllers\AchatController;
+use App\Http\Controllers\DepenseController;
+use App\Http\Controllers\MouvementStockController;
+use App\Http\Controllers\RecetteController;
+use App\Http\Controllers\PerteController;
+use App\Http\Controllers\VaccinationController;
+use App\Http\Controllers\ConsultationController;
+use App\Http\Controllers\ReproductionController;
+use App\Http\Controllers\TraitementController;
+use App\Http\Controllers\NaissanceController;
+use App\Http\Controllers\SuiviChienController;
+use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\DecesController;
+use App\Http\Controllers\BeneficeController;
+ 
+
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -100,6 +118,8 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
         Route::put('/users/{id}', [UserController::class, 'updateUser'])->name('users.update');
 
+        
+      // Presentation (differents accueils)
         Route::get('/admin', function () {
         return view('admin');
         })->name('admin');
@@ -139,8 +159,8 @@ Route::middleware(['auth'])->group(function(){
                 })->name('evenements');
 
         Route::get('/Employeaccueil', function () {
-        return view('employes.accueil');
-        })->name('employes');
+        return view('employees.accueil');
+        })->name('employees');
 
         Route::post('/publications/{publication}/commander',  [CommandeController::class, 'store'])
         ->name('publication.commander');
@@ -152,10 +172,43 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/TransactionAccueil', function () {
         return view('transactions.accueil');
         })->name('transactions');
+        
+        Route::get('/VaccinationAccueil', function () {
+        return view('vaccinations.accueil');
+        })->name('vaccinations');
+
+        Route::get('/ReservationAccueil', function () {
+        return view('reservations.accueil');
+        })->name('reservations');
+
+        Route::get('/ReproductionAccueil', function () {
+        return view('reproductions.accueil');
+        })->name('reproductions');
+
+        Route::get('/TraitementAccueil', function () {
+        return view('traitements.accueil');
+        })->name('traitements');
+
+        Route::get('/ConsultationAccueil', function () {
+        return view('consultations.accueil');
+        })->name('consultations');
+
+        Route::get('/NaissanceAccueil', function () {
+        return view('naissances.accueil');
+        })->name('naissances');
+
+        
+        Route::get('/SuiviAccueil', function () {
+        return view('suivi_chiens.accueil');
+        })->name('suivi_chiens');
 
         Route::get('/FactureAccueil', function () {
         return view('factures.accueil');
         })->name('factures');
+
+        Route::get('/MouvementStockAccueil', function () {
+        return view('mouvements_stock.accueil');
+        })->name('mouvements_stock');
 
         Route::get('/ServiceAccueil', function () {
         return view('services.accueil');
@@ -169,7 +222,19 @@ Route::middleware(['auth'])->group(function(){
         return view('categories.accueil');
         })->name('categories');
 
-         Route::get('/fournisseurAccueil', function () {
+        Route::get('/AchatAccueil', function () {
+        return view('achats.accueil');
+        })->name('achats');
+
+        Route::get('/DepenseAccueil', function () {
+        return view('depenses.accueil');
+        })->name('depenses');
+         
+        Route::get('/MouvementStockAccueil', function () {
+        return view('mouvements_stock.accueil');
+        })->name('mouvements_stock');
+
+        Route::get('/fournisseurAccueil', function () {
         return view('fournisseurs.accueil');
         })->name('fournisseurs');
 
@@ -177,7 +242,7 @@ Route::middleware(['auth'])->group(function(){
         return view('commandes.accueil');
         })->name('commandes');
 
-          Route::get('/produitAccueil', [ProduitController::class, 'accueil'])
+        Route::get('/produitAccueil', [ProduitController::class, 'accueil'])
         ->name('produits');
         Route::post('/produits/{produit}/commander', [CommandeController::class, 'store'])
         ->name('produits.commander');
@@ -290,20 +355,78 @@ Route::delete('/publications/{publication}', [PublicationController::class,'dest
         // -----------------------
     // CATEGORIE
     // ------------------------
-    Route::resource('categories', CategorieController::class);
+    Route::get('/categories', [CategorieController::class, 'index'])->name('categories.index');
+Route::get('/categories/create', [CategorieController::class, 'create'])->name('categories.create');
+Route::post('/categories', [CategorieController::class, 'store'])->name('categories.store');
+Route::get('/categories/{categorie}', [CategorieController::class, 'show'])->name('categories.show');
+Route::get('/categories/{categorie}/edit', [CategorieController::class, 'edit'])->name('categories.edit');
+Route::put('/categories/{categorie}', [CategorieController::class, 'update'])->name('categories.update');
+Route::delete('/categories/{categorie}', [CategorieController::class, 'destroy'])->name('categories.destroy');
 
     // -----------------------
     // COMMENTS
     // ------------------------
-Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+   Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
 
 
     // -----------------------
     // EMPLOYE
     // ------------------------
-Route::post('/employe', [EmployeController::class, 'store'])->name('comments.store');
+  Route::resource('employees', EmployeeController::class);
+
+  // -----------------------
+    // ACTIVITES
+    // ------------------------
+  Route::get('/activites', [ ActiviteController::class,'index'])->name('activites.index');
 
  // -----------------------
+    // ACHATS
+    // ------------------------
+  Route::resource('achats', AchatController::class);
+  
+   // -----------------------
+    // RECETTES
+    // ------------------------
+  Route::resource('recettes', RecetteController::class);
+
+  Route::resource('vaccinations', VaccinationController::class);
+
+  Route::resource('traitements', TraitementController::class);
+
+  Route::resource('consultations', ConsultationController::class);
+
+  Route::resource('naissances', NaissanceController::class);
+
+  Route::resource('reproductions', ReproductionController::class);
+
+  Route::resource('deces', DecesController::class);
+
+  Route::resource('reservations', ReservationController::class);
+
+  Route::resource('suivi_chiens', SuiviChienController::class);
+
+  Route::resource('depenses', DepenseController::class);
+   // -----------------------
+    // BENEFICES
+    // ------------------------
+  Route::resource('benefices', BeneficeController::class);
+
+   // -----------------------
+    // PERTES
+    // ------------------------
+  Route::resource('pertes', PerteController::class);
+  
+   // -----------------------
+    // DEPENSES
+    // ------------------------
+  Route::resource('depenses',DepenseController::class);
+
+   
+   // -----------------------
+    // MOUVEMENTS STOCKS
+    // ------------------------
+  Route::resource('mouvements_stock',MouvementStockController::class);
+
     // COMMANDES
 // ================= COMMANDES =================
 

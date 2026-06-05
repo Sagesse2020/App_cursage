@@ -124,6 +124,14 @@ Créée par :
 Voir
 </a>
 
+<a href="{{ route('categories.edit',$categorie->id) }}" class="btn">
+Modifier
+</a>
+
+<a href="{{ route('categories.destroy',$categorie->id) }}" class="btn">
+supprimer
+</a>
+
 </div>
 
 @endforeach

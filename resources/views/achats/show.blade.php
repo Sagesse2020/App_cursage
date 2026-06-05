@@ -1,75 +1,41 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
+<h1>Détail Achat</h1>
 
-<meta charset="UTF-8">
+<p>
+Référence :
+{{ $achat->reference }}
+</p>
 
-<title>Détails vente</title>
+<p>
+Produit :
+{{ $achat->produit->nom }}
+</p>
 
-<link rel="stylesheet" href="{{ asset('fontawesome/css/all.min.css') }}">
+<p>
+Quantité :
+{{ $achat->quantite }}
+</p>
 
-<style>
+<p>
+Prix unitaire :
+{{ $achat->prix_unitaire }}
+</p>
 
-body{
-background:#0b1020;
-color:white;
-font-family:Segoe UI;
-padding:40px
-}
+<p>
+Montant total :
+{{ $achat->montant_total }}
+</p>
 
-.card{
-max-width:600px;
-margin:auto;
-background:#111827;
-padding:30px;
-border-radius:10px
-}
+<p>
+Fournisseur :
+{{ $achat->fournisseur }}
+</p>
 
-.item{
-margin-bottom:15px
-}
+<p>
+Date :
+{{ $achat->date_achat }}
+</p>
 
-</style>
-
-</head>
-
-<body>
-
-<div class="card">
-
-<h2>Détails de la vente</h2>
-
-<div class="item">
-<strong>Chien :</strong>
-{{ $vente->chien->nom }}
-</div>
-
-<div class="item">
-<strong>Client :</strong>
-{{ $vente->client->nom }}
-</div>
-
-<div class="item">
-<strong>Prix :</strong>
-{{ number_format($vente->prix_vente,0,',',' ') }} FCFA
-</div>
-
-<div class="item">
-<strong>Commission partenaire :</strong>
-{{ number_format($vente->commission_partenaire,0,',',' ') }} FCFA
-</div>
-
-<div class="item">
-<strong>Commission CURSAGE :</strong>
-{{ number_format($vente->commission_cursage,0,',',' ') }} FCFA
-</div>
-
-<div class="item">
-<strong>Date :</strong>
-{{ $vente->date_vente }}
-</div>
-
-</div>
-
-</body>
-</html>
+<p>
+Utilisateur :
+{{ $achat->user->name }}
+</p>

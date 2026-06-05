@@ -5,99 +5,66 @@
 <title>Créer produit</title>
 
 <style>
-
 body{
-    margin:0;
-    font-family:Arial;
+    font-family: Arial;
     background:#0f172a;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
+    color:white;
+    padding:20px;
 }
 
-.card{
-    width:100%;
-    max-width:650px;
-    background:#fff;
-    padding:25px;
+.form{
+    max-width:500px;
+    margin:auto;
+    background:#111827;
+    padding:20px;
     border-radius:12px;
 }
 
-h1{
-    text-align:center;
-    color:#0f172a;
-}
-
-label{
-    display:block;
-    margin-top:10px;
-    font-weight:bold;
-    color:#111;
-}
-
-input,textarea,select{
+input, select, textarea{
     width:100%;
     padding:10px;
-    margin-top:5px;
+    margin-bottom:10px;
     border-radius:8px;
-    border:1px solid #ccc;
+    border:none;
 }
 
 button{
-    width:100%;
-    margin-top:20px;
-    padding:12px;
-    background:#2563eb;
-    color:#fff;
+    background:#00e6ff;
     border:none;
+    padding:10px;
+    width:100%;
+    font-weight:bold;
     border-radius:8px;
-    cursor:pointer;
 }
-
-button:hover{
-    background:#1d4ed8;
-}
-
 </style>
-
 </head>
 
 <body>
 
-<div class="card">
+<div class="form">
 
-<h1>Créer un produit</h1>
+<h1>Créer produit</h1>
 
-<form method="POST" action="{{ route('produits.store') }}" enctype="multipart/form-data">
+<form method="POST" enctype="multipart/form-data" action="{{ route('produits.store') }}">
 @csrf
 
-<label>Nom produit</label>
-<input type="text" name="nom" placeholder="Ex: Berger Allemand">
+<input type="text" name="nom" placeholder="Nom">
 
-<label>Description</label>
-<textarea name="description" placeholder="Description du produit"></textarea>
+<textarea name="description" placeholder="Description"></textarea>
 
-<label>Catégorie</label>
 <select name="categorie_id">
 @foreach($categories as $cat)
 <option value="{{ $cat->id }}">{{ $cat->nom }}</option>
 @endforeach
 </select>
 
-<label>Prix achat</label>
-<input type="number" name="prix_achat">
+<input type="number" name="prix_achat" placeholder="Prix achat">
+<input type="number" name="prix_vente" placeholder="Prix vente">
+<input type="number" name="stock" placeholder="Stock">
 
-<label>Prix vente</label>
-<input type="number" name="prix_vente">
-
-<label>Stock</label>
-<input type="number" name="stock">
-
-<label>Photo</label>
 <input type="file" name="photo">
 
-<button>Créer produit</button>
+<button>Enregistrer</button>
 
 </form>
 

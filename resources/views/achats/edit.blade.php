@@ -1,122 +1,118 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Nouvelle vente</title>
-
-<link rel="stylesheet" href="{{ asset('fontawesome/css/all.min.css') }}">
+<title>Modifier achat</title>
 
 <style>
 
 body{
-background:#0b1020;
-color:white;
 font-family:Segoe UI;
-padding:40px
-}
-
-.form-container{
-max-width:600px;
-margin:auto;
-background:#111827;
+background:#f1f5f9;
 padding:30px;
-border-radius:10px
 }
 
-input,select{
+.form{
+max-width:800px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:15px;
+}
+
+input,
+textarea,
+select{
 width:100%;
-padding:10px;
-margin-top:10px;
-margin-bottom:20px;
-border-radius:6px;
-border:none
+padding:12px;
+margin-bottom:15px;
+border:1px solid #ddd;
+border-radius:10px;
 }
 
 button{
-background:#00e6ff;
-padding:12px;
+background:#2563eb;
+color:white;
+padding:12px 20px;
 border:none;
-border-radius:6px;
-font-weight:bold;
-cursor:pointer
+border-radius:10px;
+cursor:pointer;
+}
+
+img{
+width:250px;
+margin-top:15px;
+border-radius:12px;
 }
 
 </style>
 
 </head>
-
 <body>
 
-<div class="form-container">
+<div class="form">
 
-<h2>Nouvelle vente</h2>
+<h2>Modifier achat</h2>
 
-<form method="POST" action="{{ route('ventes.store') }}">
+<form
+method="POST"
+action="{{ route('achats.update',$achat) }}"
+enctype="multipart/form-data"
+>
 
 @csrf
+@method('PUT')
 
-<label>Chien</label>
+<input
+type="text"
+name="libelle"
+value="{{ old('libelle',$achat->libelle) }}"
+required
+>
 
-<select name="chien_id" required>
+<textarea
+name="description"
+>{{ old('description',$achat->description) }}</textarea>
 
-@foreach($chiens as $chien)
+<input
+type="number"
+step="0.01"
+name="montant"
+value="{{ old('montant',$achat->montant) }}"
+required
+>
 
-<option value="{{ $chien->id }}">
+<input
+type="date"
+name="date_achat"
+value="{{ old('date_achat',$achat->date_achat) }}"
+required
+>
 
-{{ $chien->nom }}
+<input
+type="text"
+name="fournisseur"
+value="{{ old('fournisseur',$achat->fournisseur) }}"
+>
 
-</option>
+<input
+type="file"
+name="facture"
+>
 
-@endforeach
+@if($achat->facture)
 
-</select>
+<img
+src="{{ asset('storage/'.$achat->facture) }}"
+>
 
+@endif
 
-<label>Client</label>
-
-<select name="client_id" required>
-
-@foreach($clients as $client)
-
-<option value="{{ $client->id }}">
-
-{{ $client->nom }}
-
-</option>
-
-@endforeach
-
-</select>
-
-
-<label>Prix de vente (FCFA)</label>
-
-<input type="number" name="prix_vente" required>
-
-
-<label>Date de vente</label>
-
-<input type="date" name="date_vente" required>
-
-
-<label>Commission partenaire</label>
-
-<input type="number" name="commission_partenaire">
-
-
-<label>Commission CURSAGE</label>
-
-<input type="number" name="commission_cursage">
-
+<br><br>
 
 <button>
 
-<i class="fas fa-save"></i>
-
-Enregistrer
+Mettre à jour
 
 </button>
 

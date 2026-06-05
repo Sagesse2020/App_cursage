@@ -1,189 +1,288 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-
 <meta charset="UTF-8">
-<title>Chiens disponibles</title>
+<title>Chiens</title>
 
 <style>
 
 body{
 font-family:Segoe UI;
-background:#f4f6f8;
-margin:0;
-padding:40px;
+background:#f1f5f9;
+padding:20px;
 }
 
-.container{
-max-width:1300px;
-margin:auto;
-}
-
-header{
+.header{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:30px;
-flex-wrap:wrap;
-gap:15px;
-}
-
-
-.btn-edit{
-background:#0a7;
-padding:8px 14px;
-color:white;
-border-radius:5px;
-text-decoration:none;
-}
-
-.btn-delete{
-background:#d33;
-padding:8px 14px;
-color:white;
-border-radius:5px;
-border:none;
-cursor:pointer;
-}
-
-.card{
-    background:#fff;
-    border-radius:14px;
-    box-shadow:0 12px 30px rgba(0,0,0,.08);
-    overflow:hidden;
+margin-bottom:20px;
 }
 
 .btn{
-    background:#111;
-    color:#fff;
-    padding:12px 20px;
-    border-radius:6px;
-    text-decoration:none;
+background:#2563eb;
+color:white;
+padding:10px 15px;
+border-radius:8px;
+text-decoration:none;
 }
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-    gap:25px;
+
+.filters{
+background:white;
+padding:15px;
+border-radius:15px;
+margin-bottom:20px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:10px;
 }
-.card{
-    background:#fff;
-    border-radius:14px;
-    box-shadow:0 12px 30px rgba(0,0,0,.08);
-    overflow:hidden;
+
+input,select{
+padding:10px;
+border:1px solid #ddd;
+border-radius:8px;
 }
-.card img{
-    width:100%;
-    height:180px;
-    object-fit:cover;
+
+table{
+width:100%;
+background:white;
+border-collapse:collapse;
+border-radius:15px;
+overflow:hidden;
 }
-.card-content{padding:18px;}
-.card-content h3{margin-bottom:6px;}
-.actions{
-    margin-top:12px;
-    display:flex;
-    gap:10px;
+
+th{
+background:#0f172a;
+color:white;
+padding:12px;
 }
-.actions a, .actions button{
-    flex:1;
-    padding:8px;
-    border-radius:6px;
-    border:none;
-    cursor:pointer;
-    text-align:center;
-    text-decoration:none;
-    color:#fff;
+
+td{
+padding:12px;
+border-bottom:1px solid #eee;
 }
-.details{background:#333;}
-.edit{background:#0a7;}
-.delete{background:#c0392b;}
+
+img{
+width:90px;
+height:90px;
+object-fit:cover;
+border-radius:10px;
+}
+
+.badge{
+padding:6px 12px;
+border-radius:20px;
+color:white;
+font-size:12px;
+}
+
+.disponible{
+background:#16a34a;
+}
+
+.reserve{
+background:#f59e0b;
+}
+
+.vendu{
+background:#dc2626;
+}
+
+.en_soins{
+background:#2563eb;
+}
+
 </style>
-
 </head>
-
 <body>
 
-<div class="container">
+<div class="header">
 
-<header>
+<h1>🐕 Gestion des chiens</h1>
 
-<h1>Chiens disponibles</h1>
-
-@if(auth()->user()->niveau_admin >= 2)
-
-<a href="{{ route('chiens.create') }}" class="btn">
-Ajouter un chien
+<a href="{{ route('chiens.create') }}"
+class="btn">
+Ajouter
 </a>
 
-@endif
-
-</header>
-
-<div class="grid">
-
-@foreach($chiens as $chien)
-
-<div class="card">
-
-<div class="image-container">
-
-@if($chien->photo)
-
-<img src="{{ asset('storage/'.$chien->photo) }}" alt="{{ $chien->nom }}">
-
-@else
-
-<img src="https://via.placeholder.com/400x200?text=Chien">
-
-@endif
-
 </div>
 
-<div class="card-content">
+<form method="GET" class="filters">
 
-<h3>{{ $chien->nom }}</h3>
+<input
+type="text"
+name="search"
+placeholder="Recherche..."
+value="{{ request('search') }}"
+>
 
-<div class="price">
- <p>Prix de base :</p>{{ number_format($chien->prix_base,0,',',' ') }} FCFA
-</div>
+<select name="race">
 
+<option value="">
+Toutes races
+</option>
 
-<p>Statut : {{ $chien->statut }}</p>
+@foreach($races as $race)
 
-@if(auth()->user()->niveau_admin >= 2)
-
-<div class="actions">
-
-<a href="{{ route('chiens.edit',$chien) }}" class="btn-edit">
-Modifier
-</a>
-
-<form action="{{ route('chiens.destroy',$chien) }}" method="POST">
-
-@csrf
-@method('DELETE')
-
-<button class="btn-delete">
-Supprimer
-</button>
-
-<a href="{{ route('chiens.show',$chien) }}" class="btn-edit">
-Voir
-</a>
-</form>
-
-</div>
-
-@endif
-
-</div>
-
-</div>
+<option
+value="{{ $race->id }}"
+{{ request('race')==$race->id ? 'selected':'' }}
+>
+{{ $race->nom }}
+</option>
 
 @endforeach
 
-</div>
+</select>
 
-</div>
+<select name="sexe">
+
+<option value="">
+Sexe
+</option>
+
+<option value="male">
+Mâle
+</option>
+
+<option value="femelle">
+Femelle
+</option>
+
+</select>
+
+<select name="statut">
+
+<option value="">
+Statut
+</option>
+
+<option value="disponible">
+Disponible
+</option>
+
+<option value="reserve">
+Réservé
+</option>
+
+<option value="vendu">
+Vendu
+</option>
+
+<option value="en_soins">
+En soins
+</option>
+
+</select>
+
+<select name="provenance">
+
+<option value="">
+Provenance
+</option>
+
+<option value="cursage">
+Cursage
+</option>
+
+<option value="partenaire">
+Partenaire
+</option>
+
+</select>
+
+<button class="btn">
+Filtrer
+</button>
+
+</form>
+
+<table>
+
+<tr>
+
+<th>Photo</th>
+<th>Référence</th>
+<th>Nom</th>
+<th>Race</th>
+<th>Sexe</th>
+<th>Statut</th>
+<th>Prix</th>
+<th>Actions</th>
+
+</tr>
+
+@foreach($chiens as $chien)
+
+<tr>
+
+<td>
+
+@if($chien->photo)
+
+<img src="{{ asset('storage/'.$chien->photo) }}">
+
+@endif
+
+</td>
+
+<td>
+{{ $chien->reference }}
+</td>
+
+<td>
+{{ $chien->nom }}
+</td>
+
+<td>
+{{ $chien->race->nom ?? '' }}
+</td>
+
+<td>
+{{ ucfirst($chien->sexe) }}
+</td>
+
+<td>
+
+<span class="badge {{ $chien->statut }}">
+
+{{ $chien->statut }}
+
+</span>
+
+</td>
+
+<td>
+
+{{ number_format($chien->prix_base,0,',',' ') }}
+
+FCFA
+
+</td>
+
+<td>
+
+<a href="{{ route('chiens.show',$chien) }}">
+Voir
+</a>
+
+|
+
+<a href="{{ route('chiens.edit',$chien) }}">
+Modifier
+</a>
+
+</td>
+
+</tr>
+
+@endforeach
+
+</table>
+
+<br>
+
+{{ $chiens->links() }}
 
 </body>
 </html>

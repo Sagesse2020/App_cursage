@@ -100,7 +100,7 @@ nav a{
 
 nav a:hover{
     background:#00e6ff;
-    color:#0b1020;
+    color:#00e6f;
 }
 
 /* ================= MAIN ================= */
@@ -135,7 +135,7 @@ h1{
 }
 
 .card{
-    background:#111827;
+    background:#11182;
     padding:25px;
     border-radius:15px;
     text-align:center;
@@ -160,8 +160,8 @@ h1{
 
 .card .value{
     font-size:28px;
-    font-weight:bold;
-    color:#fff;
+    font-weight:blod;
+    color:#00e6ff;
 }
 
 /* ================= MESSAGE ================= */
@@ -184,8 +184,8 @@ h1{
 
 /* ================= FOOTER ================= */
 footer{
-    background:#020617;
-    color:#94a3b8;
+    background:#00e6ff;
+    color:#101111;
     text-align:center;
     padding:15px;
     font-size:14px;
@@ -238,26 +238,40 @@ footer{
     <div class="cards">
         <div class="card">
             <i class="fas fa-dog"></i>
-            <h3>Chiens disponibles</h3>
-            <div class="value">{{ $chiensDisponibles ?? 0 }}</div>
+            <h3></h3>
+            <div class="value"><a href="{{ route('races.index') }}">Races disponibles</a></div>
+        </div>
+
+         <div class="card">
+            <i class="fas fa-check-circle"></i>
+            <h3> </h3>
+            <div class="value"><a href="{{ route('chiens.index') }}">Chiens disponibles</a></div>
         </div>
 
         <div class="card">
             <i class="fas fa-check-circle"></i>
-            <h3>Chiens vendus</h3>
-            <div class="value">{{ $chiensVendus ?? 0 }}</div>
+            <h3> </h3>
+            <div class="value"><a href="{{ route('produits.index') }}">Produits disponibles</a></div>
         </div>
 
         <div class="card">
             <i class="fas fa-laptop-code"></i>
-            <h3>Services en cours</h3>
-            <div class="value">{{ $servicesEnCours ?? 0 }}</div>
+            <h3></h3>
+            <div class="value"><a href="{{ route('evenements.index') }}">Liste des évenements</a></div>
         </div>
 
         <div class="card">
             <i class="fas fa-tools"></i>
-            <h3>Services terminés</h3>
-            <div class="value">{{ $servicesVendus ?? 0 }}</div>
+            <h3></h3>
+            <div class="value"><a href="{{ route('publications.index') }}">Liste des pubications
+            </a></div>
+        </div>
+
+        <div class="card">
+            <i class="fas fa-tools"></i>
+            <h3></h3>
+            <div class="value"><a href="{{ route('services.index') }}">Liste des services
+            </a></div>
         </div>
     </div>
 
@@ -265,7 +279,7 @@ footer{
         <h2>🔒 Sécurité & Professionnalisme</h2>
         <p>
             Chez CURSAGE, chaque utilisateur a accès uniquement aux informations
-            nécessaires à son rôle.
+            nécessaires.
             Vos données sont protégées, votre travail est valorisé,
             et la gestion reste claire et professionnelle.
         </p>
