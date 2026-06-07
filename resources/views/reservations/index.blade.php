@@ -2,13 +2,17 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Réservations</title>
 
 <style>
 
 body{
-    font-family:Arial;
-    background:#f1f5f9;
+    font-family:"Segoe UI",sans-serif;
+    background:#0b1020;
+    color:#f5f6fa;
+    margin:0;
     padding:25px;
 }
 
@@ -18,7 +22,8 @@ body{
 }
 
 h1{
-    margin-bottom:20px;
+    margin-bottom:25px;
+    color:#00e6ff;
 }
 
 /* FILTRES */
@@ -31,52 +36,92 @@ h1{
 
 .filters input,
 .filters select{
-    padding:10px;
-    border-radius:8px;
-    border:1px solid #ccc;
+    padding:12px;
+    border-radius:10px;
+    border:none;
+    outline:none;
+    background:#111827;
+    color:white;
 }
 
 .filters button{
-    padding:20px 25px;
-    background:#2563eb;
-    color:white;
+    padding:12px 18px;
+    background:#00e6ff;
+    color:black;
     border:none;
-    border-radius:8px;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.filters button:hover{
+    transform:scale(1.05);
 }
 
 /* TABLE */
+.table-box{
+    background:#111827;
+    border-radius:12px;
+    overflow:auto;
+    box-shadow:0 10px 25px rgba(0,0,0,.5);
+}
+
 table{
     width:100%;
     border-collapse:collapse;
-    background:white;
-    border-radius:10px;
-    overflow:hidden;
+    min-width:900px;
 }
 
 th{
-    background:#0f172a;
-    color:white;
-    padding:12px;
+    background:#020617;
+    color:#00e6ff;
+    padding:14px;
+    text-align:left;
 }
 
 td{
-    padding:12px;
-    border-bottom:1px solid #eee;
+    padding:14px;
+    border-bottom:1px solid #1f2937;
 }
 
-/* STATUT */
-.statut{
-    padding:5px 10px;
+tr:hover{
+    background:#1f2937;
+}
+
+/* BADGES */
+.badge{
+    padding:6px 12px;
     border-radius:20px;
-    color:white;
     font-size:12px;
+    font-weight:bold;
+    display:inline-block;
 }
 
 .attente{background:#f59e0b;}
 .confirmee{background:#16a34a;}
 .annulee{background:#dc2626;}
 
+/* BUTTONS */
+.btn{
+    padding:6px 10px;
+    border-radius:6px;
+    text-decoration:none;
+    font-size:12px;
+    margin-right:5px;
+    display:inline-block;
+}
+
+.view{background:#2563eb;color:white;}
+.edit{background:#f59e0b;color:black;}
+.delete{background:#dc2626;color:white;border:none;cursor:pointer;}
+
+@media(max-width:768px){
+    table{font-size:12px;}
+    .filters{flex-direction:column;}
+}
+
 </style>
+
 </head>
 
 <body>
@@ -85,9 +130,10 @@ td{
 
 <h1>📅 Réservations</h1>
 
+<!-- FILTRES -->
 <form method="GET" class="filters">
 
-<input type="text" name="client" placeholder="Client...">
+<input type="text" name="client" placeholder="🔍 Client...">
 
 <select name="statut">
     <option value="">Tous statuts</option>
@@ -101,8 +147,11 @@ td{
 </form>
 
 @if(session('success'))
-<p style="color:green">{{ session('success') }}</p>
+<p style="color:#22c55e">{{ session('success') }}</p>
 @endif
+
+<!-- TABLE -->
+<div class="table-box">
 
 <table>
 
@@ -120,27 +169,30 @@ td{
 
 <tr>
 
-<td>{{ $r->chien->nom ?? '' }}</td>
-<td>{{ $r->client_nom }}</td>
-<td>{{ $r->client_contact }}</td>
+<td>{{ $r->chien->nom ?? '-' }}</td>
+
+<td>{{ $r->client->nom ?? '-' }}</td>
+
+<td>{{ $r->client->contact ?? '-' }}</td>
+
 <td>{{ $r->date_reservation }}</td>
 
 <td>
-<span class="statut {{ $r->statut }}">
+<span class="badge {{ $r->statut }}">
 {{ $r->statut }}
 </span>
 </td>
 
-<td>{{ $r->montant_verse }}</td>
+<td>{{ number_format($r->montant_verse ?? 0,0,',',' ') }} FCFA</td>
 
 <td>
 
-<a href="{{ route('reservations.show',$r) }}" class="btn">Voir</a>
-<a href="{{ route('reservations.edit',$r) }}" class="btn">Modifier</a>
+<a href="{{ route('reservations.show',$r) }}" class="btn view">Voir</a>
+<a href="{{ route('reservations.edit',$r) }}" class="btn edit">Modifier</a>
 
 <form action="{{ route('reservations.destroy',$r) }}" method="POST" style="display:inline;">
 @csrf @method('DELETE')
-<button onclick="return confirm('Supprimer ?')">SupprimerX</button>
+<button class="btn delete" onclick="return confirm('Supprimer ?')">Supprimer</button>
 </form>
 
 </td>
@@ -150,6 +202,8 @@ td{
 @endforeach
 
 </table>
+
+</div>
 
 {{ $reservations->links() }}
 

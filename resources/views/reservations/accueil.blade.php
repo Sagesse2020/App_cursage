@@ -140,7 +140,7 @@ img{
       <a class="nav-link @if(Request::route()->getName() == 'reservations.create') active @endif" aria-current="page" href="{{ route('reservations.create') }}">Enregistrer une reservation</a>
       </li>
        <li class="nav-item">
-       <a class="nav-link @if(Request::route()->getName() == 'reservations.index') active @endif" aria-current="page" href="{{ route('reservations.index') }}">Tous les mouvements du stock</a>
+       <a class="nav-link @if(Request::route()->getName() == 'reservations.index') active @endif" aria-current="page" href="{{ route('reservations.index') }}">Toutes les reservations </a>
        </li>
        <li class="nav-item">
          <a class="nav-link active" aria-current="page" href="{{ route('welcome') }}">Accueil</a>

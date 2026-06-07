@@ -1,50 +1,98 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Modifier reservation</title>
+<title>Modifier Réservation</title>
 
 <style>
+
 body{
-    font-family: Arial;
+    font-family:"Segoe UI";
     background:#0f172a;
     color:white;
-    padding:20px;
+    padding:30px;
 }
 
-.form{
-    max-width:500px;
+.container{
+    max-width:900px;
     margin:auto;
     background:#111827;
-    padding:20px;
-    border-radius:12px;
+    padding:30px;
+    border-radius:20px;
 }
 
-input, select, textarea{
-    width:100%;
-    padding:10px;
-    margin-bottom:10px;
-    border-radius:8px;
+h1{
+    color:#00e6ff;
+    margin-bottom:25px;
 }
 
-img{
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:15px;
+}
+
+label{
+    display:block;
+    margin-bottom:5px;
+    color:#94a3b8;
+}
+
+input,
+select{
     width:100%;
+    padding:12px;
+    border:none;
     border-radius:10px;
-    margin-bottom:10px;
+    background:#0f172a;
+    color:white;
 }
-</style>
-</head>
 
+.btn{
+    margin-top:20px;
+    background:#00e6ff;
+    color:black;
+    border:none;
+    padding:12px 20px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.btn:hover{
+    opacity:.9;
+}
+
+</style>
+
+</head>
 <body>
 
-<div class="form">
+<div class="container">
 
-<h1>✏️ Modifier réservation</h1>
+<h1>✏ Modifier Réservation</h1>
 
-<form method="POST" action="{{ route('reservations.update',$reservation) }}">
+<form method="POST" action="{{ route('reservations.update',$reservation->id) }}">
 @csrf
 @method('PUT')
 
+<div class="grid">
+
+<div>
+<label>Client</label>
+<select name="client_id">
+@foreach($clients as $client)
+<option value="{{ $client->id }}"
+{{ $reservation->client_id == $client->id ? 'selected' : '' }}>
+{{ $client->nom }}
+</option>
+@endforeach
+</select>
+</div>
+
+<div>
+<label>Chien</label>
 <select name="chien_id">
 @foreach($chiens as $chien)
 <option value="{{ $chien->id }}"
@@ -53,23 +101,66 @@ img{
 </option>
 @endforeach
 </select>
+</div>
 
-<input type="text" name="client_nom" value="{{ old('client_nom',$reservation->client_nom) }}">
-<input type="text" name="client_contact" value="{{ old('client_contact',$reservation->client_contact) }}">
+<div>
+<label>Date réservation</label>
+<input
+type="date"
+name="date_reservation"
+value="{{ $reservation->date_reservation }}">
+</div>
 
-<input type="date" name="date_reservation" value="{{ old('date_reservation',$reservation->date_reservation) }}">
-
+<div>
+<label>Statut</label>
 <select name="statut">
-<option value="attente" {{ $reservation->statut=='attente'?'selected':'' }}>Attente</option>
-<option value="confirmee" {{ $reservation->statut=='confirmee'?'selected':'' }}>Confirmée</option>
-<option value="annulee" {{ $reservation->statut=='annulee'?'selected':'' }}>Annulée</option>
+
+<option value="en_attente"
+{{ $reservation->statut == 'en_attente' ? 'selected' : '' }}>
+En attente
+</option>
+
+<option value="confirmee"
+{{ $reservation->statut == 'confirmee' ? 'selected' : '' }}>
+Confirmée
+</option>
+
+<option value="annulee"
+{{ $reservation->statut == 'annulee' ? 'selected' : '' }}>
+Annulée
+</option>
+
+<option value="transformee_en_vente"
+{{ $reservation->statut == 'transformee_en_vente' ? 'selected' : '' }}>
+Transformée en vente
+</option>
+
 </select>
+</div>
 
-<input type="number" name="montant_verse" value="{{ old('montant_verse',$reservation->montant_verse) }}">
+<div>
+<label>Montant avancé</label>
+<input
+type="number"
+step="0.01"
+name="montant_avance"
+value="{{ $reservation->montant_avance }}">
+</div>
 
-<textarea name="note">{{ old('note',$reservation->note) }}</textarea>
+<div>
+<label>Reste à payer</label>
+<input
+type="number"
+step="0.01"
+name="reste_a_payer"
+value="{{ $reservation->reste_a_payer }}">
+</div>
 
-<button>Modifier</button>
+</div>
+
+<button class="btn">
+💾 Enregistrer
+</button>
 
 </form>
 

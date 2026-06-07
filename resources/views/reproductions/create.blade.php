@@ -36,6 +36,13 @@ button{
     font-weight:bold;
     border-radius:8px;
 }
+
+.btn{
+    padding:6px 10px;
+    border-radius:6px;
+    text-decoration:none;
+    font-size:13px;
+}
 </style>
 </head>
 
@@ -74,7 +81,9 @@ button{
 
 <textarea name="observations" placeholder="Observations"></textarea>
 
+<label for="">La lignée du chien</label>
 <input type="text" name="lignee_chien">
+
 </div>
 
 <br>

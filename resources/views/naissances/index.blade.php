@@ -63,6 +63,13 @@ td{
     border-bottom:1px solid #eee;
 }
 
+.btn{
+    padding:6px 10px;
+    border-radius:6px;
+    text-decoration:none;
+    font-size:13px;
+}
+
 /* BADGES */
 .entree{background:#16a34a;color:white;padding:5px 10px;border-radius:20px;}
 .sortie{background:#dc2626;color:white;padding:5px 10px;border-radius:20px;}
@@ -111,8 +118,8 @@ td{
 <td>{{ $n->nombre_morts }}</td>
 
 <td>
-<a href="{{ route('naissances.show',$n) }}">Voir</a>
-<a href="{{ route('naissances.edit',$n) }}">Modifier</a>
+<a href="{{ route('naissances.show',$n) }}" class="btn">Voir</a>
+<a href="{{ route('naissances.edit',$n) }}" class="btn">Modifier</a>
 
 <form action="{{ route('naissances.destroy',$n) }}" method="POST" style="display:inline;">
 @csrf @method('DELETE')

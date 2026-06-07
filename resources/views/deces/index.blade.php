@@ -125,8 +125,8 @@ td{
 
 <td>
 
-<a href="{{ route('deces.show',$d) }}">Voir</a>
-<a href="{{ route('deces.edit',$d) }}">Modifier</a>
+<a href="{{ route('deces.show',$d) }}" class="btn">Voir</a>
+<a href="{{ route('deces.edit',$d) }}" class="btn">Modifier</a>
 
 <form action="{{ route('deces.destroy',$d) }}" method="POST" style="display:inline;">
 @csrf @method('DELETE')

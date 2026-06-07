@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Reservation;
 use App\Models\Chien;
+use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
     public function index(Request $request)
+    
     {
         $query = Reservation::with(['chien','user'])->latest();
 
@@ -17,10 +19,15 @@ class ReservationController extends Controller
             $query->where('statut', $request->statut);
         }
 
-        if ($request->client) {
-            $query->where('client_nom', 'like', '%'.$request->client.'%');
-        }
+      if ($request->client) {
 
+    $query->whereHas('client', function($q) use ($request){
+
+        $q->where('nom','like','%'.$request->client.'%');
+
+    });
+
+}
         $reservations = $query->paginate(10);
 
         return view('reservations.index', compact('reservations'));
@@ -29,27 +36,27 @@ class ReservationController extends Controller
     public function create()
     {
         $chiens = Chien::all();
-        return view('reservations.create', compact('chiens'));
+        $clients = Client::all();
+        return view('reservations.create', compact('chiens','clients'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'chien_id' => 'required',
-            'client_nom' => 'required',
+            'client_id' => 'required',
             'date_reservation' => 'required',
         ]);
 
-        Reservation::create([
-            'chien_id' => $request->chien_id,
-            'client_nom' => $request->client_nom,
-            'client_contact' => $request->client_contact,
-            'date_reservation' => $request->date_reservation,
-            'statut' => $request->statut,
-            'montant_verse' => $request->montant_verse,
-            'note' => $request->note,
-            'user_id' => Auth::id(),
-        ]);
+    Reservation::create([
+    'chien_id' => $request->chien_id,
+    'client_id' => $request->client_id,
+    'date_reservation' => $request->date_reservation,
+    'statut' => $request->statut,
+    'montant_avance' => $request->montant_avance,
+    'reste_a_payer' => $request->reste_a_payer,
+    'user_id' => Auth::id(),
+]);
 
         return redirect()->route('reservations.index')
             ->with('success','Réservation ajoutée');

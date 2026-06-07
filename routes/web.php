@@ -44,6 +44,7 @@ use App\Http\Controllers\DecesController;
 use App\Http\Controllers\BeneficeController;
 use App\Http\Controllers\FicheSuiviController;
 use App\Http\Controllers\PaiementController;
+use App\Http\Controllers\ContactController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -244,7 +245,7 @@ Route::middleware(['auth'])->group(function(){
         return view('fournisseurs.accueil');
         })->name('fournisseurs');
 
-          Route::get('/commandeAccueil', function () {
+        Route::get('/commandeAccueil', function () {
         return view('commandes.accueil');
         })->name('commandes');
 
@@ -432,6 +433,11 @@ Route::delete('/publications/{publication}', [PublicationController::class,'dest
     // ------------------------
   Route::resource('depenses',DepenseController::class);
 
+     // -----------------------
+    // CONTACTS
+    // ------------------------
+  Route::get('/contactV',[ContactController::class, 'index'])->name('contact.form');
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
    
    // -----------------------
     // MOUVEMENTS STOCKS

@@ -289,6 +289,8 @@ border-top:1px solid rgba(255,255,255,.05);
 <li><a href="{{ route('clients') }}">Clients</a></li>
 <li><a href="{{ route('partenaires') }}">Partenaires</a></li>
 <li><a href="{{ route('fournisseurs') }}">Fournisseurs</a></li>
+<li><a href="{{ route('users.index') }}">Liste des utilisateurs</a></li>
+<li><a href="{{ route('users.create') }}">Creer un utilisateur</a></li>
 </ul>
 </li>
 
@@ -317,6 +319,7 @@ border-top:1px solid rgba(255,255,255,.05);
 {{-- ================= FINANCE ================= --}}
 @if(auth()->user()->niveau_admin == 3)
 
+
 <li class="dropdown">
 <a href="#"><i class="fas fa-coins"></i> Finance</a>
 
@@ -339,20 +342,17 @@ border-top:1px solid rgba(255,255,255,.05);
 <li><a href="{{ route('pertes.index') }}">Pertes</a></li>
 </ul>
 </li>
-
 </ul>
 </li>
 
 @endif
 
-{{-- ================= RESEAUX ================= --}}
-<li class="dropdown">
-<a href="#"><i class="fas fa-share-alt"></i> Réseaux</a>
-<ul class="dropdown-content">
-<li><a href="https://facebook.com" target="_blank">Facebook</a></li>
-<li><a href="https://instagram.com" target="_blank">Instagram</a></li>
-<li><a href="https://tiktok.com" target="_blank">TikTok</a></li>
-<li><a href="https://youtube.com" target="_blank">YouTube</a></li>
+<li>
+<a href="mailto:contact@cursagesolutions.com?subject=Support CURSAGE&body=Bonjour,">
+📨 Contacter le support
+</a>
+</li>
+
 </ul>
 </li>
 
@@ -378,7 +378,35 @@ border-top:1px solid rgba(255,255,255,.05);
 </div>
 </section>
 
-<footer>© {{ date('Y') }} CURSAGE</footer>
+<footer style="text-align:center; padding:25px; background:#020617; color:#94a3b8;">
+
+    <p>© {{ date('Y') }} CURSAGE</p>
+
+    <div style="margin-top:10px; display:flex; justify-content:center; gap:15px; flex-wrap:wrap;">
+
+        <a href="https://facebook.com" target="_blank">
+            <i class="fab fa-facebook"></i> Facebook
+        </a>
+
+        <a href="https://instagram.com" target="_blank">
+            <i class="fab fa-instagram"></i> Instagram
+        </a>
+
+        <a href="https://tiktok.com" target="_blank">
+            <i class="fab fa-tiktok"></i> TikTok
+        </a>
+
+        <a href="https://youtube.com" target="_blank">
+            <i class="fab fa-youtube"></i> YouTube
+        </a>
+
+        <a href="{{ route('contact.form') }}">
+            <i class="fas fa-envelope"></i> Contact
+        </a>
+
+    </div>
+
+</footer>
 
 <script>
 document.getElementById("menuToggle")

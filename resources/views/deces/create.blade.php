@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Créer mouvement</title>
+<title>Créer decès</title>
 
 <style>
 body{
@@ -43,24 +43,28 @@ button{
 
 <div class="form">
 
-<h1>Nouveau mouvement stock</h1>
+<h1>Nouveau decès</h1>
 
-<form method="POST">
+<form method="POST" action="{{ route('deces.store') }}">
 @csrf
 
-<select name="produit_id">
-@foreach($produits as $p)
-<option value="{{ $p->id }}">{{ $p->nom }}</option>
+<select name="chien_id">
+@foreach($chiens as $chien)
+<option value="{{ $chien->id }}">{{ $chien->nom }}</option>
 @endforeach
 </select>
 
-<select name="type">
-<option value="entree">Entrée</option>
-<option value="sortie">Sortie</option>
-</select>
+<input type="date" name="date_deces">
 
-<input type="number" name="quantite" placeholder="Quantité">
-<input type="text" name="motif" placeholder="Motif">
+<input type="text" name="cause" placeholder="Cause">
+
+<input type="text" name="description" placeholder="Description">
+
+<select name="user_id">
+@foreach($users as $user)
+<option value="{{ $user->id }}">{{ $user->name }}</option>
+@endforeach
+</select>
 
 <button>Enregistrer</button>
 </form>

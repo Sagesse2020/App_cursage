@@ -70,6 +70,13 @@ td{
 .pagination{
     margin-top:15px;
 }
+
+.btn{
+    padding:6px 10px;
+    border-radius:6px;
+    text-decoration:none;
+    font-size:13px;
+}
 </style>
 </head>
 
@@ -106,12 +113,12 @@ td{
 
 <td>
 
-<a href="{{ route('reproductions.show',$r) }}">Voir</a>
-<a href="{{ route('reproductions.edit',$r) }}">Modifier</a>
+<a href="{{ route('reproductions.show',$r) }}" class="btn">Voir</a>
+<a href="{{ route('reproductions.edit',$r) }}" class="btn">Modifier</a>
 
 <form action="{{ route('reproductions.destroy',$r) }}" method="POST" style="display:inline;">
 @csrf @method('DELETE')
-<button onclick="return confirm('Supprimer ?')">X</button>
+<button onclick="return confirm('Supprimer ?')" class="btn">X</button>
 </form>
 
 </td>

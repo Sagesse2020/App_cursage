@@ -1,21 +1,34 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
 <meta charset="UTF-8">
-<title>CURSAGE | Accueil</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="{{ asset('fontawesome/css/all.min.css') }}">
+<title>CURSAGE | Accueil</title>
+
+<link rel="stylesheet"
+href="{{ asset('fontawesome/css/all.min.css') }}">
 
 <style>
+
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:"Segoe UI",sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Segoe UI",sans-serif;
 }
 
-/* ===== LOGO ===== */
+body{
+background:#0b1020;
+color:#fff;
+min-height:100vh;
+display:flex;
+flex-direction:column;
+}
+
+/* ================= LOGO ================= */
 
 .logo-container{
 display:flex;
@@ -28,14 +41,9 @@ width:55px;
 height:55px;
 object-fit:cover;
 border-radius:14px;
-
-/* Effet premium */
 background:#fff;
 padding:4px;
-
-box-shadow:
-0 5px 18px rgba(0,230,255,.25);
-
+box-shadow:0 5px 18px rgba(0,230,255,.25);
 transition:.3s;
 }
 
@@ -54,7 +62,13 @@ font-size:22px;
 font-weight:800;
 letter-spacing:1px;
 
-background:linear-gradient(90deg,#00e6ff,#4facfe);
+background:
+linear-gradient(
+90deg,
+#00e6ff,
+#4facfe
+);
+
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
@@ -65,229 +79,532 @@ color:#94a3b8;
 margin-top:2px;
 }
 
-body{
-    background:#0b1020;
-    color:#fff;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-}
-
 /* ================= NAVBAR ================= */
+
 header{
-    background:#020617;
-    padding:15px 30px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    box-shadow:0 4px 15px rgba(0,0,0,0.3);
+
+background:#020617;
+
+padding:15px 30px;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+
+box-shadow:
+0 4px 15px rgba(0,0,0,.30);
 }
 
-header img{
-    height:45px;
+nav{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
 }
 
 nav a{
-    color:#cbd5e1;
-    text-decoration:none;
-    margin-left:18px;
-    font-weight:600;
-    padding:8px 12px;
-    border-radius:6px;
-    transition:0.3s;
+
+color:#cbd5e1;
+text-decoration:none;
+
+font-weight:600;
+
+padding:10px 14px;
+
+border-radius:8px;
+
+transition:.3s;
 }
 
 nav a:hover{
-    background:#00e6ff;
-    color:#00e6f;
+
+background:#00e6ff;
+color:#0f172a;
 }
 
-/* ================= MAIN ================= */
-main{
-    flex:1;
-    padding:50px 20px;
-    text-align:center;
+/* ================= HERO ================= */
+
+.hero{
+
+text-align:center;
+
+padding:60px 20px;
 }
 
-h1{
-    font-size:38px;
-    color:#00e6ff;
-    margin-bottom:10px;
+.hero h1{
+
+font-size:42px;
+
+color:#00e6ff;
+
+margin-bottom:15px;
 }
 
-.subtitle{
-    font-size:16px;
-    max-width:700px;
-    margin:auto;
-    color:#cbd5e1;
+.hero p{
+
+max-width:800px;
+
+margin:auto;
+
+line-height:1.8;
+
+color:#cbd5e1;
+}
+
+/* ================= ACTIONS ================= */
+
+.hero-buttons{
+
+margin-top:30px;
+
+display:flex;
+justify-content:center;
+gap:15px;
+flex-wrap:wrap;
+}
+
+.btn{
+
+padding:14px 22px;
+
+border-radius:10px;
+
+text-decoration:none;
+
+font-weight:bold;
+
+transition:.3s;
+}
+
+.btn-primary{
+background:#00e6ff;
+color:#0f172a;
+}
+
+.btn-secondary{
+background:#1e293b;
+color:white;
+}
+
+.btn:hover{
+transform:translateY(-3px);
 }
 
 /* ================= CARDS ================= */
+
 .cards{
-    margin-top:40px;
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-    gap:20px;
-    max-width:1000px;
-    margin-left:auto;
-    margin-right:auto;
+
+margin-top:40px;
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
+
+gap:20px;
+
+max-width:1200px;
+
+margin-left:auto;
+margin-right:auto;
+
+padding:20px;
 }
 
 .card{
-    background:#11182;
-    padding:25px;
-    border-radius:15px;
-    text-align:center;
-    transition:0.3s;
-    box-shadow:0 10px 25px rgba(0,0,0,0.25);
+
+background:#111827;
+
+padding:25px;
+
+border-radius:18px;
+
+text-align:center;
+
+text-decoration:none;
+
+color:white;
+
+transition:.3s;
+
+box-shadow:
+0 10px 25px rgba(0,0,0,.25);
 }
 
 .card:hover{
-    transform:translateY(-8px);
+
+transform:translateY(-8px);
+
+box-shadow:
+0 15px 30px rgba(0,230,255,.15);
 }
 
 .card i{
-    font-size:32px;
-    color:#00e6ff;
-    margin-bottom:10px;
+
+font-size:38px;
+
+color:#00e6ff;
+
+margin-bottom:15px;
 }
 
 .card h3{
-    margin:10px 0;
-    font-size:18px;
+margin-bottom:10px;
 }
 
-.card .value{
-    font-size:28px;
-    font-weight:blod;
-    color:#00e6ff;
+.card p{
+color:#cbd5e1;
+line-height:1.6;
+}
+
+/* ================= ACTIONS RAPIDES ================= */
+
+.quick-actions{
+
+max-width:1000px;
+
+margin:50px auto;
+
+padding:30px;
+
+background:#111827;
+
+border-radius:20px;
+}
+
+.quick-actions h2{
+
+text-align:center;
+
+margin-bottom:25px;
+
+color:#00e6ff;
+}
+
+.actions-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+
+gap:15px;
+}
+
+.actions-grid a{
+
+background:#1e293b;
+
+padding:15px;
+
+border-radius:10px;
+
+text-decoration:none;
+
+color:white;
+
+font-weight:bold;
+
+text-align:center;
+
+transition:.3s;
+}
+
+.actions-grid a:hover{
+
+background:#00e6ff;
+color:#0f172a;
 }
 
 /* ================= MESSAGE ================= */
+
 .message{
-    margin-top:50px;
-    background:linear-gradient(135deg,#111827,#0f172a);
-    padding:30px;
-    border-radius:18px;
-    max-width:900px;
-    margin-left:auto;
-    margin-right:auto;
-    box-shadow:0 10px 25px rgba(0,0,0,0.3);
-    color:#cbd5e1;
+
+max-width:1000px;
+
+margin:50px auto;
+
+padding:30px;
+
+border-radius:20px;
+
+background:
+linear-gradient(
+135deg,
+#111827,
+#0f172a
+);
+
+box-shadow:
+0 10px 25px rgba(0,0,0,.30);
 }
 
 .message h2{
-    color:#00e6ff;
-    margin-bottom:10px;
+
+color:#00e6ff;
+
+margin-bottom:15px;
+}
+
+.message p{
+
+line-height:1.8;
+
+color:#cbd5e1;
 }
 
 /* ================= FOOTER ================= */
+
 footer{
-    background:#00e6ff;
-    color:#101111;
-    text-align:center;
-    padding:15px;
-    font-size:14px;
+
+margin-top:auto;
+
+background:#00e6ff;
+
+color:#101111;
+
+text-align:center;
+
+padding:15px;
+
+font-weight:bold;
 }
 
 /* ================= RESPONSIVE ================= */
+
 @media(max-width:768px){
-    h1{font-size:26px}
+
+.hero h1{
+font-size:28px;
 }
+
+header{
+justify-content:center;
+gap:15px;
+}
+
+nav{
+justify-content:center;
+}
+
+}
+
 </style>
+
 </head>
 
 <body>
 
 <header>
-   <div class="logo-container">
 
-    <img src="{{ asset('images/logo-cursage.png') }}" alt="Logo CURSAGE" class="logo-img">
+<div class="logo-container">
 
-    <div class="logo-text">
-        <span class="title">CURSAGE</span>
-        <small>Plateforme intelligente</small>
-    </div>
+<img
+src="{{ asset('images/logo-cursage.png') }}"
+alt="Logo CURSAGE"
+class="logo-img">
+
+<div class="logo-text">
+
+<span class="title">
+CURSAGE
+</span>
+
+<small>
+Plateforme intelligente
+</small>
 
 </div>
 
-    <nav>
-        <a href="{{ route('welcome')}}"><i class="fas fa-home"></i> Accueil</a>
-        <a href="{{ route('commandes.create') }}">Commander des produits</a>
-        <a href="{{ route('profil') }}"><i class="fas fa-user"></i> Profil</a>
-        <a href="{{ route('aide')}}"><i class="fas fa-user"></i>Aide</a>
-        <a href="{{ route('logout') }}"
-        <i class="fas fa-sign-out-alt"></i> Déconnexion
-        </a>
-        <form id="logout-form" method="POST" action="{{ route('logout') }}" style="display:none;">
-            @csrf
-        </form>
-    </nav>
+</div>
+
+<nav>
+
+<a href="{{ route('welcome') }}">
+<i class="fas fa-home"></i>
+Accueil
+</a>
+
+<a href="{{ route('commandes.create') }}">
+<i class="fas fa-shopping-cart"></i>
+Commander
+</a>
+
+<a href="{{ route('reservations.create') }}">
+<i class="fas fa-calendar-check"></i>
+Réserver
+</a>
+
+<a href="{{ route('profil') }}">
+<i class="fas fa-user"></i>
+Profil
+</a>
+
+<a href="{{ route('aide') }}">
+<i class="fas fa-question-circle"></i>
+Aide
+</a>
+
+<a href="{{ route('logout')  }}">Deconnexion</a>
+@csrf
+
+</form>
+
+</nav>
+
 </header>
 
 <main>
-    <h1>Bienvenue sur CURSAGE 👋</h1>
 
-    <p class="subtitle">
-        CURSAGE est votre plateforme professionnelle pour le suivi des chiens,
-        des services informatiques et des opérations en toute transparence et sécurité.
-    </p>
+<section class="hero">
 
-    <!-- BODY ORIGINAL CONSERVÉ -->
-    <div class="cards">
-        <div class="card">
-            <i class="fas fa-dog"></i>
-            <h3></h3>
-            <div class="value"><a href="{{ route('races.index') }}">Races disponibles</a></div>
-        </div>
+<h1>
+Bienvenue sur CURSAGE 👋
+</h1>
 
-         <div class="card">
-            <i class="fas fa-check-circle"></i>
-            <h3> </h3>
-            <div class="value"><a href="{{ route('chiens.index') }}">Chiens disponibles</a></div>
-        </div>
+<p>
 
-        <div class="card">
-            <i class="fas fa-check-circle"></i>
-            <h3> </h3>
-            <div class="value"><a href="{{ route('produits.index') }}">Produits disponibles</a></div>
-        </div>
+CURSAGE est votre plateforme professionnelle
+de gestion canine, de réservation,
+de commande de produits et de services
+en toute sécurité.
 
-        <div class="card">
-            <i class="fas fa-laptop-code"></i>
-            <h3></h3>
-            <div class="value"><a href="{{ route('evenements.index') }}">Liste des évenements</a></div>
-        </div>
+</p>
 
-        <div class="card">
-            <i class="fas fa-tools"></i>
-            <h3></h3>
-            <div class="value"><a href="{{ route('publications.index') }}">Liste des pubications
-            </a></div>
-        </div>
+{{-- ================= RESEAUX ================= --}}
+<li class="dropdown">
+<a href="#"><i class="fas fa-share-alt"></i> Nos réseaux sociaux </a>
+<ul class="dropdown-content">
+<li><a href="https://facebook.com" target="_blank">Facebook</a></li>
+<li><a href="https://instagram.com" target="_blank">Instagram</a></li>
+<li><a href="https://tiktok.com" target="_blank">TikTok</a></li>
+<li><a href="https://youtube.com" target="_blank">YouTube</a></li>
+<li>
+<a href="mailto:contact@cursagesolutions.com">
+📧 Envoyer un mail
+</a>
+</li>
+</ul>
+</li>
 
-        <div class="card">
-            <i class="fas fa-tools"></i>
-            <h3></h3>
-            <div class="value"><a href="{{ route('services.index') }}">Liste des services
-            </a></div>
-        </div>
-    </div>
+<div class="hero-buttons">
 
-    <div class="message">
-        <h2>🔒 Sécurité & Professionnalisme</h2>
-        <p>
-            Chez CURSAGE, chaque utilisateur a accès uniquement aux informations
-            nécessaires.
-            Vos données sont protégées, votre travail est valorisé,
-            et la gestion reste claire et professionnelle.
-        </p>
-    </div>
+<a
+href="{{ route('reservations.create') }}"
+class="btn btn-primary">
+
+Réserver un chien
+
+</a>
+
+<a
+href="{{ route('commandes.create') }}"
+class="btn btn-secondary">
+
+Commander un produit
+
+</a>
+
+</div>
+
+</section>
+
+<section class="cards">
+
+<a href="{{ route('races.index') }}" class="card">
+<i class="fas fa-paw"></i>
+<h3>Races</h3>
+<p>Découvrir les races disponibles</p>
+</a>
+
+<a href="{{ route('chiens.index') }}" class="card">
+<i class="fas fa-dog"></i>
+<h3>Chiens</h3>
+<p>Consulter tous les chiens disponibles</p>
+</a>
+
+<a href="{{ route('produits.index') }}" class="card">
+<i class="fas fa-box"></i>
+<h3>Produits</h3>
+<p>Acheter les produits disponibles</p>
+</a>
+
+<a href="{{ route('services.index') }}" class="card">
+<i class="fas fa-tools"></i>
+<h3>Services</h3>
+<p>Consulter nos services</p>
+</a>
+
+<a href="{{ route('evenements.index') }}" class="card">
+<i class="fas fa-calendar"></i>
+<h3>Évènements</h3>
+<p>Suivre les évènements</p>
+</a>
+
+<a href="{{ route('publications.index') }}" class="card">
+<i class="fas fa-bullhorn"></i>
+<h3>Publications</h3>
+<p>Lire les actualités</p>
+</a>
+
+</section>
+
+<section class="quick-actions">
+
+<h2>
+⚡ Actions rapides
+</h2>
+
+<div class="actions-grid">
+
+<a href="{{ route('reservations.create') }}">
+🐕 Réserver un chien
+</a>
+
+<a href="{{ route('commandes.create') }}">
+🛒 Commander un produit
+</a>
+
+<a href="{{ route('profil') }}">
+👤 Mon profil
+</a>
+
+<a href="{{ route('paiements.index') }}">
+💰 Mes paiements
+</a>
+
+</div>
+
+</section>
+
+<div class="message">
+
+<h2>
+🔒 Sécurité & Professionnalisme
+</h2>
+
+<p>
+
+Chez CURSAGE,
+chaque utilisateur dispose uniquement
+des accès qui lui sont nécessaires.
+
+Toutes vos réservations,
+commandes et paiements sont sécurisés,
+traçables et protégés.
+
+</p>
+
+</div>
+
 </main>
 
 <footer>
-    © {{ date('Y') }} CURSAGE — Plateforme professionnelle & sécurisée
+
+© {{ date('Y') }}
+CURSAGE —
+Plateforme professionnelle & sécurisée
+
 </footer>
 
 </body>

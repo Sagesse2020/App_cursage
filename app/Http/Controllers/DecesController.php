@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Deces;
 use App\Models\Chien;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,8 +36,9 @@ class DecesController extends Controller
 
     public function create()
     {
+        $users = User::all();
         $chiens = Chien::all();
-        return view('deces.create', compact('chiens'));
+        return view('deces.create', compact('chiens','users'));
     }
 
     public function store(Request $request)
@@ -48,8 +50,8 @@ class DecesController extends Controller
 
         Deces::create([
             'chien_id' => $request->chien_id,
-            'cause' => $request->cause,
             'date_deces' => $request->date_deces,
+            'cause' => $request->cause,
             'observation' => $request->observation,
             'user_id' => Auth::id(),
         ]);
