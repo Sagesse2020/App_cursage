@@ -221,6 +221,14 @@ filter:
 drop-shadow(0 0 15px rgba(0,230,255,.5))
 drop-shadow(0 0 30px rgba(0,230,255,.3));
 }
+.badge{
+background:red;
+color:white;
+padding:2px 8px;
+border-radius:50%;
+font-size:12px;
+}
+
 </style>
 
 </head>
@@ -235,6 +243,13 @@ drop-shadow(0 0 30px rgba(0,230,255,.3));
 <small>Plateforme intelligente</small>
 </div>
 </div>
+@php
+
+$nbNotifications =
+App\Models\Notification::where('lu',false)
+->count();
+
+@endphp
 
 <div class="menu-toggle" id="menuToggle">
 <i class="fas fa-bars"></i>
@@ -348,6 +363,25 @@ drop-shadow(0 0 30px rgba(0,230,255,.3));
 <li><a href="{{ route('recettes.index') }}">Recettes</a></li>
 <li><a href="{{ route('benefices.index') }}">Bénéfices</a></li>
 <li><a href="{{ route('pertes.index') }}">Pertes</a></li>
+<li>
+
+<a href="{{ route('notifications.index') }}">
+
+<i class="fas fa-bell"></i>
+
+@if($nbNotifications > 0)
+
+<span class="badge">
+
+{{ $nbNotifications }}
+
+</span>
+
+@endif
+
+</a>
+
+</li>
 </ul>
 </li>
 </ul>

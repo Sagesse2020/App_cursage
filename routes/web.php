@@ -1,4 +1,8 @@
 <?php
+use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\SerializesModels;
 use App\Http\Controllers\GraphiqueController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\AuthController;
@@ -45,6 +49,7 @@ use App\Http\Controllers\BeneficeController;
 use App\Http\Controllers\FicheSuiviController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\NotificationController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -413,6 +418,9 @@ Route::delete('/publications/{publication}', [PublicationController::class,'dest
   Route::resource('fiches_suivi', FicheSuiviController::class);
 
   Route::resource('depenses', DepenseController::class);
+
+  Route::resource('vaccinations', VaccinationController::class);
+
    // -----------------------
     // BENEFICES
     // ------------------------
@@ -472,3 +480,26 @@ Route::post(
     [CommandeController::class, 'updateStatus']
 )->name('commandes.status');
 
+   // -----------------------
+    // Notifications
+    // ------------------------
+Route::get(
+    '/notifications',
+    [NotificationController::class,'index']
+)->name('notifications.index');
+
+Route::get(
+    '/notifications/{notification}/read',
+    [NotificationController::class,'read']
+)->name('notifications.read');
+
+
+Route::get('/test-mail', function () {
+
+    Mail::raw('Test CURSAGE OK', function ($message) {
+        $message->to('contact@cursagesolutions.com')
+                ->subject('Test SMTP');
+    });
+
+    return 'mail envoyé';
+});

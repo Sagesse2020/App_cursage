@@ -9,25 +9,30 @@ use App\Mail\ContactMail;
 
 class ContactController extends Controller
 {
-    public function index(Contact $contact)
+    public function index()
     {
-         $contact = Contact::all();
-        return view('contact');
+        return view('emails.contact');
     }
 
-    public function send(Request $request, Contact $contact)
+    public function send(Request $request)
     {
         $request->validate([
-            'nom' => 'required',
-            'email' => 'required|email',
-            'message' => 'required',
+            'nom' => ['required'],
+            'email' => ['required','email'],
+            'message' => ['required'],
         ]);
 
-        $contact = Contact::create($request->all());
+        $contact = Contact::create([
+            'nom' => $request->nom,
+            'email' => $request->email,
+            'message' => $request->message,
+        ]);
 
         Mail::to('contact@cursagesolutions.com')
             ->send(new ContactMail($contact));
 
-        return back()->with('success','Message envoyé');
+        return redirect()
+                ->route('contact.form')
+                ->with('success','Message envoyé avec succès.');
     }
 }
