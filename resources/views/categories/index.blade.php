@@ -95,11 +95,7 @@ margin-bottom:25px;
 
 <div class="top">
 
-<h2>Liste catégories</h2>
-
-<a href="{{ route('categories.create') }}" class="btn">
-+ Nouvelle catégorie
-</a>
+<h2>Liste des catégories</h2>
 
 </div>
 
@@ -120,9 +116,9 @@ Créée par :
 {{ $categorie->user->name ?? 'CURSAGE' }}
 </p>
 
-<a href="{{ route('categories.show',$categorie->id) }}" class="btn">
-Voir
-</a>
+<a href="{{ route('categories.show',$categorie->id) }}" class="btn"> Voir </a>
+
+@if(auth()->id() === $categorie->user_id || auth()->user()->niveau == 3)
 
 <a href="{{ route('categories.edit',$categorie->id) }}" class="btn">
 Modifier
@@ -131,6 +127,13 @@ Modifier
 <a href="{{ route('categories.destroy',$categorie->id) }}" class="btn">
 supprimer
 </a>
+
+<a href="{{ route('categories.create') }}" class="btn">
++ Nouvelle catégorie
+</a>
+
+@endif
+
 
 </div>
 

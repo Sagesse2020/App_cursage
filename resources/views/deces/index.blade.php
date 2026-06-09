@@ -126,12 +126,22 @@ td{
 <td>
 
 <a href="{{ route('deces.show',$d) }}" class="btn">Voir</a>
-<a href="{{ route('deces.edit',$d) }}" class="btn">Modifier</a>
 
-<form action="{{ route('deces.destroy',$d) }}" method="POST" style="display:inline;">
-@csrf @method('DELETE')
-<button onclick="return confirm('Supprimer ?')">X</button>
-</form>
+@if(auth()->id() === $deces->user_id || auth()->user()->niveau == 3)
+
+<a href="{{ route('deces.edit',$d->id) }}" class="btn">
+Modifier
+</a>
+
+<a href="{{ route('deces.destroy',$d->id) }}" class="btn">
+supprimer
+</a>
+
+<a href="{{ route('deces.create') }}" class="btn">
++ Nouveau deces
+</a>
+
+@endif
 
 </td>
 

@@ -100,11 +100,6 @@ background:#2563eb;
 
 <h1>🐕 Gestion des chiens</h1>
 
-<a href="{{ route('chiens.create') }}"
-class="btn">
-Ajouter
-</a>
-
 </div>
 
 <form method="GET" class="filters">
@@ -261,16 +256,25 @@ FCFA
 </td>
 
 <td>
-
-<a href="{{ route('chiens.show',$chien) }}" class="btn">
+ <a href="{{ route('chiens.show',$chien->id) }}" class="btn">
 Voir
 </a>
 
-|
+@if(auth()->id() === $chien->user_id || auth()->user()->niveau == 3)
 
-<a href="{{ route('chiens.edit',$chien) }}" class="btn">
+<a href="{{ route('chiens.edit',$chien->id) }}" class="btn">
 Modifier
 </a>
+
+<a href="{{ route('chiens.destroy',$chien->id) }}" class="btn">
+supprimer
+</a>
+
+<a href="{{ route('chiens.create') }}" class="btn">
++ Nouveau chien
+</a>
+
+@endif
 
 </td>
 

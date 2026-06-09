@@ -112,6 +112,17 @@ margin:0;
 
 }
 
+/* LOGO */
+
+.logo-container{display:flex;align-items:center;gap:12px;}
+
+.logo-img{
+width:60px;height:60px;object-fit:cover;border-radius:14px;
+background:rgba(0,230,255,.25);
+padding:4px;
+box-shadow:0 5px 18px rgba(0,230,255,.25);
+}
+
 </style>
 
 </head>
@@ -126,8 +137,12 @@ Imprimer / Télécharger PDF
 
 <div class="header">
 
-<div class="logo">
-CURSAGE
+<div class="logo-container">
+<img src="{{ asset('images/logo.png') }}" class="logo-img">
+<div class="logo-text">
+<span class="title">CURSAGE</span>
+<small>Plateforme intelligente</small>
+</div>
 </div>
 
 <div class="entreprise">

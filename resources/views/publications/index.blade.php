@@ -43,7 +43,6 @@ small{color:#777}
 <body>
 
 <h1>Publications</h1>
-<a href="{{ route('publications.create') }}">➕ Nouvelle publication</a>
 
 <div class="grid">
 @foreach($publications as $pub)
@@ -64,6 +63,10 @@ small{color:#777}
             @if(auth()->id() === $pub->user_id || auth()->user()->niveau == 3)
                 <a href="{{ route('publications.edit',$pub) }}">Modifier</a>
             @endif
+            @if(auth()->id() === $pub->user_id || auth()->user()->niveau == 3)
+             <a href="{{ route('publications.create') }}">➕ Nouvelle publication</a>
+            @endif
+
         </div>
     </div>
 </div>

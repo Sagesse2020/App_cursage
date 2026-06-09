@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Mouvements de stock</title>
+<title>Consultations</title>
 
 <style>
 body{
@@ -76,7 +76,7 @@ td{
 <body>
 
 <div class="container">
-<h2>Consultations vétérinaires</h2>
+<h2>Les consultations vétérinaires</h2>
 
 <a href="{{ route('consultations.create') }}">
 Ajouter
@@ -127,6 +127,26 @@ Ajouter
 
 {{ $consultations->links() }}
 </div>
+
+<a href="{{ route('consultations.show',$c->id) }}" class="btn">
+Voir
+</a>
+
+@if(auth()->id() === $consultation->user_id || auth()->user()->niveau == 3)
+
+<a href="{{ route('consultations.edit',$consultation->id) }}" class="btn">
+Modifier
+</a>
+
+<a href="{{ route('consultations.destroy',$consultation->id) }}" class="btn">
+supprimer
+</a>
+
+<a href="{{ route('consulations.create') }}" class="btn">
++ Nouvelle consultation
+</a>
+
+@endif
 
 </body>
 </html>

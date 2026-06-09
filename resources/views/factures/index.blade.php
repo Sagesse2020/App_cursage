@@ -55,9 +55,6 @@ font-size:12px;
 </head>
 <body>
 
-<a href="{{ route('factures.create') }}" class="btn">
-Nouvelle facture
-</a>
 <table class="table-pro">
    <h2>Gestion des factures</h2>
 <thead>
@@ -93,9 +90,26 @@ Nouvelle facture
 Voir
 </a>
 
+@if(auth()->id() === $facture->user_id || auth()->user()->niveau == 3)
+
+<a href="{{ route('factures.edit',$facture->id) }}" class="btn">
+Modifier
+</a>
+
+<a href="{{ route('factures.destroy',$facture->id) }}" class="btn">
+supprimer
+</a>
+
+<a href="{{ route('factures.create') }}" class="btn">
++ Nouvelle facture
+</a>
+
 <a href="{{ route('factures.print',$facture->id)}}" class="btn">
 Imprimer
 </a>
+
+@endif
+
 </td>
 
 </tr>

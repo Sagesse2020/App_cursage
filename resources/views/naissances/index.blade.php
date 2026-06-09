@@ -118,13 +118,24 @@ td{
 <td>{{ $n->nombre_morts }}</td>
 
 <td>
+
 <a href="{{ route('naissances.show',$n) }}" class="btn">Voir</a>
+
+@if(auth()->id() === $n->user_id || auth()->user()->niveau == 3)
+
 <a href="{{ route('naissances.edit',$n) }}" class="btn">Modifier</a>
 
 <form action="{{ route('naissances.destroy',$n) }}" method="POST" style="display:inline;">
 @csrf @method('DELETE')
 <button onclick="return confirm('Supprimer ?')">X</button>
 </form>
+
+<a href="{{ route('naissances.create') }}" class="btn">
++ Nouvelle naissance
+</a>
+
+@endif
+
 </td>
 
 </tr>

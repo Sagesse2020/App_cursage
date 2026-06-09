@@ -35,7 +35,7 @@ h1{
     border:1px solid #ccc;
 }
 
-.filters button{
+.filters , button{
     padding:10px 15px;
     background:#2563eb;
     color:white;
@@ -70,13 +70,23 @@ td{
 .pagination{
     margin-top:15px;
 }
+
+/* BTN */
+.btn{
+background:#2563eb;
+color:white;
+padding:10px 15px;
+border-radius:8px;
+text-decoration:none;
+}
+
 </style>
 </head>
 
 <body>
 
 <div class="container">
-
+        
 <h2>Liste des Paiements</h2>
 
 <table border="1">
@@ -101,6 +111,12 @@ td{
 
     <tbody>
         @foreach($paiements as $p)
+           @if(auth()->id() === $p->user_id || auth()->user()->niveau == 3)
+
+  <a href="{{ route('paiements.create') }}" class="btn">
+  + Nouveau
+  </a>
+  @endif
         <tr>
             <td>{{ $p->id }}</td>
             <td>{{ $p->montant }}</td>
@@ -114,18 +130,21 @@ td{
             <td>{{ $p->commande?->id }}</td>
             <td>{{ $p->facture?->id }}</td>
             <td>{{ $p->achat?->id }}</td>
-
             <td>
-                <a href="{{ route('paiements.edit', $p) }}">Edit</a>
 
-                <form method="POST" action="{{ route('paiements.destroy', $p) }}">
-                    @csrf
-                    @method('DELETE')
-                    <button>Supprimer</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
+@if(auth()->id() === $p->user_id || auth()->user()->niveau == 3)
+
+  <a href="{{ route('paiements.edit', $p) }}" class="btn">Edit</a>
+
+  <a href="{{ route('paiements.destroy', $p) }}"class="btn">
+  supprimer
+  </a>
+
+@endif
+              
+    </td>
+    </tr>
+    @endforeach
     </tbody>
 </table>
 

@@ -111,11 +111,6 @@ h1{
 
 <div class="container">
 
-<header>
-    <h1>📅 Événements</h1>
-    <a href="{{ route('evenements.create') }}" class="btn">+ Ajouter</a>
-</header>
-
 <div class="grid">
 
 @foreach($evenements as $ev)
@@ -136,8 +131,22 @@ h1{
         <p>{{ Str::limit($ev->description, 90) }}</p>
 
         <div class="actions">
+
+ @if(auth()->id() === $consultation->user_id || auth()->user()->niveau == 3)
+ 
+<a href="{{ route('evenements.edit',$ev) }}" class="edit">Modifier</a>
+
+<a href="{{ route('evenements.destroy',$ev->id) }}" class="btn">
+supprimer
+</a>
+
+<header>
+    <h1>📅 Événements</h1>
+    <a href="{{ route('evenements.create') }}" class="btn">+ Ajouter</a>
+</header>
+
+@endif
             <a href="{{ route('evenements.show', $ev->id) }}" class="view">Voir</a>
-            <a href="{{ route('evenements.edit',$ev) }}" class="edit">Modifier</a>
         </div>
     </div>
 

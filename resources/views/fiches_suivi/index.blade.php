@@ -70,6 +70,16 @@ td{
 .pagination{
     margin-top:15px;
 }
+
+/* BUTTONS */
+.btn{
+    padding:6px 10px;
+    border-radius:6px;
+    text-decoration:none;
+    font-size:12px;
+    margin-right:5px;
+    display:inline-block;
+}
 </style>
 </head>
 
@@ -106,14 +116,15 @@ td{
 <td>{{ $f->date_suivi }}</td>
 
 <td>
-
-<a href="{{ route('fiches_suivi.show',$f) }}">Voir</a>
-<a href="{{ route('fiches_suivi.edit',$f) }}">Modifier</a>
-
+ @if(auth()->id() === $f->user_id || auth()->user()->niveau == 3)
+                  
+<a href="{{ route('fiches_suivi.edit',$f) }}" class="btn">Modifier</a>
 <form action="{{ route('fiches_suivi.destroy',$f) }}" method="POST" style="display:inline;">
 @csrf @method('DELETE')
 <button onclick="return confirm('Supprimer ?')">X</button>
 </form>
+<a href="{{ route('fiches_suivi.create') }}">➕ Nouvelle fiche de suivi</a>
+@endif
 
 </td>
 </tr>

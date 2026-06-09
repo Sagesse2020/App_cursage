@@ -53,6 +53,11 @@ class ServiceController extends Controller
         ->with('success','Service enregistré avec succès');
     }
 
+      public function show(Service $service)
+    {
+        return view('services.show', compact('service'));
+    }
+
 
     /**
      * Formulaire modification

@@ -201,12 +201,8 @@ a{
 <h1>👨‍💼 Employés</h1>
 
 <a
-href="{{ route('employees.create') }}"
-class="btn"
->
-
+href="{{ route('employees.create') }}" class="btn">
 + Ajouter un employé
-
 </a>
 
 </div>
@@ -272,22 +268,16 @@ alt="Photo par défaut"
 
 <div class="actions">
 
-<a
-href="{{ route('employees.show',$employee) }}"
-class="btn"
->
-
-Voir
-
-</a>
+<a href="{{ route('employees.show',$employee) }}" class="btn"> Voir </a>
 
 @if(auth()->user()->niveau_admin == 3)
 
-<a
-href="{{ route('employees.edit',$employee) }}"
-class="btn btn-secondary"
->
+<a href="{{ route('employees.edit',$employee) }}" class="btn btn-secondary">
 Modifier
+</a>
+
+<a href="{{ route('depenses.destroy',$depense->id) }}" class="btn">
+supprimer
 </a>
 
 @endif

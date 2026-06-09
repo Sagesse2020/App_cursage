@@ -82,8 +82,11 @@ h1{font-size:28px;}
         <p>{{ $race->origine }}</p>
 
         <div class="actions">
+            @if(auth()->id() === $race->user_id || auth()->user()->niveau == 3)
+                <a href="{{ route('races.edit',$race) }}" class="edit">Modifier</a>
+                <a href="{{ route('races.destroy',$race) }}" class="edit">Supprimer</a>
+            @endif
             <a href="{{ route('races.show',$race) }}" class="details">Voir</a>
-            <a href="{{ route('races.edit',$race) }}" class="edit">Modifier</a>
         </div>
     </div>
 </div>

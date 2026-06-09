@@ -112,10 +112,6 @@ background:#0a7;
 
 <h1>Documents</h1>
 
-<a href="{{ route('documents.create') }}" class="btn">
-+ Ajouter
-</a>
-
 </header>
 
 <div class="grid">
@@ -162,9 +158,21 @@ $extension = strtolower(pathinfo($doc->fichier, PATHINFO_EXTENSION));
 Voir
 </a>
 
+@if(auth()->id() === $doc->user_id || auth()->user()->niveau == 3)
+
 <a href="{{ route('documents.edit',$doc) }}" class="edit">
 Modifier
+</a>>
+
+<a href="{{ route('documents.destroy',$doc->id) }}" class="btn">
+supprimer
 </a>
+
+<a href="{{ route('documents.create') }}" class="btn">
++ Ajouter
+</a>
+
+@endif
 
 </div>
 

@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Mouvements de stock</title>
+<title>Traitements</title>
 
 <style>
 body{
@@ -108,12 +108,15 @@ td{
 <td>
 
 <a href="{{ route('traitements.show',$t) }}">Voir</a>
+
+@if(auth()->id() === $t->user_id || auth()->user()->niveau == 3)
 <a href="{{ route('traitements.edit',$t) }}">Modifier</a>
 
 <form action="{{ route('traitements.destroy',$t) }}" method="POST" style="display:inline;">
 @csrf @method('DELETE')
 <button onclick="return confirm('Supprimer ?')">X</button>
 </form>
+@endif
 
 </td>
 </tr>

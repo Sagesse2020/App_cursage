@@ -20,14 +20,23 @@ class CommandeController extends Controller
 
     // ================= INDEX =================
 
-    public function index()
-    {
-        $commandes = Commande::with('user')
-            ->latest()
-            ->get();
+   public function index()
+{
+    if(auth()->user()->niveau_admin == 3){
 
-        return view('commandes.index', compact('commandes'));
+        $commandes = Commande::latest()->paginate(10);
+
+    }else{
+
+        $commandes = Commande::where(
+            'user_id',
+            auth()->id()
+        )->latest()->paginate(10);
+
     }
+
+    return view('commandes.index',compact('commandes'));
+}
 
     // ================= STORE =================
 

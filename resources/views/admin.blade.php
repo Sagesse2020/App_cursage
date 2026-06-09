@@ -47,27 +47,6 @@ border-bottom:1px solid rgba(255,255,255,.05);
 box-shadow:0 8px 35px rgba(0,0,0,.35);
 }
 
-/* LOGO */
-
-.logo-container{display:flex;align-items:center;gap:12px;}
-
-.logo-img{
-width:60px;height:60px;object-fit:cover;border-radius:14px;
-background:rgba(0,230,255,.25);
-padding:4px;
-box-shadow:0 5px 18px rgba(0,230,255,.25);
-}
-
-.logo-text{display:flex;flex-direction:column;}
-
-.title{
-font-size:22px;font-weight:800;
-background:linear-gradient(90deg,#00e6ff,#4facfe);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-}
-
-small{font-size:11px;color:#94a3b8;}
 
 /* MENU */
 
@@ -214,6 +193,34 @@ color:#94a3b8;
 border-top:1px solid rgba(255,255,255,.05);
 }
 
+ .social-icons a:hover { transform: scale(1.2); }
+
+    .fa-facebook { color: #1877F2; }
+    .fa-tiktok { color: #fff; }
+    .fa-whatsapp { color: #25D366; }
+    .fa-youtube { color: #FF0000; }
+
+/* ===== LOGO ===== */
+/* ===== LOGO ===== */
+
+.logo-img{
+height:140px;
+width:140px;
+object-fit:contain;
+
+filter:
+drop-shadow(0 0 10px rgba(0,230,255,.25))
+drop-shadow(0 0 20px rgba(0,230,255,.15));
+
+transition:.4s;
+}
+
+.logo-img:hover{
+transform:scale(1.08);
+filter:
+drop-shadow(0 0 15px rgba(0,230,255,.5))
+drop-shadow(0 0 30px rgba(0,230,255,.3));
+}
 </style>
 
 </head>
@@ -225,7 +232,6 @@ border-top:1px solid rgba(255,255,255,.05);
 <div class="logo-container">
 <img src="{{ asset('images/logo.png') }}" class="logo-img">
 <div class="logo-text">
-<span class="title">CURSAGE</span>
 <small>Plateforme intelligente</small>
 </div>
 </div>
@@ -260,6 +266,7 @@ border-top:1px solid rgba(255,255,255,.05);
 <ul class="dropdown-content">
 <li><a href="{{ route('consultations') }}">Consultations</a></li>
 <li><a href="{{ route('traitements') }}">Traitements</a></li>
+<li><a href="{{ route('fiches_suivi') }}">Fiches de suivi</a></li>
 <li><a href="{{ route('services') }}">Services</a></li>
 </ul>
 </li>
@@ -331,6 +338,7 @@ border-top:1px solid rgba(255,255,255,.05);
 <li><a href="{{ route('transactions') }}">Transactions</a></li>
 <li><a href="{{ route('factures') }}">Factures</a></li>
 <li><a href="{{ route('tresorerie.index') }}">Trésorerie</a></li>
+<li><a href="{{ route('paiements') }}">Paiements</a></li>
 </ul>
 </li>
 
@@ -348,17 +356,12 @@ border-top:1px solid rgba(255,255,255,.05);
 @endif
 
 <li>
-<a href="mailto:contact@cursagesolutions.com?subject=Support CURSAGE&body=Bonjour,">
-📨 Contacter le support
-</a>
 </li>
-
-</ul>
-</li>
-
 <li><a href="{{ route('profil') }}"><i class="fas fa-user"></i> Profil</a></li>
 <li><a href="{{ route('logout') }}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
 
+</ul>
+</li>
 </ul>
 
 </nav>
@@ -378,34 +381,14 @@ border-top:1px solid rgba(255,255,255,.05);
 </div>
 </section>
 
-<footer style="text-align:center; padding:25px; background:#020617; color:#94a3b8;">
-
-    <p>© {{ date('Y') }} CURSAGE</p>
-
-    <div style="margin-top:10px; display:flex; justify-content:center; gap:15px; flex-wrap:wrap;">
-
-        <a href="https://facebook.com" target="_blank">
-            <i class="fab fa-facebook"></i> Facebook
-        </a>
-
-        <a href="https://instagram.com" target="_blank">
-            <i class="fab fa-instagram"></i> Instagram
-        </a>
-
-        <a href="https://tiktok.com" target="_blank">
-            <i class="fab fa-tiktok"></i> TikTok
-        </a>
-
-        <a href="https://youtube.com" target="_blank">
-            <i class="fab fa-youtube"></i> YouTube
-        </a>
-
-        <a href="{{ route('contact.form') }}">
-            <i class="fas fa-envelope"></i> Contact
-        </a>
-
+ <footer>
+    <p>Suivez-nous sur nos plates formes en ligne</p>
+    <div class="social-icons">
+      <a href="https://www.facebook.com/share/16riUmXBqu/" target="_blank"><i class="fab fa-facebook"></i></a>
+      <a href="https://www.tiktok.com/@choralefoiparfait" target="_blank"><i class="fab fa-tiktok"></i></a>
+      <a href="https://youtube.com/@choralefoiparfaite?si=og8TeBjZG2nDLH6o" target="_blank"><i class="fab fa-youtube"></i></a>
+      <a href="{{ route('contact.form') }}"> <i class="fas fa-envelope"></i></a>
     </div>
-
 </footer>
 
 <script>

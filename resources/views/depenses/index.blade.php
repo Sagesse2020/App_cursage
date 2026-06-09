@@ -65,12 +65,6 @@ color:white;
 
 <h1>💸 Liste des dépenses</h1>
 
-<a href="{{ route('depenses.create') }}" class="btn add">
-
-+ Nouvelle dépense
-
-</a>
-
 <br><br>
 
 <table>
@@ -112,27 +106,22 @@ class="btn show"
 Voir
 </a>
 
+@if(auth()->id() === $consultation->user_id || auth()->user()->niveau == 3)
+
 <a
-href="{{ route('depenses.edit',$depense) }}"
-class="btn edit"
->
+href="{{ route('depenses.edit',$depense) }}" class="btn edit">
 Modifier
 </a>
 
-<form
-method="POST"
-action="{{ route('depenses.destroy',$depense) }}"
-style="display:inline;"
->
+<a href="{{ route('depenses.destroy',$depense->id) }}" class="btn">
+supprimer
+</a>
 
-@csrf
-@method('DELETE')
+<a href="{{ route('depenses.create') }}" class="btn add">
++ Nouvelle dépense
+</a>
 
-<button class="btn delete">
-
-Supprimer
-
-</button>
+@endif
 
 </form>
 

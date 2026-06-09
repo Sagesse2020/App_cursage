@@ -11,6 +11,7 @@ class ContactController extends Controller
 {
     public function index(Contact $contact)
     {
+         $contact = Contact::all();
         return view('contact');
     }
 

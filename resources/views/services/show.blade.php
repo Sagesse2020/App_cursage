@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Détail publication</title>
+<title>Détail service</title>
 <style>
 body{font-family:Segoe UI;background:#f4f6f8;padding:40px}
 .box{
@@ -20,14 +20,11 @@ small{color:#777}
 <body>
 
 <div class="box">
-    <h1>{{ $publication->titre }}</h1>
-    <small>Publié par {{ $publication->user->name ?? 'Inconnu' }}</small>
-
-    @if($publication->image)
-        <img src="{{ asset('storage/'.$publication->image) }}">
-    @endif
-
-    <p>{{ $publication->contenu }}</p>
+    <h1> Details du service </h1>
+    <p>Service : {{  $service->nom }}</p> 
+    <p>Description : {{ $service->description }}</p>
+    <p>Tarifs : {{ number_format($service->prix_vente, 0, ',', ' ') }}</p> 
+    <p>Statut du service : {{ $service->statut }}</p>
 </div>
 
 </body>

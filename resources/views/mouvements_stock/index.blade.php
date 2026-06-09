@@ -70,6 +70,13 @@ td{
 .pagination{
     margin-top:15px;
 }
+
+.btn{
+    padding:6px 10px;
+    border-radius:6px;
+    text-decoration:none;
+    font-size:13px;
+}
 </style>
 </head>
 
@@ -141,5 +148,20 @@ td{
 
 </div>
 
+@if(auth()->id() === $mouvement->user_id || auth()->user()->niveau == 3)
+
+<a href="{{ route('mouvements.edit',$mouvement->id) }}" class="btn">
+Modifier
+</a>
+
+<a href="{{ route('mouvements.destroy',$mouvement->id) }}" class="btn">
+supprimer
+</a>
+
+<a href="{{ route('mouvements.create') }}" class="btn">
++ Nouveau mouvement 
+</a>
+
+@endif
 </body>
 </html>

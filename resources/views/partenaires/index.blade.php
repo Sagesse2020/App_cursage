@@ -61,6 +61,7 @@ small{color:#777}
 
             @if(auth()->id() === $partenaire->user_id || auth()->user()->niveau == 3)
                 <a href="{{ route('partenaires.edit',$partenaire) }}">Modifier</a>
+                <a href="{{ route('partenaires.destroy' , $partenaire) }}">Supprimer</a>
             @endif
         </div>
     </div>

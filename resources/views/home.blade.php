@@ -28,57 +28,6 @@ display:flex;
 flex-direction:column;
 }
 
-/* ================= LOGO ================= */
-
-.logo-container{
-display:flex;
-align-items:center;
-gap:12px;
-}
-
-.logo-img{
-width:55px;
-height:55px;
-object-fit:cover;
-border-radius:14px;
-background:#fff;
-padding:4px;
-box-shadow:0 5px 18px rgba(0,230,255,.25);
-transition:.3s;
-}
-
-.logo-img:hover{
-transform:scale(1.05);
-}
-
-.logo-text{
-display:flex;
-flex-direction:column;
-line-height:1.1;
-}
-
-.logo-text .title{
-font-size:22px;
-font-weight:800;
-letter-spacing:1px;
-
-background:
-linear-gradient(
-90deg,
-#00e6ff,
-#4facfe
-);
-
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-}
-
-.logo-text small{
-font-size:11px;
-color:#94a3b8;
-margin-top:2px;
-}
-
 /* ================= NAVBAR ================= */
 
 header{
@@ -389,6 +338,42 @@ justify-content:center;
 
 }
 
+/* FOOTER */
+
+footer{
+text-align:center;
+padding:30px;
+background:#020617;
+color:#94a3b8;
+border-top:1px solid rgba(255,255,255,.05);
+}
+
+ .social-icons a:hover { transform: scale(1.2); }
+
+    .fa-facebook { color: #1877F2; }
+    .fa-tiktok { color: #fff; }
+    .fa-whatsapp { color: #25D366; }
+    .fa-youtube { color: #FF0000; }
+
+    /* LOGO */
+.logo-img{
+height:140px;
+width:140px;
+object-fit:contain;
+
+filter:
+drop-shadow(0 0 10px rgba(0,230,255,.25))
+drop-shadow(0 0 20px rgba(0,230,255,.15));
+
+transition:.4s;
+}
+
+.logo-img:hover{
+transform:scale(1.08);
+filter:
+drop-shadow(0 0 15px rgba(0,230,255,.5))
+drop-shadow(0 0 30px rgba(0,230,255,.3));
+}
 </style>
 
 </head>
@@ -405,11 +390,6 @@ alt="Logo CURSAGE"
 class="logo-img">
 
 <div class="logo-text">
-
-<span class="title">
-CURSAGE
-</span>
-
 <small>
 Plateforme intelligente
 </small>
@@ -428,11 +408,6 @@ Accueil
 <a href="{{ route('commandes.create') }}">
 <i class="fas fa-shopping-cart"></i>
 Commander
-</a>
-
-<a href="{{ route('reservations.create') }}">
-<i class="fas fa-calendar-check"></i>
-Réserver
 </a>
 
 <a href="{{ route('profil') }}">
@@ -471,39 +446,8 @@ en toute sécurité.
 
 </p>
 
-{{-- ================= RESEAUX ================= --}}
-<li class="dropdown">
-<a href="#"><i class="fas fa-share-alt"></i> Nos réseaux sociaux </a>
-<ul class="dropdown-content">
-<li><a href="https://facebook.com" target="_blank">Facebook</a></li>
-<li><a href="https://instagram.com" target="_blank">Instagram</a></li>
-<li><a href="https://tiktok.com" target="_blank">TikTok</a></li>
-<li><a href="https://youtube.com" target="_blank">YouTube</a></li>
-<li>
-<a href="mailto:contact@cursagesolutions.com">
-📧 Envoyer un mail
-</a>
-</li>
-</ul>
-</li>
 
 <div class="hero-buttons">
-
-<a
-href="{{ route('reservations.create') }}"
-class="btn btn-primary">
-
-Réserver un chien
-
-</a>
-
-<a
-href="{{ route('commandes.create') }}"
-class="btn btn-secondary">
-
-Commander un produit
-
-</a>
 
 </div>
 
@@ -557,10 +501,6 @@ Commander un produit
 
 <div class="actions-grid">
 
-<a href="{{ route('reservations.create') }}">
-🐕 Réserver un chien
-</a>
-
 <a href="{{ route('commandes.create') }}">
 🛒 Commander un produit
 </a>
@@ -600,7 +540,12 @@ traçables et protégés.
 </main>
 
 <footer>
-
+<div class="social-icons">
+      <a href="https://www.facebook.com/share/16riUmXBqu/" target="_blank"><i class="fab fa-facebook"></i></a>
+      <a href="https://www.tiktok.com/@choralefoiparfait" target="_blank"><i class="fab fa-tiktok"></i></a>
+      <a href="https://youtube.com/@choralefoiparfaite?si=og8TeBjZG2nDLH6o" target="_blank"><i class="fab fa-youtube"></i></a>
+       <a href="{{ route('contact.form') }}"> <i class="fas fa-envelope"></i></a>
+    </div>
 © {{ date('Y') }}
 CURSAGE —
 Plateforme professionnelle & sécurisée

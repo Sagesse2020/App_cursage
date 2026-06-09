@@ -113,6 +113,7 @@ td{
 
 <td>
 
+    @if(auth()->id() === $r->user_id || auth()->user()->niveau == 3)
 <a href="{{ route('reproductions.show',$r) }}" class="btn">Voir</a>
 <a href="{{ route('reproductions.edit',$r) }}" class="btn">Modifier</a>
 
@@ -120,6 +121,8 @@ td{
 @csrf @method('DELETE')
 <button onclick="return confirm('Supprimer ?')" class="btn">X</button>
 </form>
+
+    @endif
 
 </td>
 </tr>

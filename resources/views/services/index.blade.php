@@ -60,7 +60,7 @@
         <tr>
             <th>Nom du service</th>
             <th>Description</th>
-            <th>Prix de vente (CFA)</th>
+            <th>Tarifs (CFA)</th>
             <th>Statut</th>
             <th>Action</th>
         </tr>
@@ -73,8 +73,15 @@
             <td class="text-right">{{ number_format($service->prix_vente, 0, ',', ' ') }}</td>
             <td class="text-center">{{ $service->statut }}</td>
             <td class="text-center">
+                  @if(auth()->id() === $service->user_id || auth()->user()->niveau == 3)
+                  <a href="{{ route('services.edit', $service->id) }}" class="btn">Modifier</a>
+                  @endif
+                 @if(auth()->id() === $service->user_id || auth()->user()->niveau == 3)
+                 <a href="{{ route('services.create') }}">➕ Nouveau service</a>
+                 @endif
+
                 <a href="{{ route('services.show', $service->id) }}" class="btn">Voir</a>
-                <a href="{{ route('services.edit', $service->id) }}" class="btn">Modifier</a>
+                
             </td>
         </tr>
         @endforeach

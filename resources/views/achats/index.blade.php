@@ -8,10 +8,6 @@
 
 <h1>Liste des achats</h1>
 
-<a href="{{ route('achats.create') }}">
-Ajouter
-</a>
-
 <table border="1">
 
 <tr>
@@ -45,9 +41,13 @@ Ajouter
 Voir
 </a>
 
-<a href="{{ route('achats.edit',$achat) }}">
-Modifier
-</a>
+@if(auth()->id() === $achat->user_id || auth()->user()->niveau == 3)
+              <a href="{{ route('achats.edit',$achat) }}"> Modifier</a>
+              <a href="{{ route('achats.destroy',$achat->id) }}" class="btn"> supprimer </a>
+            @endif
+            @if(auth()->id() === $achat->user_id || auth()->user()->niveau == 3)
+             <a href="{{ route('achats.create') }}"> Ajouter </a>
+            @endif
 
 </td>
 

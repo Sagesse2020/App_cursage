@@ -290,8 +290,8 @@ grid-template-columns:1fr
 <td>
 
 <div class="actions">
-
-<a href="{{ route('transactions.edit',$transaction) }}">
+@if(auth()->id() === $transaction->user_id || auth()->user()->niveau == 3)
+    <a href="{{ route('transactions.edit',$transaction) }}">
 
 <button class="icon-btn btn-edit">
 
@@ -313,6 +313,7 @@ grid-template-columns:1fr
 </button>
 
 </form>
+@endif
 
 </div>
 

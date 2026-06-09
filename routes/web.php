@@ -437,7 +437,7 @@ Route::delete('/publications/{publication}', [PublicationController::class,'dest
     // CONTACTS
     // ------------------------
   Route::get('/contactV',[ContactController::class, 'index'])->name('contact.form');
-Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+  Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
    
    // -----------------------
     // MOUVEMENTS STOCKS

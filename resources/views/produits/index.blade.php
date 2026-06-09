@@ -106,6 +106,8 @@ img{
 
 <td>
 <a href="{{ route('produits.show',$produit->id) }}" class="btn show">Voir</a>
+
+@if(auth()->id() === $produit->user_id || auth()->user()->niveau == 3)
 <a href="{{ route('produits.edit',$produit->id) }}" class="btn edit">Modifier</a>
 
 <form method="POST" action="{{ route('produits.destroy',$produit->id) }}" style="display:inline;">
@@ -113,6 +115,8 @@ img{
 @method('DELETE')
 <button class="btn delete">Supprimer</button>
 </form>
+@endif
+
 </td>
 
 </tr>

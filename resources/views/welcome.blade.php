@@ -258,52 +258,23 @@ header p{font-size:16px;}
 
 /* ===== LOGO ===== */
 
-.logo-container{
-display:flex;
-align-items:center;
-gap:12px;
-}
-
 .logo-img{
-width:55px;
-height:55px;
-object-fit:cover;
-border-radius:14px;
+height:140px;
+width:140px;
+object-fit:contain;
 
-/* Effet premium */
-background:#125d8f;
-padding:4px;
+filter:
+drop-shadow(0 0 10px rgba(0,230,255,.25))
+drop-shadow(0 0 20px rgba(0,230,255,.15));
 
-box-shadow:
-0 5px 18px rgba(0,230,255,.25);
-
-transition:.3s;
+transition:.4s;
 }
 
 .logo-img:hover{
-transform:scale(1.05);
-}
-
-.logo-text{
-display:flex;
-flex-direction:column;
-line-height:1.1;
-}
-
-.logo-text .title{
-font-size:22px;
-font-weight:800;
-letter-spacing:1px;
-
-background:linear-gradient(90deg,#00e6ff,#4facfe);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-}
-
-.logo-text small{
-font-size:11px;
-color:#94a3b8;
-margin-top:2px;
+transform:scale(1.08);
+filter:
+drop-shadow(0 0 15px rgba(0,230,255,.5))
+drop-shadow(0 0 30px rgba(0,230,255,.3));
 }
 </style>
 </head>
@@ -314,10 +285,9 @@ margin-top:2px;
 <nav>
 <div class="logo-container">
 
-    <img src="{{ asset('images/logo-cursage.png') }}" alt="Logo CURSAGE" class="logo-img">
+    <img src="{{ asset('images/blanc.png') }}" alt="Logo CURSAGE" class="logo-img">
 
     <div class="logo-text">
-        <span class="title">CURSAGE</span>
         <small>Plateforme intelligente</small>
     </div>
 
@@ -325,7 +295,6 @@ margin-top:2px;
 
 <ul>
 <li><a href="{{ route('publications.index') }}"><i class="fas fa-newspaper"></i> Publications</a></li>
-<li><a href="{{ route('documents.index') }}"><i class="fas fa-file-alt"></i> Documents</a></li>
 <li><a href="{{ route('evenements.index') }}"><i class="fas fa-calendar-alt"></i> Évènements</a></li>
 <li>
 <a href="{{ route('aide') }}">
