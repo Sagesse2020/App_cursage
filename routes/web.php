@@ -111,17 +111,19 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function(){
     Route::resource('chiens', ChienController::class);
 
-      // Profil utilisateur
-        Route::get('/profil', [UserController::class, 'profil'])->name('profil');
-        Route::get('/edit', [UserController::class, 'profile'])->name('profile');
-        Route::post('/userStore', [UserController::class, 'store'])->name('users.store');
-        Route::get('/userCreate', [UserController::class, 'createUser'])->name('users.create');
-        Route::post('/update', [UserController::class, 'update'])->name('profile-update');
-        Route::post('/profile/photo', [UserController::class, 'updatePhoto'])->name('profile.photo');
-        Route::get('/usersIndex', [UserController::class, 'index'])->name('users.index');
-        Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
-        Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
-        Route::put('/users/{id}', [UserController::class, 'updateUser'])->name('users.update');
+      // profil
+    Route::get('/profil', [UserController::class, 'profil'])->name('profil');
+    Route::get('/profile',[UserController::class, 'profil'])->name('profile');
+    Route::post('/profil/update', [UserController::class, 'updateProfile'])->name('profile.update');
+    Route::post('/profil/photo', [UserController::class, 'updatePhoto'])->name('profile.photo');
+
+    // users admin
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/create', [UserController::class, 'createUser'])->name('users.create');
+    Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
+    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::post('/users/{id}/update', [UserController::class, 'updateUser'])->name('users.update');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 
         
       // Presentation (differents accueils)
@@ -492,20 +494,17 @@ Route::post(
    // -----------------------
     // Notifications
     // ------------------------
-Route::get(
-    '/notifications',
-    [NotificationController::class,'index']
-)->name('notifications.index');
+Route::get('/notifications', [NotificationController::class,'index'])
+    ->name('notifications.index');
 
-Route::get(
-    '/notifications/{notification}/read',
-    [NotificationController::class,'read']
-)->name('notifications.read');
+Route::patch('/notifications/{notification}/read', [NotificationController::class,'read'])
+    ->name('notifications.read');
 
-Route::delete(
-    '/notifications/{notification}/destroy',
-    [NotificationController::class,'destroy']
-)->name('notifications.destroy');
+Route::patch('/notifications/read-all', [NotificationController::class,'readAll'])
+    ->name('notifications.readAll');
+
+Route::delete('/notifications/{notification}', [NotificationController::class,'destroy'])
+    ->name('notifications.destroy');
 // -----------------------
     // DECES
     // ------------------------

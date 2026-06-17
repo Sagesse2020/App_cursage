@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-     public function index(Request $request, Notification $notification)
+     public function index(Request $request)
 {
     $query = Notification::query();
 
@@ -49,6 +49,14 @@ class NotificationController extends Controller
 
         return back();
     }
+
+    public function readAll()
+{
+    Notification::where('user_id', auth()->id())
+        ->update(['lu' => true]);
+
+    return back();
+}
 
      public function destroy(Notification $notification)
     {

@@ -1,298 +1,152 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>Liste employés</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fournisseurs</title>
 
 <style>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
 body{
-    font-family:'Segoe UI',sans-serif;
+    margin:0;
+    font-family:Segoe UI;
     background:#f1f5f9;
-    color:#1e293b;
     padding:25px;
-}
-
-/* ================= HEADER ================= */
-
-.topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:35px;
-    flex-wrap:wrap;
-    gap:15px;
-}
-
-.topbar h1{
-    font-size:32px;
     color:#0f172a;
 }
 
-a{
-    text-decoration:none;
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+h1{
+    font-size:30px;
 }
 
 .btn{
+    padding:10px 15px;
     background:#2563eb;
     color:white;
-    padding:12px 18px;
-    border-radius:12px;
-    transition:.3s;
-    display:inline-block;
-    font-weight:600;
+    border-radius:10px;
+    text-decoration:none;
 }
 
 .btn:hover{
     background:#1d4ed8;
-    transform:translateY(-2px);
 }
 
-/* ================= GRID ================= */
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-    gap:25px;
-}
-
-/* ================= CARD ================= */
-
-.card{
-    background:white;
-    border-radius:20px;
-    overflow:hidden;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
-    transition:.3s;
-}
-
-.card:hover{
-    transform:translateY(-5px);
-    box-shadow:0 15px 35px rgba(0,0,0,.12);
-}
-
-/* ================= IMAGE ================= */
-
-.image-box{
+table{
     width:100%;
-    height:280px;
-    background:#e2e8f0;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow:hidden;
-}
-
-.image-box img{
-    width:100%;
-    height:100%;
-    object-fit:contain;
+    border-collapse:collapse;
     background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
 }
 
-/* ================= CONTENT ================= */
-
-.content{
-    padding:22px;
+th,td{
+    padding:12px;
+    border-bottom:1px solid #e5e7eb;
+    text-align:left;
 }
 
-.employee-name{
-    font-size:23px;
-    font-weight:bold;
-    margin-bottom:10px;
-    color:#0f172a;
+th{
+    background:#0f172a;
+    color:white;
 }
 
-.info{
-    margin-bottom:8px;
-    color:#475569;
-    font-size:15px;
+tr:hover{
+    background:#f8fafc;
 }
-
-.salary{
-    margin-top:15px;
-    font-size:22px;
-    font-weight:bold;
-    color:#2563eb;
-}
-
-/* ================= BADGE ================= */
-
-.badge{
-    display:inline-block;
-    margin-top:15px;
-    padding:7px 14px;
-    border-radius:30px;
-    font-size:13px;
-    font-weight:bold;
-    text-transform:uppercase;
-}
-
-.badge.actif{
-    background:#dcfce7;
-    color:#166534;
-}
-
-.badge.suspendu{
-    background:#fee2e2;
-    color:#991b1b;
-}
-
-.badge.demission{
-    background:#e2e8f0;
-    color:#334155;
-}
-
-/* ================= ACTIONS ================= */
 
 .actions{
-    margin-top:20px;
     display:flex;
     gap:10px;
-    flex-wrap:wrap;
 }
 
-.btn-secondary{
-    background:#0f172a;
+.btn-edit{
+    background:#16a34a;
+    padding:6px 10px;
+    border-radius:8px;
+    color:white;
+    text-decoration:none;
 }
 
-.btn-secondary:hover{
-    background:#020617;
+.btn-delete{
+    background:#dc2626;
+    padding:6px 10px;
+    border:none;
+    color:white;
+    border-radius:8px;
+    cursor:pointer;
 }
 
-/* ================= RESPONSIVE ================= */
-
-@media(max-width:768px){
-
-    body{
-        padding:15px;
-    }
-
-    .topbar h1{
-        font-size:25px;
-    }
-
-    .image-box{
-        height:230px;
-    }
-
+.search{
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    width:250px;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<div class="topbar">
+<div class="header">
+    <h1>📦 Fournisseurs</h1>
 
-<h1>👨‍💼 Employés</h1>
+    <form method="GET">
+        <input class="search" type="text" name="search" placeholder="Rechercher...">
+    </form>
 
-<a
-href="{{ route('employees.create') }}" class="btn">
-+ Ajouter un employé
-</a>
-
+    <a href="{{ route('fournisseurs.create') }}" class="btn">+ Ajouter</a>
 </div>
 
-<div class="grid">
-
-@foreach($employees as $employee)
-
-<div class="card">
-
-<div class="image-box">
-
-@if($employee->photo)
-
-<img
-src="{{ asset('storage/'.$employee->photo) }}"
-alt="Photo employé"
->
-
-@else
-
-<img
-src="{{ asset('default-user.png') }}"
-alt="Photo par défaut"
->
-
+@if(session('success'))
+<p style="color:green">{{ session('success') }}</p>
 @endif
 
-</div>
+<table>
+<tr>
+<th>Nom</th>
+<th>Email</th>
+<th>Téléphone</th>
+<th>Adresse</th>
+<th>Actions</th>
+</tr>
 
-<div class="content">
+@foreach($fournisseurs as $f)
+<tr>
+<td>{{ $f->nom }}</td>
+<td>{{ $f->email }}</td>
+<td>{{ $f->telephone }}</td>
+<td>{{ $f->adresse }}</td>
 
-<div class="employee-name">
-
-{{ $employee->nom }}
-{{ $employee->prenom }}
-
-</div>
-
-<div class="info">
-📞 {{ $employee->telephone }}
-</div>
-
-<div class="info">
-📧 {{ $employee->email }}
-</div>
-
-<div class="info">
-💼 {{ $employee->poste }}
-</div>
-
-<div class="info">
-📅 {{ $employee->date_embauche }}
-</div>
-
-<div class="salary">
-💰 {{ number_format($employee->salaire,0,',',' ') }} FCFA
-</div>
-
-<span class="badge {{ $employee->statut }}">
-{{ $employee->statut }}
-</span>
-
+<td>
 <div class="actions">
+    <a class="btn-edit" href="{{ route('fournisseurs.edit',$f) }}">Modifier</a>
 
-<a href="{{ route('employees.show',$employee) }}" class="btn"> Voir </a>
-
-@if(auth()->user()->niveau_admin == 3)
-
-<a href="{{ route('employees.edit',$employee) }}" class="btn btn-secondary">
-Modifier
-</a>
-
-<form method="POST" action="{{ route('consultations.destroy',$consultation->id) }}" style="display:inline;" "
-      onsubmit="return confirm('Voulez-vous vraiment supprimer ce fournisseur ?');">
-@csrf
-@method('DELETE')
-<button class="btn delete">Supprimer</button>
-</form>
-
-@endif
-
+    <form method="POST" action="{{ route('fournisseurs.destroy',$f) }}">
+        @csrf
+        @method('DELETE')
+        <button class="btn-delete">Supprimer</button>
+    </form>
 </div>
+</td>
 
-</div>
-
-</div>
-
+</tr>
 @endforeach
 
+</table>
+
+<div style="margin-top:20px;">
+{{ $fournisseurs->links() }}
 </div>
 
 </body>

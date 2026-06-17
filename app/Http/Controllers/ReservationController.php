@@ -66,7 +66,7 @@ class ReservationController extends Controller
         "Le chien {$reservation->chien->nom} a été réservé par {$reservation->client->nom}.",
         'success',
         'reservation',
-        auth()->id()
+        Auth::id()
     );
 
     return redirect()
@@ -97,7 +97,7 @@ class ReservationController extends Controller
         "La réservation #{$reservation->id} a été modifiée.",
         'warning',
         'reservation',
-        auth()->id()
+        Auth::id()
     );
 
     if($ancienStatut != $reservation->statut)
@@ -107,7 +107,7 @@ class ReservationController extends Controller
             "La réservation du chien {$reservation->chien->nom} est passée à : {$reservation->statut}.",
             'info',
             'reservation',
-            auth()->id()
+             Auth::id()
         );
     }
 
@@ -118,7 +118,7 @@ class ReservationController extends Controller
             "La réservation du chien {$reservation->chien->nom} a été confirmée.",
             'success',
             'reservation',
-            auth()->id()
+             Auth::id()
         );
     }
 
@@ -129,7 +129,7 @@ class ReservationController extends Controller
             "La réservation du chien {$reservation->chien->nom} a été annulée.",
             'danger',
             'reservation',
-            auth()->id()
+              Auth::id()
         );
     }
 
@@ -151,7 +151,7 @@ class ReservationController extends Controller
         "La réservation du chien {$nomChien} a été supprimée.",
         'danger',
         'reservation',
-        auth()->id()
+         Auth::id()
     );
 
     return redirect()

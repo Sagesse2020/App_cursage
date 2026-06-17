@@ -106,17 +106,32 @@
     </div>
 
     <!-- Script pour prévisualisation immédiate -->
-    <script>
-        document.getElementById('photoInput').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('profilePreview').setAttribute('src', e.target.result);
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-    </script>
+   <script>
+document.getElementById('fileInput').addEventListener('change', function (event) {
+
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('photo', file);
+    formData.append('_token', document.querySelector('meta[name="csrf-token"]').content);
+
+    fetch("{{ route('profile.photo') }}", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+
+        if (data.success) {
+            document.getElementById('profilePreview').src = data.photo_url;
+        } else {
+            alert("Erreur upload");
+        }
+
+    })
+    .catch(() => alert("Erreur réseau"));
+});
+</script>
 </body>
 </html>

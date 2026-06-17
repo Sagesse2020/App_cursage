@@ -2,40 +2,79 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaction;
+use App\Models\Perte;
+use App\Models\Achat;
+use App\Models\Depense;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class GraphiqueController extends Controller
 {
     public function index()
     {
-       $raw = DB::table('transactions')
-    ->selectRaw('MONTH(date_transaction) as mois, SUM(montant) as total')
-    ->whereNotNull('date_transaction')
-    ->where('date_transaction', '!=', '')
-    ->whereRaw("date_transaction REGEXP '^[0-9]{4}-[0-9]{2}-[0-9]{2}'")
-    ->whereYear('date_transaction', date('Y'))
-    ->groupBy('mois')
-    ->orderBy('mois')
-    ->get();
+        // =======================
+        // 💰 RECETTES (clients)
+        // =======================
+        $recettes = Transaction::where('type', 'paiement_client')
+            ->sum('montant');
 
-        // 📊 12 mois complets (IMPORTANT)
+        // =======================
+        // 💸 CHARGES (sorties)
+        // =======================
+        $charges = Transaction::whereIn('type', [
+            'paiement_partenaire',
+            'versement_cursage'
+        ])->sum('montant');
+
+        // =======================
+        // 📉 PERTES (table dédiée si existante)
+        // =======================
+        $pertes = Perte::sum('montant') ?? 0;
+
+        // =======================
+        // 🧮 BÉNÉFICE
+        // =======================
+        $benefice = $recettes - ($charges + $pertes);
+
+        // =======================
+        // 📋 TRANSACTIONS RÉCENTES
+        // =======================
+        $transactions = Transaction::with('user')
+            ->latest()
+            ->take(10)
+            ->get();
+
+        // =======================
+        // 📊 GRAPH MENSUEL
+        // =======================
+        $raw = Transaction::selectRaw('MONTH(date_transaction) as mois, SUM(montant) as total')
+            ->whereYear('date_transaction', date('Y'))
+            ->groupBy('mois')
+            ->orderBy('mois')
+            ->get();
+
         $donnees = array_fill(0, 12, 0);
 
         foreach ($raw as $r) {
-            $index = ((int)$r->mois) - 1;
-
+            $index = $r->mois - 1;
             if ($index >= 0 && $index < 12) {
                 $donnees[$index] = (float) $r->total;
             }
         }
 
-        // 🧠 Labels pour affichage pro
         $labels = [
             "Jan", "Fév", "Mar", "Avr", "Mai", "Juin",
             "Juil", "Août", "Sep", "Oct", "Nov", "Déc"
         ];
 
-        return view('graphique', compact('donnees', 'labels'));
+        return view('graphique', compact(
+            'recettes',
+            'charges',
+            'pertes',
+            'benefice',
+            'transactions',
+            'donnees',
+            'labels'
+        ));
     }
 }

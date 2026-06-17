@@ -140,30 +140,31 @@
   </div>
 
   <script>
-  document.getElementById('fileInput').addEventListener('change', function(event) {
+document.getElementById('fileInput').addEventListener('change', function (event) {
+
     const file = event.target.files[0];
     if (!file) return;
 
-    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     const formData = new FormData();
     formData.append('photo', file);
-    formData.append('_token', token);
+    formData.append('_token', document.querySelector('meta[name="csrf-token"]').content);
 
     fetch("{{ route('profile.photo') }}", {
-        method: 'POST',
+        method: "POST",
         body: formData
     })
-    .then(response => response.json()) // côté Laravel, retourner JSON
+    .then(res => res.json())
     .then(data => {
+
         if (data.success) {
             document.getElementById('profilePreview').src = data.photo_url;
         } else {
-            alert('Erreur : ' + data.message);
+            alert("Erreur upload");
         }
-    })
-    .catch(err => alert("Erreur réseau"));
-});
 
-  </script>
+    })
+    .catch(() => alert("Erreur réseau"));
+});
+</script>
 </body>
 </html>

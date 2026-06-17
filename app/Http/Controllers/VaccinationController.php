@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Http\Controllers;
@@ -77,7 +76,7 @@ class VaccinationController extends Controller
             "Le chien {$vaccination->chien->nom} a reçu le vaccin {$vaccination->nom_vaccin}.",
             'success',
             'vaccination',
-            auth()->id()
+             Auth::id()
         );
 
         if($vaccination->date_rappel)
@@ -87,7 +86,7 @@ class VaccinationController extends Controller
                 "Un rappel du vaccin {$vaccination->nom_vaccin} est prévu pour {$vaccination->chien->nom}.",
                 'info',
                 'vaccination',
-                auth()->id()
+                 Auth::id()
             );
         }
 
@@ -150,7 +149,7 @@ class VaccinationController extends Controller
             "La vaccination {$vaccination->nom_vaccin} du chien {$vaccination->chien->nom} a été modifiée.",
             'warning',
             'vaccination',
-            auth()->id()
+             Auth::id()
         );
 
         return redirect()
@@ -177,7 +176,7 @@ class VaccinationController extends Controller
             "La vaccination {$vaccin} du chien {$nomChien} a été supprimée.",
             'danger',
             'vaccination',
-            auth()->id()
+           Auth::id()
         );
 
         return redirect()

@@ -1,4 +1,3 @@
-```php
 <?php
 
 namespace App\Http\Controllers;
@@ -59,7 +58,7 @@ class DepenseController extends Controller
             "Une dépense de ".number_format($depense->montant,0,',',' ')." FCFA a été enregistrée.",
             'warning',
             'finance',
-            auth()->id()
+            Auth::id()
         );
 
         if($depense->montant >= 100000)
@@ -69,7 +68,7 @@ class DepenseController extends Controller
                 "Une dépense élevée de ".number_format($depense->montant,0,',',' ')." FCFA a été détectée.",
                 'danger',
                 'finance',
-                auth()->id()
+                Auth::id()
             );
         }
 
@@ -138,7 +137,7 @@ class DepenseController extends Controller
             "La dépense {$depense->libelle} a été modifiée.",
             'info',
             'finance',
-            auth()->id()
+            Auth::id()
         );
 
         return redirect()
@@ -170,7 +169,7 @@ class DepenseController extends Controller
             "La dépense {$libelle} a été supprimée.",
             'danger',
             'finance',
-            auth()->id()
+             Auth::id()
         );
 
         return back()->with(

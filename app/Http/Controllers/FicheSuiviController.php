@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FicheSuivi;
 use App\Models\Chien;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,40 +14,25 @@ class FicheSuiviController extends Controller
     {
         $query = FicheSuivi::with('chien');
 
-    if($request->search)
-    {
-        $query->whereHas('chien', function($q) use ($request){
+        if ($request->search) {
+            $query->whereHas('chien', function ($q) use ($request) {
+                $q->where('nom', 'like', '%'.$request->search.'%');
+            });
+        }
 
-            $q->where(
-                'nom',
-                'like',
-                '%'.$request->search.'%'
-            );
+        if ($request->etat) {
+            $query->where('etat_general', $request->etat);
+        }
 
-        });
-    }
+        $fiches = $query->latest()->paginate(10);
 
-    if($request->etat)
-    {
-        $query->where(
-            'etat_general',
-            $request->etat
-        );
-    }
-
-    $fiches = $query
-                ->latest()
-                ->paginate(10);
-
-    return view(
-        'fiches_suivi.index',
-        compact('fiches')
-    );
+        return view('fiches_suivi.index', compact('fiches'));
     }
 
     public function create()
     {
         $chiens = Chien::all();
+
         return view('fiches_suivi.create', compact('chiens'));
     }
 
@@ -57,7 +43,7 @@ class FicheSuiviController extends Controller
             'date_suivi' => 'required|date',
         ]);
 
-        FicheSuivi::create([
+        $fiche = FicheSuivi::create([
             'chien_id' => $request->chien_id,
             'poids' => $request->poids,
             'temperature' => $request->temperature,
@@ -68,6 +54,15 @@ class FicheSuiviController extends Controller
             'user_id' => Auth::id(),
         ]);
 
+        // 🔔 NOTIFICATION CREATE
+        Notification::create([
+            'titre' => 'Nouvelle fiche de suivi',
+            'message' => 'Fiche ajoutée pour le chien ID '.$fiche->chien_id,
+            'type' => 'success',
+            'lu' => false,
+            'user_id' => Auth::id()
+        ]);
+
         return redirect()->route('fiches_suivi.index')
             ->with('success','Fiche ajoutée');
     }
@@ -75,6 +70,7 @@ class FicheSuiviController extends Controller
     public function edit(FicheSuivi $fiches_suivi)
     {
         $chiens = Chien::all();
+
         return view('fiches_suivi.edit', [
             'fiche' => $fiches_suivi,
             'chiens' => $chiens
@@ -90,6 +86,15 @@ class FicheSuiviController extends Controller
 
         $fiches_suivi->update($request->all());
 
+        // 🔔 NOTIFICATION UPDATE
+        Notification::create([
+            'titre' => 'Fiche de suivi modifiée',
+            'message' => 'Fiche #' . $fiches_suivi->id . ' mise à jour',
+            'type' => 'info',
+            'lu' => false,
+            'user_id' => Auth::id()
+        ]);
+
         return redirect()->route('fiches_suivi.index')
             ->with('success','Fiche modifiée');
     }
@@ -103,7 +108,18 @@ class FicheSuiviController extends Controller
 
     public function destroy(FicheSuivi $fiches_suivi)
     {
+        $id = $fiches_suivi->id;
+
         $fiches_suivi->delete();
+
+        // 🔔 NOTIFICATION DELETE
+        Notification::create([
+            'titre' => 'Fiche supprimée',
+            'message' => 'Fiche #' . $id . ' supprimée',
+            'type' => 'danger',
+            'lu' => false,
+            'user_id' => Auth::id()
+        ]);
 
         return redirect()->route('fiches_suivi.index')
             ->with('success','Fiche supprimée');

@@ -2,35 +2,65 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Visit;
-use App\Models\User; // si tu veux récupérer les utilisateurs
-use App\Models\LoginTemp; // si tu as ce modèle pour logins_temp
+use App\Models\Transaction;
 
 class StatistiqueController extends Controller
 {
     public function index()
     {
-        // Total des visites
+        // =====================
+        // VISITES
+        // =====================
         $totalVisits = Visit::count();
-
-        // Visiteurs uniques
         $uniqueVisitors = Visit::distinct('ip_address')->count('ip_address');
 
-        // Visites par page avec pagination simple
         $visitsByPage = Visit::select('page_visited', DB::raw('count(*) as total'))
             ->groupBy('page_visited')
             ->orderByDesc('total')
-            ->paginate(10); // pagination simple dans la vue
-
-        // Dernières connexions utilisateurs avec pagination simple
-        $logins = DB::table('logins_temp')
-            ->join('users', 'logins_temp.user_id', '=', 'users.id')
-            ->select('users.name', 'logins_temp.logged_in_at')
-            ->orderByDesc('logged_in_at')
             ->paginate(10);
 
-        return view('statistiques', compact('totalVisits', 'uniqueVisitors', 'visitsByPage', 'logins'));
+        // =====================
+        // FINANCE GLOBAL
+        // =====================
+        $recettes = Transaction::where('type','paiement_client')->sum('montant');
+
+        $charges = Transaction::whereIn('type',[
+            'paiement_partenaire',
+            'versement_cursage'
+        ])->sum('montant');
+
+        $benefice = $recettes - $charges;
+
+        // =====================
+        // NOTIFICATIONS
+        // =====================
+        $alert = null;
+        $alertType = null;
+
+        if ($benefice < 0) {
+            $alert = "🚨 Attention : votre entreprise est en perte !";
+            $alertType = "danger";
+        } elseif ($benefice > 1000000) {
+            $alert = "💰 Excellent bénéfice ce mois-ci !";
+            $alertType = "success";
+        }
+
+        if ($charges > $recettes) {
+            $alert = "⚠️ Les charges dépassent les recettes.";
+            $alertType = "warning";
+        }
+
+        return view('statistiques', compact(
+            'totalVisits',
+            'uniqueVisitors',
+            'visitsByPage',
+            'recettes',
+            'charges',
+            'benefice',
+            'alert',
+            'alertType'
+        ));
     }
 }

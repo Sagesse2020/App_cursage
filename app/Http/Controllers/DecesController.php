@@ -1,4 +1,3 @@
-```php
 <?php
 
 namespace App\Http\Controllers;
@@ -96,7 +95,7 @@ class DecesController extends Controller
             "Le chien {$deces->chien->nom} est déclaré décédé.",
             'danger',
             'deces',
-            auth()->id()
+             Auth::id()
         );
 
         return redirect()
@@ -145,7 +144,7 @@ class DecesController extends Controller
             "Le décès #{$deces->id} a été modifié.",
             'warning',
             'deces',
-            auth()->id()
+            Auth::id()
         );
 
         return redirect()
@@ -167,7 +166,7 @@ class DecesController extends Controller
             "Le décès #{$id} a été supprimé.",
             'danger',
             'deces',
-            auth()->id()
+            Auth::id()
         );
 
         return redirect()

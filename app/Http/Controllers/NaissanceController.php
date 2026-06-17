@@ -1,4 +1,3 @@
-```php
 <?php
 
 namespace App\Http\Controllers;
@@ -60,7 +59,7 @@ class NaissanceController extends Controller
             "{$total} chiots sont nés.",
             'success',
             'naissance',
-            auth()->id()
+             Auth::id()
         );
 
         if(($naissance->nombre_morts ?? 0) > 0)
@@ -70,7 +69,7 @@ class NaissanceController extends Controller
                 "{$naissance->nombre_morts} chiot(s) mort(s) à la naissance.",
                 'danger',
                 'naissance',
-                auth()->id()
+                Auth::id()
             );
         }
 
@@ -123,7 +122,7 @@ class NaissanceController extends Controller
             "La naissance #{$naissance->id} a été modifiée.",
             'warning',
             'naissance',
-            auth()->id()
+            Auth::id()
         );
 
         return redirect()
@@ -145,7 +144,7 @@ class NaissanceController extends Controller
             "La naissance #{$id} a été supprimée.",
             'danger',
             'naissance',
-            auth()->id()
+            Auth::id()
         );
 
         return redirect()

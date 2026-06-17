@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Http\Controllers;
@@ -9,6 +8,7 @@ use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class ChienController extends Controller
 {
@@ -145,7 +145,7 @@ class ChienController extends Controller
             "Le chien {$chien->nom} a été ajouté.",
             'success',
             'chien',
-            auth()->id()
+              Auth::id()
         );
 
         return redirect()
@@ -247,7 +247,7 @@ class ChienController extends Controller
             "Le chien {$chien->nom} a été modifié.",
             'warning',
             'chien',
-            auth()->id()
+             Auth::id()
         );
 
         if(
@@ -261,7 +261,7 @@ class ChienController extends Controller
                 "Le chien {$chien->nom} a été vendu.",
                 'success',
                 'vente',
-                auth()->id()
+                 Auth::id()
             );
         }
 
@@ -276,7 +276,7 @@ class ChienController extends Controller
                 "Le chien {$chien->nom} a été réservé.",
                 'info',
                 'reservation',
-                auth()->id()
+                 Auth::id()
             );
         }
 
@@ -291,7 +291,7 @@ class ChienController extends Controller
                 "Le chien {$chien->nom} est placé en soins.",
                 'warning',
                 'sante',
-                auth()->id()
+                 Auth::id()
             );
         }
 
@@ -320,7 +320,7 @@ class ChienController extends Controller
             "Le chien {$nom} a été supprimé.",
             'danger',
             'chien',
-            auth()->id()
+             Auth::id()
         );
 
         return redirect()

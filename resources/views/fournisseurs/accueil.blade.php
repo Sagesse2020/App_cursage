@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ config('app.name')}}-Formulaire employes</title>
+    <title>{{ config('app.name')}}-Formulaire fournisseurs </title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}"> <!-- Si tu as des styles -->
      <style>
 *{
@@ -137,10 +137,10 @@ img{
     <div class="container">
       <ul class="collapse navbar-collapse" id="navbarSupportedContent">
       <li class="nav-item">
-      <a class="nav-link @if(Request::route()->getName() == 'employees.create') active @endif" aria-current="page" href="{{ route('employees.create') }}">Enregistrer un nouveau employe</a>
+      <a class="nav-link @if(Request::route()->getName() == 'employees.create') active @endif" aria-current="page" href="{{ route('fournisseurs.create') }}">  Enregistrer un nouveau fournisseur</a>
       </li>
        <li class="nav-item">
-       <a class="nav-link @if(Request::route()->getName() == 'employees.index') active @endif" aria-current="page" href="{{ route('employees.index') }}">Liste des employes</a>
+        <a class="nav-link @if(Request::route()->getName() == 'employees.index') active @endif" aria-current="page" href="{{ route('fournisseurs.index') }}">Liste des fournisseurs </a>
        </li>
        <li class="nav-item">
          <a class="nav-link active" aria-current="page" href="{{ route('admin') }}">Accueil</a>
