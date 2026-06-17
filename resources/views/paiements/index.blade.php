@@ -89,6 +89,29 @@ text-decoration:none;
         
 <h2>Liste des Paiements</h2>
 
+<form method="GET" class="filters">
+
+<input type="text" name="search" placeholder="Référence / ID">
+
+<select name="type">
+    <option value="">Type</option>
+    <option value="entree">Entrée</option>
+    <option value="sortie">Sortie</option>
+</select>
+
+<select name="statut">
+    <option value="">Statut</option>
+    <option value="payé">Payé</option>
+    <option value="attente">En attente</option>
+</select>
+
+<input type="date" name="date_debut">
+<input type="date" name="date_fin">
+
+<button>Filtrer</button>
+
+</form>
+
 <table border="1">
     <thead>
         <tr>
@@ -112,11 +135,7 @@ text-decoration:none;
     <tbody>
         @foreach($paiements as $p)
            @if(auth()->id() === $p->user_id || auth()->user()->niveau == 3)
-
-  <a href="{{ route('paiements.create') }}" class="btn">
-  + Nouveau
-  </a>
-  @endif
+           @endif
         <tr>
             <td>{{ $p->id }}</td>
             <td>{{ $p->montant }}</td>
@@ -132,16 +151,22 @@ text-decoration:none;
             <td>{{ $p->achat?->id }}</td>
             <td>
 
-@if(auth()->id() === $p->user_id || auth()->user()->niveau == 3)
+@if(auth()->id() === $p->user_id || auth()->user()->niveau_admin == 3)
+
+  <a href="{{ route('paiements.create') }}" class="btn">
+  + Nouveau
+  </a>
 
   <a href="{{ route('paiements.edit', $p) }}" class="btn">Edit</a>
 
-  <a href="{{ route('paiements.destroy', $p) }}"class="btn">
-  supprimer
-  </a>
+  <form method="POST" action="{{ route('paiements.destroy',$p->id) }}" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer ce paiement ?');">
+@csrf
+@method('DELETE')
+<button class="btn delete">Supprimer</button>
+</form>
 
-@endif
-              
+@endif           
     </td>
     </tr>
     @endforeach

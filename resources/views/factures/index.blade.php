@@ -1,124 +1,271 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
 <meta charset="UTF-8">
 <title>Liste des factures</title>
+
 <style>
+
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:#0f172a;
+    color:#e2e8f0;
+}
+
 .container{
-padding:40px;
+    max-width:1200px;
+    margin:40px auto;
+    padding:20px;
 }
 
-.stats{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:20px;
-margin-bottom:30px;
+/* TITLE */
+h2{
+    font-size:28px;
+    margin-bottom:20px;
+    background:linear-gradient(90deg,#00e6ff,#4facfe);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 }
 
-.box{
-background:#111827;
-padding:20px;
-border-radius:10px;
+/* CARD */
+.card{
+    background:rgba(17,24,39,.92);
+    border-radius:18px;
+    padding:15px;
+    border:1px solid rgba(255,255,255,.06);
+    box-shadow:0 20px 50px rgba(0,0,0,.35);
+    overflow-x:auto;
 }
 
-.solde{
-background:#00e6ff;
-color:#000;
-}
-
+/* TABLE */
 table{
-width:100%;
-border-collapse:collapse;
+    width:100%;
+    border-collapse:collapse;
+    min-width:800px;
 }
 
-th,td{
-padding:12px;
-border-bottom:1px solid #333;
+thead{
+    background:#020617;
 }
 
+th{
+    text-align:left;
+    padding:14px;
+    color:#94a3b8;
+    font-size:13px;
+}
+
+td{
+    padding:14px;
+    border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+tr:hover{
+    background:#172036;
+}
+
+/* BADGES */
+.badge{
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:12px;
+    display:inline-block;
+}
+
+.paid{
+    background:#16a34a;
+}
+
+.pending{
+    background:#f59e0b;
+}
+
+.danger{
+    background:#ef4444;
+}
+
+/* BUTTONS */
 .btn{
- padding: 6px 12px;
-    border-radius: 5px;
-    text-decoration: none;
-    color: white;
-    background-color: #4CAF50; /* vert */
-    font-size: 13px;
-    transition: 0.3s;
+    padding:6px 10px;
+    border-radius:8px;
+    text-decoration:none;
+    font-size:12px;
+    margin-right:5px;
+    display:inline-block;
+    font-weight:bold;
 }
 
+.btn-view{
+    background:#334155;
+    color:white;
+}
+
+.btn-edit{
+    background:#f59e0b;
+    color:white;
+}
+
+.btn-del{
+    background:#ef4444;
+    color:white;
+}
+
+.btn-add{
+    background:#00e6ff;
+    color:#0f172a;
+    padding:10px 15px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:bold;
+    display:inline-block;
+    margin-bottom:15px;
+}
+
+/* RESPONSIVE */
 @media(max-width:768px){
-table{
-font-size:12px;
+    table{
+        min-width:600px;
+    }
 }
+
+.filters{
+display:flex;
+gap:15px;
+margin:20px 0;
+flex-wrap:wrap;
 }
+
+.filters input,
+.filters select{
+padding:12px;
+border:none;
+border-radius:8px;
+background:#1f2937;
+color:white;
+min-width:220px;
+}
+
+.filters button{
+padding:12px 18px;
+background:#00e6ff;
+color:black;
+border:none;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+}
+
 </style>
 </head>
+
 <body>
 
-<table class="table-pro">
-   <h2>Gestion des factures</h2>
-<thead>
-<tr>
-<th>N°</th>
-<th>Date</th>
-<th>Client</th>
-<th>Total</th>
-<th>Statut</th>
-<th>Action</th>
-</tr>
-</thead>
+<div class="container">
 
-<tbody>
+    <h2>📄 Gestion des factures</h2>
 
-@foreach($factures as $facture)
+    <form method="GET" style="margin-bottom:20px;display:flex;gap:10px;flex-wrap:wrap;">
 
-<tr>
+    <input type="text" name="numero" placeholder="N° facture"
+        style="padding:10px;border-radius:10px;border:none;background:#1e293b;color:white;">
 
-<td>{{ $facture->numero }}</td>
+    <select name="client"
+        style="padding:10px;border-radius:10px;border:none;background:#1e293b;color:white;">
+        <option value="">Tous clients</option>
+        @foreach($clients as $client)
+            <option value="{{ $client->id }}">{{ $client->nom }}</option>
+        @endforeach
+    </select>
 
-<td>{{ $facture->date->format('d/m/Y') }}</td>
+    <select name="statut"
+        style="padding:10px;border-radius:10px;border:none;background:#1e293b;color:white;">
+        <option value="">Statut</option>
+        <option value="payée">Payée</option>
+        <option value="impayée">Impayée</option>
+    </select>
 
-<td>{{ $facture->client->nom ?? '-' }}</td>
+    <input type="date" name="date"
+        style="padding:10px;border-radius:10px;border:none;background:#1e293b;color:white;">
 
-<td>{{ number_format($facture->total,0,',',' ') }} CFA</td>
+    <button type="submit"
+        style="padding:10px 15px;background:#00e6ff;border:none;border-radius:10px;font-weight:bold;">
+        🔎 Filtrer
+    </button>
 
-<td>{{ $facture->statut }}</td>
+</form>
 
-<td>
+    <a href="{{ route('factures.create') }}" class="btn-add">+ Nouvelle facture</a>
 
-<a href="{{ route('factures.show',$facture->id)}}" class="btn">
-Voir
-</a>
+    <div class="card">
 
-@if(auth()->id() === $facture->user_id || auth()->user()->niveau == 3)
+        <table>
 
-<a href="{{ route('factures.edit',$facture->id) }}" class="btn">
-Modifier
-</a>
+            <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Date</th>
+                    <th>Client</th>
+                    <th>Total</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-<a href="{{ route('factures.destroy',$facture->id) }}" class="btn">
-supprimer
-</a>
+            <tbody>
 
-<a href="{{ route('factures.create') }}" class="btn">
-+ Nouvelle facture
-</a>
+            @foreach($factures as $facture)
 
-<a href="{{ route('factures.print',$facture->id)}}" class="btn">
-Imprimer
-</a>
+                <tr>
+                    <td>{{ $facture->numero }}</td>
+                    <td>{{ $facture->date->format('d/m/Y') }}</td>
+                    <td>{{ $facture->client->nom ?? '-' }}</td>
+                    <td>{{ number_format($facture->total,0,',',' ') }} FCFA</td>
 
-@endif
+                    <td>
+                        <span class="badge {{ $facture->statut == 'payée' ? 'paid' : 'pending' }}">
+                            {{ $facture->statut }}
+                        </span>
+                    </td>
 
-</td>
+                    <td>
 
-</tr>
+                        <a href="{{ route('factures.show',$facture->id)}}" class="btn btn-view">Voir</a>
 
-@endforeach
+                        @if(auth()->id() === $facture->user_id || auth()->user()->niveau_admin >= 2)
 
-</tbody>
+                            <a href="{{ route('factures.edit',$facture->id) }}" class="btn btn-edit">Modifier</a>
 
-</table>
-</table>
+                            <form method="POST"
+                                  action="{{ route('factures.destroy',$facture->id) }}"
+                                  style="display:inline;"
+                                  onsubmit="return confirm('Supprimer cette facture ?');">
+
+                                @csrf
+                                @method('DELETE')
+
+                                <button class="btn btn-del">Supprimer</button>
+
+                            </form>
+
+                        @endif
+
+                        <a href="{{ route('factures.print',$facture->id)}}" class="btn btn-view">Imprimer</a>
+
+                    </td>
+
+                </tr>
+
+            @endforeach
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
 </body>
 </html>

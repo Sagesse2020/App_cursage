@@ -158,15 +158,18 @@ $extension = strtolower(pathinfo($doc->fichier, PATHINFO_EXTENSION));
 Voir
 </a>
 
-@if(auth()->id() === $doc->user_id || auth()->user()->niveau == 3)
+@if(auth()->id() === $doc->user_id || auth()->user()->niveau_admin >= 2)
 
 <a href="{{ route('documents.edit',$doc) }}" class="edit">
 Modifier
 </a>>
 
-<a href="{{ route('documents.destroy',$doc->id) }}" class="btn">
-supprimer
-</a>
+<form method="POST" action="{{ route('documents.destroy',$document->id) }}" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer ce document ?');">
+@csrf
+@method('DELETE')
+<button class="btn delete">Supprimer</button>
+</form>
 
 <a href="{{ route('documents.create') }}" class="btn">
 + Ajouter

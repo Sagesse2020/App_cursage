@@ -13,7 +13,7 @@ class ProduitPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class ProduitPolicy
      */
     public function view(User $user, Produit $produit): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class ProduitPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+         return $user->niveau_admin >= 2;
     }
 
     /**
@@ -55,7 +55,11 @@ public function update(User $user, Produit $produit)
      */
     public function delete(User $user, Produit $produit): bool
     {
-        return false;
+          if($user->niveau_admin == 3){
+          return true;
+          }
+
+    return $produit->user_id === $user->id;
     }
 
     /**
@@ -63,7 +67,11 @@ public function update(User $user, Produit $produit)
      */
     public function restore(User $user, Produit $produit): bool
     {
-        return false;
+          if($user->niveau_admin == 3){
+        return true;
+        }
+
+       return $produit->user_id === $user->id;
     }
 
     /**
@@ -71,6 +79,6 @@ public function update(User $user, Produit $produit)
      */
     public function forceDelete(User $user, Produit $produit): bool
     {
-        return false;
+   
     }
 }

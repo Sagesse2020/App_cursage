@@ -132,16 +132,18 @@ h1{
 
         <div class="actions">
 
- @if(auth()->id() === $consultation->user_id || auth()->user()->niveau == 3)
+ @if(auth()->id() === $ev->user_id || auth()->user()->niveau_admin >= 2)
  
 <a href="{{ route('evenements.edit',$ev) }}" class="edit">Modifier</a>
 
-<a href="{{ route('evenements.destroy',$ev->id) }}" class="btn">
-supprimer
-</a>
+<form method="POST" action="{{ route('evenements.destroy',$ev->id) }}" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer cet evenement ?');">
+@csrf
+@method('DELETE')
+<button class="btn delete">Supprimer</button>
+</form>
 
 <header>
-    <h1>📅 Événements</h1>
     <a href="{{ route('evenements.create') }}" class="btn">+ Ajouter</a>
 </header>
 

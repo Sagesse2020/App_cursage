@@ -49,22 +49,24 @@ body{
     <p>Statut: {{ $c->statut }}</p>
 
      
-@if(auth()->id() === $c->user_id || auth()->user()->niveau == 3)
+<a href="{{ route('commandes.show',$c->id) }}" class="btn">Voir</a>
+@if(auth()->id() === $c->user_id || auth()->user()->niveau_admin >= 2;)
 
 <a href="{{ route('commandes.edit',$c->id) }}" class="btn">
 Modifier
 </a>
 
-<a href="{{ route('commandes.destroy',$c->id) }}" class="btn">
-supprimer
-</a>
+<form method="POST" action="{{ route('commandes.destroy',$c->id) }}" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer ce commande ?');">
+@csrf
+@method('DELETE')
+<button class="btn delete">Supprimer</button>
+</form>
 
 <a href="{{ route('commandes.create') }}" class="btn">
 + Nouvelle commande
 </a>
 @endif
-
-    <a class="btn" href="{{ route('commandes.show',$c->id) }}">Voir</a>
 </div>
 @endforeach
 

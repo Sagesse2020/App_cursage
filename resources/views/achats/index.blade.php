@@ -41,10 +41,15 @@
 Voir
 </a>
 
-@if(auth()->id() === $achat->user_id || auth()->user()->niveau == 3)
-              <a href="{{ route('achats.edit',$achat) }}"> Modifier</a>
-              <a href="{{ route('achats.destroy',$achat->id) }}" class="btn"> supprimer </a>
-            @endif
+@if(auth()->id() === $achat->user_id || auth()->user()->niveau_admin == 3)
+<a href="{{ route('achats.edit',$achat) }}"> Modifier</a>
+<form method="POST" action="{{ route('achats.destroy',$achat->id) }}" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer cet achat ?');">
+@csrf
+@method('DELETE')
+<button class="btn delete">Supprimer</button>
+</form>
+@endif
             @if(auth()->id() === $achat->user_id || auth()->user()->niveau == 3)
              <a href="{{ route('achats.create') }}"> Ajouter </a>
             @endif

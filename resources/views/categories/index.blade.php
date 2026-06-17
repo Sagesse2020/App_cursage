@@ -118,15 +118,18 @@ Créée par :
 
 <a href="{{ route('categories.show',$categorie->id) }}" class="btn"> Voir </a>
 
-@if(auth()->id() === $categorie->user_id || auth()->user()->niveau == 3)
+@if(auth()->id() === $categorie->user_id || auth()->user()->niveau_admin >= 2)
 
 <a href="{{ route('categories.edit',$categorie->id) }}" class="btn">
 Modifier
 </a>
 
-<a href="{{ route('categories.destroy',$categorie->id) }}" class="btn">
-supprimer
-</a>
+<form method="POST" action="{{ route('categories.destroy',$categorie->id) }}" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer cet categorie ?');">
+@csrf
+@method('DELETE')
+<button class="btn delete">Supprimer</button>
+</form>
 
 <a href="{{ route('categories.create') }}" class="btn">
 + Nouvelle catégorie

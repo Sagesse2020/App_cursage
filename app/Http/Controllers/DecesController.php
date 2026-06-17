@@ -1,3 +1,4 @@
+```php
 <?php
 
 namespace App\Http\Controllers;
@@ -7,38 +8,70 @@ use App\Models\Chien;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\NotificationService;
 
 class DecesController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Deces::with(['chien','user'])->latest();
+        $query = Deces::with([
+            'chien',
+            'user'
+        ])->latest();
 
-        // ================= FILTRES =================
-        if ($request->chien) {
-            $query->whereHas('chien', function ($q) use ($request) {
-                $q->where('nom', 'like', '%'.$request->chien.'%');
-            });
+        if ($request->chien)
+        {
+            $query->whereHas(
+                'chien',
+                function ($q) use ($request)
+                {
+                    $q->where(
+                        'nom',
+                        'like',
+                        '%'.$request->chien.'%'
+                    );
+                }
+            );
         }
 
-        if ($request->date_debut) {
-            $query->whereDate('date_deces', '>=', $request->date_debut);
+        if ($request->date_debut)
+        {
+            $query->whereDate(
+                'date_deces',
+                '>=',
+                $request->date_debut
+            );
         }
 
-        if ($request->date_fin) {
-            $query->whereDate('date_deces', '<=', $request->date_fin);
+        if ($request->date_fin)
+        {
+            $query->whereDate(
+                'date_deces',
+                '<=',
+                $request->date_fin
+            );
         }
 
         $deces = $query->paginate(10);
 
-        return view('deces.index', compact('deces'));
+        return view(
+            'deces.index',
+            compact('deces')
+        );
     }
 
     public function create()
     {
         $users = User::all();
         $chiens = Chien::all();
-        return view('deces.create', compact('chiens','users'));
+
+        return view(
+            'deces.create',
+            compact(
+                'chiens',
+                'users'
+            )
+        );
     }
 
     public function store(Request $request)
@@ -48,47 +81,100 @@ class DecesController extends Controller
             'date_deces' => 'required|date',
         ]);
 
-        Deces::create([
+        $deces = Deces::create([
             'chien_id' => $request->chien_id,
             'date_deces' => $request->date_deces,
             'cause' => $request->cause,
-            'observation' => $request->observation,
+            'description' => $request->description,
             'user_id' => Auth::id(),
         ]);
 
-        return redirect()->route('deces.index')
-            ->with('success','Décès enregistré');
+        $deces->load('chien');
+
+        NotificationService::create(
+            'Décès enregistré',
+            "Le chien {$deces->chien->nom} est déclaré décédé.",
+            'danger',
+            'deces',
+            auth()->id()
+        );
+
+        return redirect()
+            ->route('deces.index')
+            ->with(
+                'success',
+                'Décès enregistré'
+            );
     }
 
     public function show(Deces $deces)
     {
-        return view('deces.show', compact('deces'));
+        return view(
+            'deces.show',
+            compact('deces')
+        );
     }
 
     public function edit(Deces $deces)
     {
         $chiens = Chien::all();
-        return view('deces.edit', compact('deces','chiens'));
+
+        return view(
+            'deces.edit',
+            compact(
+                'deces',
+                'chiens'
+            )
+        );
     }
 
-    public function update(Request $request, Deces $deces)
+    public function update(
+        Request $request,
+        Deces $deces
+    )
     {
         $request->validate([
             'chien_id' => 'required',
-            'date_deces' => 'required',
+            'date_deces' => 'required'
         ]);
 
         $deces->update($request->all());
 
-        return redirect()->route('deces.index')
-            ->with('success','Décès modifié');
+        NotificationService::create(
+            'Décès modifié',
+            "Le décès #{$deces->id} a été modifié.",
+            'warning',
+            'deces',
+            auth()->id()
+        );
+
+        return redirect()
+            ->route('deces.index')
+            ->with(
+                'success',
+                'Décès modifié'
+            );
     }
 
     public function destroy(Deces $deces)
     {
+        $id = $deces->id;
+
         $deces->delete();
 
-        return redirect()->route('deces.index')
-            ->with('success','Décès supprimé');
+        NotificationService::create(
+            'Décès supprimé',
+            "Le décès #{$id} a été supprimé.",
+            'danger',
+            'deces',
+            auth()->id()
+        );
+
+        return redirect()
+            ->route('deces.index')
+            ->with(
+                'success',
+                'Décès supprimé'
+            );
     }
 }

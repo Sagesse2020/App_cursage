@@ -6,6 +6,7 @@ use App\Models\Reservation;
 use App\Models\Chien;
 use App\Models\Client;
 use Illuminate\Http\Request;
+use App\Services\NotificationService;
 use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
@@ -40,28 +41,38 @@ class ReservationController extends Controller
         return view('reservations.create', compact('chiens','clients'));
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'chien_id' => 'required',
-            'client_id' => 'required',
-            'date_reservation' => 'required',
-        ]);
+     public function store(Request $request)
+{
+    $request->validate([
+        'chien_id' => 'required',
+        'client_id' => 'required',
+        'date_reservation' => 'required',
+    ]);
 
-    Reservation::create([
-    'chien_id' => $request->chien_id,
-    'client_id' => $request->client_id,
-    'date_reservation' => $request->date_reservation,
-    'statut' => $request->statut,
-    'montant_avance' => $request->montant_avance,
-    'reste_a_payer' => $request->reste_a_payer,
-    'user_id' => Auth::id(),
-]);
+    $reservation = Reservation::create([
+        'chien_id' => $request->chien_id,
+        'client_id' => $request->client_id,
+        'date_reservation' => $request->date_reservation,
+        'statut' => $request->statut,
+        'montant_avance' => $request->montant_avance,
+        'reste_a_payer' => $request->reste_a_payer,
+        'user_id' => Auth::id(),
+    ]);
 
-        return redirect()->route('reservations.index')
-            ->with('success','Réservation ajoutée');
+    $reservation->load('chien','client');
+
+    NotificationService::create(
+        'Nouvelle réservation',
+        "Le chien {$reservation->chien->nom} a été réservé par {$reservation->client->nom}.",
+        'success',
+        'reservation',
+        auth()->id()
+    );
+
+    return redirect()
+        ->route('reservations.index')
+        ->with('success','Réservation ajoutée');
     }
-
     public function show(Reservation $reservation)
     {
         return view('reservations.show', compact('reservation'));
@@ -74,18 +85,77 @@ class ReservationController extends Controller
     }
 
     public function update(Request $request, Reservation $reservation)
-    {
-        $reservation->update($request->all());
+{
+    $ancienStatut = $reservation->statut;
 
-        return redirect()->route('reservations.index')
-            ->with('success','Réservation modifiée');
+    $reservation->update($request->all());
+
+    $reservation->load('chien','client');
+
+    NotificationService::create(
+        'Réservation modifiée',
+        "La réservation #{$reservation->id} a été modifiée.",
+        'warning',
+        'reservation',
+        auth()->id()
+    );
+
+    if($ancienStatut != $reservation->statut)
+    {
+        NotificationService::create(
+            'Changement de statut',
+            "La réservation du chien {$reservation->chien->nom} est passée à : {$reservation->statut}.",
+            'info',
+            'reservation',
+            auth()->id()
+        );
     }
 
-    public function destroy(Reservation $reservation)
+    if($reservation->statut == 'confirmée')
     {
-        $reservation->delete();
-
-        return redirect()->route('reservations.index')
-            ->with('success','Réservation supprimée');
+        NotificationService::create(
+            'Réservation confirmée',
+            "La réservation du chien {$reservation->chien->nom} a été confirmée.",
+            'success',
+            'reservation',
+            auth()->id()
+        );
     }
+
+    if($reservation->statut == 'annulée')
+    {
+        NotificationService::create(
+            'Réservation annulée',
+            "La réservation du chien {$reservation->chien->nom} a été annulée.",
+            'danger',
+            'reservation',
+            auth()->id()
+        );
+    }
+
+    return redirect()
+        ->route('reservations.index')
+        ->with('success','Réservation modifiée');
+    }
+
+     public function destroy(Reservation $reservation)
+{
+    $reservation->load('chien');
+
+    $nomChien = $reservation->chien->nom;
+
+    $reservation->delete();
+
+    NotificationService::create(
+        'Réservation supprimée',
+        "La réservation du chien {$nomChien} a été supprimée.",
+        'danger',
+        'reservation',
+        auth()->id()
+    );
+
+    return redirect()
+        ->route('reservations.index')
+        ->with('success','Réservation supprimée');
+}
 }

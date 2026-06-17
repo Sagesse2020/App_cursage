@@ -26,8 +26,7 @@ class ConsultationController extends Controller
     public function create()
     {
         $chiens = Chien::orderBy('nom')->get();
-    return view(
-        'consultations.create', compact('chiens')
+    return view('consultations.create', compact('chiens')
     );
     }
 

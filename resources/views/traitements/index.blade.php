@@ -109,10 +109,11 @@ td{
 
 <a href="{{ route('traitements.show',$t) }}">Voir</a>
 
-@if(auth()->id() === $t->user_id || auth()->user()->niveau == 3)
+@if(auth()->id() === $t->user_id || auth()->user()->niveau_admin >= 2)
 <a href="{{ route('traitements.edit',$t) }}">Modifier</a>
 
-<form action="{{ route('traitements.destroy',$t) }}" method="POST" style="display:inline;">
+<form action="{{ route('traitements.destroy',$t) }}" method="POST" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer ce traitement ?');">
 @csrf @method('DELETE')
 <button onclick="return confirm('Supprimer ?')">X</button>
 </form>

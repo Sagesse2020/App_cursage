@@ -12,7 +12,7 @@ class Deces extends Model
         'chien_id',
         'cause',
         'date_deces',
-        'observation',
+        'description',
         'user_id',
     ];
 

@@ -6,129 +6,202 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Liste des Clients</title>
-    <style>
-        /* Général : corps de la page */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7fa;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
+   <style>
 
-        /* Conteneur principal */
-        .container {
-            width: 80%;
-            margin: 50px auto;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Segoe UI",Tahoma,sans-serif;
+}
 
-        /* Titre principal */
-        h1 {
-            text-align: center;
-            font-size: 2.2em;
-            margin-bottom: 20px;
-            color: #007bff;
-        }
+body{
+background:#f4f7fa;
+padding:20px;
+color:#333;
+}
 
-        /* Style du message "Aucun client disponible" */
-        p {
-            text-align: center;
-            font-size: 1.2em;
-            color: #d9534f;
-        }
+.container{
+max-width:1400px;
+margin:auto;
+background:#fff;
+padding:25px;
+border-radius:15px;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
 
-        /* Table de clients */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+h1{
+text-align:center;
+margin-bottom:25px;
+color:#0d6efd;
+font-size:2rem;
+}
 
-        table th,
-        table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 2px solid #ddd;
-        }
+.empty-message{
+text-align:center;
+padding:30px;
+color:#dc3545;
+font-size:18px;
+font-weight:600;
+}
 
-        table th {
-            background-color: #007bff;
-            color: white;
-            font-size: 1em;
-        }
+.table-responsive{
+overflow-x:auto;
+}
 
-        table td {
-            background-color: #f9f9f9;
-            font-size: 1em;
-        }
+table{
+width:100%;
+border-collapse:collapse;
+min-width:900px;
+}
 
-        table tr:nth-child(even) td {
-            background-color: #f1f1f1;
-        }
+thead{
+background:#0d6efd;
+color:white;
+}
 
-        /* Améliorer la visibilité des bordures lors du survol */
-        table tr:hover td {
-            background-color: #e9ecef;
-        }
+th{
+padding:15px;
+text-align:left;
+font-weight:600;
+}
 
-        /* Style de la pagination ou du bouton d'ajout, si nécessaire */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
+td{
+padding:15px;
+border-bottom:1px solid #e5e7eb;
+}
 
-        .pagination a {
-            padding: 10px 15px;
-            margin: 0 5px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
+tbody tr:nth-child(even){
+background:#f8fafc;
+}
 
-        .pagination a:hover {
-            background-color: #0056b3;
-        }
+tbody tr:hover{
+background:#eaf3ff;
+transition:.3s;
+}
 
-         /* Style pour le menu contextuel */
-    .context-menu {
-        display: none;
-        position: absolute;
-        z-index: 1000;
-        background-color: white;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 5px;
-        padding: 10px 0;
-        width: 150px;
-    }
+.actions{
+display:flex;
+gap:8px;
+align-items:center;
+}
 
-    .context-menu ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
+.actions a,
+.actions button{
+width:40px;
+height:40px;
+display:flex;
+justify-content:center;
+align-items:center;
+border:none;
+border-radius:8px;
+cursor:pointer;
+text-decoration:none;
+transition:.3s;
+}
 
-    .context-menu li {
-        padding: 10px 15px;
-        cursor: pointer;
-        font-size: 14px;
-    }
+.actions a{
+background:#0d6efd;
+color:white;
+}
 
-    .context-menu li:hover {
-        background-color: #f1f1f1;
-    }
+.btn-edit{
+background:#f59e0b !important;
+color:white;
+}
+
+.btn-delete{
+background:#dc3545;
+color:white;
+}
+
+.actions a:hover,
+.actions button:hover{
+transform:translateY(-2px);
+opacity:.9;
+}
+
+.pagination{
+display:flex;
+justify-content:center;
+margin-top:25px;
+gap:10px;
+}
+
+.pagination a{
+padding:10px 15px;
+background:#0d6efd;
+color:white;
+text-decoration:none;
+border-radius:8px;
+}
+
+.pagination a:hover{
+background:#0b5ed7;
+}
+
+@media(max-width:768px){
+
+.container{
+padding:15px;
+}
+
+h1{
+font-size:1.6rem;
+}
+
+th,
+td{
+padding:10px;
+font-size:14px;
+}
+
+.actions{
+flex-wrap:wrap;
+}
+
+}
+
+.filters{
+display:flex;
+gap:15px;
+margin:20px 0;
+flex-wrap:wrap;
+}
+
+.filters input,
+.filters select{
+padding:12px;
+border:none;
+border-radius:8px;
+background:#1f2937;
+color:white;
+min-width:220px;
+}
+
+.filters button{
+padding:12px 18px;
+background:#00e6ff;
+color:black;
+border:none;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+}
     </style>
 </head>
 
 <body>
     <div class="container">
         <h1>Liste des Clients</h1>
+        
+        <form method="GET" class="filters">
 
+        <input type="text" name="search" placeholder="Nom, email, téléphone...">
+
+        <button type="submit">Rechercher</button>
+        </form>
+        
         @if($clients->isEmpty())
         <p>Aucun client disponible.</p>
         @else
@@ -140,7 +213,6 @@
 <th>Email</th>
 <th>Téléphone</th>
 <th>Adresse</th>
-<th>Password</th>
 <th>Actions</th>
 </tr>
 </thead>
@@ -155,26 +227,26 @@
 <td>{{ $client->email }}</td>
 <td>{{ $client->telephone }}</td>
 <td>{{ $client->adresse }}</td>
-<td>{{ $client->password }}</td>
 
 <td class="actions">
 
 <a href="{{ route('clients.show',$client) }}">
-<i class="fas fa-eye"></i>
+<i class="fas fa-eye"></i> Voir
 </a>
 
-@if(auth()->user()->niveau >= 2)
+@if(auth()->user()->niveau_admin >= 2)
 
 <a href="{{ route('clients.edit',$client) }}" class="btn-edit">
-<i class="fas fa-edit"></i>
+<i class="fas fa-edit"></i> Modifier
 </a>
 
-<form action="{{ route('clients.destroy',$client) }}" method="POST" style="display:inline">
+<form action="{{ route('clients.destroy',$client) }}" method="POST" style="display:inline" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer ce client ?');">
 @csrf
 @method('DELETE')
 
 <button class="btn-delete">
-<i class="fas fa-trash"></i>
+<i class="fas fa-trash"></i> Supprimer
 </button>
 
 </form>

@@ -121,32 +121,34 @@ Ajouter
 
 @endforeach
 
+<a href="{{ route('consultations.show',$consultation->id) }}" class="btn">
+Voir
+</a>
+
+@if(auth()->id() === $consultation->user_id || auth()->user()->niveau_admin >= 2)
+
+<a href="{{ route('consultations.edit',$consultation->id) }}" class="btn">
+Modifier
+</a>
+
+<form method="POST" action="{{ route('consultations.destroy',$consultation->id) }}" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer cette consultation ?');">
+@csrf
+@method('DELETE')
+<button class="btn delete">Supprimer</button>
+</form>
+
+<a href="{{ route('consultations.create') }}" class="btn">
++ Nouvelle consultation
+</a>
+
+@endif
 </tbody>
 
 </table>
 
 {{ $consultations->links() }}
 </div>
-
-<a href="{{ route('consultations.show',$c->id) }}" class="btn">
-Voir
-</a>
-
-@if(auth()->id() === $consultation->user_id || auth()->user()->niveau == 3)
-
-<a href="{{ route('consultations.edit',$consultation->id) }}" class="btn">
-Modifier
-</a>
-
-<a href="{{ route('consultations.destroy',$consultation->id) }}" class="btn">
-supprimer
-</a>
-
-<a href="{{ route('consulations.create') }}" class="btn">
-+ Nouvelle consultation
-</a>
-
-@endif
 
 </body>
 </html>

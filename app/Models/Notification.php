@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Services\NotificationService;
 
 class Notification extends Model
 {
@@ -14,6 +15,10 @@ class Notification extends Model
         'type',
         'lu'
     ];
+
+       protected $casts = [
+
+        'lu' => 'boolean'];
 
     public function user()
     {

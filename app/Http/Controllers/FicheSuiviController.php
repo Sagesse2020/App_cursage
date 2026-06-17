@@ -9,13 +9,39 @@ use Illuminate\Support\Facades\Auth;
 
 class FicheSuiviController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $fiches = FicheSuivi::with(['chien','user'])
-            ->latest()
-            ->paginate(10);
+        $query = FicheSuivi::with('chien');
 
-        return view('fiches_suivi.index', compact('fiches'));
+    if($request->search)
+    {
+        $query->whereHas('chien', function($q) use ($request){
+
+            $q->where(
+                'nom',
+                'like',
+                '%'.$request->search.'%'
+            );
+
+        });
+    }
+
+    if($request->etat)
+    {
+        $query->where(
+            'etat_general',
+            $request->etat
+        );
+    }
+
+    $fiches = $query
+                ->latest()
+                ->paginate(10);
+
+    return view(
+        'fiches_suivi.index',
+        compact('fiches')
+    );
     }
 
     public function create()

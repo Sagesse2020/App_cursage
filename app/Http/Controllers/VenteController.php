@@ -6,6 +6,7 @@ use App\Models\Vente;
 use App\Models\Chien;
 use App\Models\Client;
 use Illuminate\Http\Request;
+use App\Services\NotificationService;
 use Illuminate\Support\Facades\Auth;
 
 class VenteController extends Controller
@@ -33,38 +34,58 @@ class VenteController extends Controller
 
     }
 
+           public function store(Request $request)
+{
+    $data = $request->validate([
 
-    public function store(Request $request)
-    {
+        'chien_id'=>'required|exists:chiens,id',
+        'client_id'=>'required|exists:clients,id',
+        'prix_vente'=>'required|numeric',
+        'commission_partenaire'=>'nullable|numeric',
+        'commission_cursage'=>'nullable|numeric',
+        'date_vente'=>'required|date'
 
-        $data = $request->validate([
+    ]);
 
-            'chien_id'=>'required|exists:chiens,id',
-            'client_id'=>'required|exists:clients,id',
+    $data['user_id'] = Auth::id();
 
-            'prix_vente'=>'required|numeric',
+    $vente = Vente::create($data);
 
-            'commission_partenaire'=>'nullable|numeric',
+    Chien::where(
+        'id',
+        $data['chien_id']
+    )->update([
+        'statut'=>'vendu'
+    ]);
 
-            'commission_cursage'=>'nullable|numeric',
+    $vente->load(
+        'chien',
+        'client'
+    );
 
-            'date_vente'=>'required|date'
+    NotificationService::create(
+        'Nouvelle vente',
+        "Le chien {$vente->chien->nom} a été vendu à {$vente->client->nom}.",
+        'success',
+        'vente',
+        auth()->id()
+    );
 
-        ]);
+    NotificationService::create(
+        'Chien vendu',
+        "Le statut du chien {$vente->chien->nom} est désormais vendu.",
+        'info',
+        'chien',
+        auth()->id()
+    );
 
-        $data['user_id'] = Auth::id();
-
-        Vente::create($data);
-
-        Chien::where('id',$data['chien_id'])
-        ->update(['statut'=>'vendu']);
-
-        return redirect()
+    return redirect()
         ->route('ventes.index')
-        ->with('success','Vente enregistrée avec succès');
-
-    }
-
+        ->with(
+            'success',
+            'Vente enregistrée avec succès'
+        );
+     }
 
     public function edit(Vente $vente)
     {
@@ -85,41 +106,75 @@ class VenteController extends Controller
     }
 
 
-    public function update(Request $request,Vente $vente)
-    {
+        public function update(Request $request,Vente $vente)
+{
+    $data = $request->validate([
 
-        $data = $request->validate([
+        'chien_id'=>'required',
+        'client_id'=>'required',
 
-            'chien_id'=>'required',
-            'client_id'=>'required',
+        'prix_vente'=>'required|numeric',
 
-            'prix_vente'=>'required|numeric',
+        'commission_partenaire'=>'nullable|numeric',
 
-            'commission_partenaire'=>'nullable|numeric',
+        'commission_cursage'=>'nullable|numeric',
 
-            'commission_cursage'=>'nullable|numeric',
+        'date_vente'=>'required|date'
 
-            'date_vente'=>'required|date'
+    ]);
 
-        ]);
+    $vente->update($data);
 
-        $vente->update($data);
+    $vente->load(
+        'chien',
+        'client'
+    );
 
-        return redirect()
+    NotificationService::create(
+        'Vente modifiée',
+        "La vente #{$vente->id} du chien {$vente->chien->nom} a été modifiée.",
+        'warning',
+        'vente',
+        auth()->id()
+    );
+
+    return redirect()
         ->route('ventes.index')
-        ->with('success','Vente modifiée');
+        ->with(
+            'success',
+            'Vente modifiée'
+        );
+     }
 
-    }
+      public function destroy(Vente $vente)
+{
+    $vente->load('chien');
 
+    $nomChien = $vente->chien->nom;
 
-    public function destroy(Vente $vente)
-    {
+    $vente->delete();
 
-        $vente->delete();
+    NotificationService::create(
+        'Vente supprimée',
+        "La vente du chien {$nomChien} a été supprimée.",
+        'danger',
+        'vente',
+        auth()->id()
+    );
 
-        return back()
-        ->with('success','Vente supprimée');
+    NotificationService::create(
+        'Vérification requise',
+        "Vérifiez le statut du chien {$nomChien} après suppression de la vente.",
+        'warning',
+        'chien',
+        auth()->id()
+    );
 
+    return back()
+        ->with(
+            'success',
+            'Vente supprimée'
+        );
     }
 
 }

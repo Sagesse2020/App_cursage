@@ -46,7 +46,7 @@ img{
 <p><strong>Chien :</strong> {{ $deces->chien->nom }}</p>
 <p><strong>Cause :</strong> {{ $deces->cause }}</p>
 <p><strong>Date :</strong> {{ $deces->date_deces }}</p>
-<p><strong>Observation :</strong> {{ $deces->observation }}</p>
+<p><strong>Description :</strong> {{ $deces->description }}</p>
 <p><strong>Enregistré par :</strong> {{ $deces->user->name ?? '' }}</p>
 
 <a href="{{ route('deces.index') }}">Retour</a>

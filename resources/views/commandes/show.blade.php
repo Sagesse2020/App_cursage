@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title></title>
+<title>details commande</title>
 
 <style>
 body{

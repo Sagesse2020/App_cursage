@@ -70,6 +70,14 @@ td{
 .pagination{
     margin-top:15px;
 }
+
+.btn{
+    padding:6px 10px;
+    border-radius:6px;
+    text-decoration:none;
+    font-size:13px;
+}
+
 </style>
 </head>
 
@@ -127,15 +135,18 @@ td{
 
 <a href="{{ route('deces.show',$d) }}" class="btn">Voir</a>
 
-@if(auth()->id() === $deces->user_id || auth()->user()->niveau == 3)
+@if(auth()->id() === $d->user_id || auth()->user()->niveau_admin >= 2)
 
 <a href="{{ route('deces.edit',$d->id) }}" class="btn">
 Modifier
 </a>
 
-<a href="{{ route('deces.destroy',$d->id) }}" class="btn">
-supprimer
-</a>
+<form method="POST" action="{{ route('deces.destroy',$deces->id) }}" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer ce decès ?');">
+@csrf
+@method('DELETE')
+<button class="btn delete">Supprimer</button>
+</form>
 
 <a href="{{ route('deces.create') }}" class="btn">
 + Nouveau deces

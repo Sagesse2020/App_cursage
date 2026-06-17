@@ -64,6 +64,33 @@ img{
 .show{background:green;color:white;}
 .edit{background:orange;color:white;}
 .delete{background:red;color:white;}
+
+.filters{
+display:flex;
+gap:15px;
+margin:20px 0;
+flex-wrap:wrap;
+}
+
+.filters input,
+.filters select{
+padding:12px;
+border:none;
+border-radius:8px;
+background:#1f2937;
+color:white;
+min-width:220px;
+}
+
+.filters button{
+padding:12px 18px;
+background:#00e6ff;
+color:black;
+border:none;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+}
 </style>
 </head>
 
@@ -71,7 +98,38 @@ img{
 
 <h1>📦 Liste des produits</h1>
 
-<a href="{{ route('produits.create') }}" class="add">+ Ajouter produit</a>
+<form method="GET" class="filters">
+
+    <input type="text"
+           name="search"
+           placeholder="Rechercher un produit..."
+           value="{{ request('search') }}">
+
+    <select name="categorie">
+
+        <option value="">
+            Toutes catégories
+        </option>
+
+        @foreach($categories as $cat)
+
+        <option
+            value="{{ $cat->id }}"
+            {{ request('categorie') == $cat->id ? 'selected' : '' }}>
+
+            {{ $cat->nom }}
+
+        </option>
+
+        @endforeach
+
+    </select>
+
+    <button type="submit">
+        Rechercher
+    </button>
+
+</form>
 
 <table>
 
@@ -107,10 +165,11 @@ img{
 <td>
 <a href="{{ route('produits.show',$produit->id) }}" class="btn show">Voir</a>
 
-@if(auth()->id() === $produit->user_id || auth()->user()->niveau == 3)
+@if(auth()->user()->niveau_admin >= 2)
 <a href="{{ route('produits.edit',$produit->id) }}" class="btn edit">Modifier</a>
-
-<form method="POST" action="{{ route('produits.destroy',$produit->id) }}" style="display:inline;">
+<a href="{{ route('produits.create') }}" class="add">+ Ajouter produit</a>
+<form method="POST" action="{{ route('produits.destroy',$produit->id) }}" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer ce produit ?');">
 @csrf
 @method('DELETE')
 <button class="btn delete">Supprimer</button>

@@ -50,7 +50,7 @@ li a {
        <a class="nav-link @if(Request::route()->getName() == 'clients.index') active @endif" aria-current="page" href="{{ route('clients.index') }}">Liste des clients</a>
        </li>
        <li class="nav-item">
-         <a class="nav-link active" aria-current="page" href="{{ route('welcome') }}">Accueil</a>
+         <a class="nav-link active" aria-current="page" href="{{ route('admin') }}">Accueil</a>
         </li>
         </ul>
     </div>

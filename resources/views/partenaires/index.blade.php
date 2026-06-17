@@ -49,19 +49,24 @@ small{color:#777}
 @foreach($partenaires as $partenaire)
 <div class="card">
         <small>Par {{ $partenaire->user->name ?? 'Utilisateur inconnu' }}</small>
-          <h3>{{ $partenaire->nom }}</h3>
-          <p>{{ $partenaire->telephone }}</p>
-          <p>{{ $partenaire->email }}</p>
-          <p>{{ $partenaire->adresse }}</p>
-          <p>{{ $partenaire->pourcentage_commission }}</p>
-          <p>{{ $partenaire->notes }}</p>
+          <h3> Nom : {{$partenaire->nom }}</h3>
+          <p> Numero de telephone :{{ $partenaire->telephone }}</p>
+          <p> Email : {{ $partenaire->email }}</p>
+          <p> Adresse : {{ $partenaire->adresse }}</p>
+          <p> Pourcentage commission du partenaire : {{ $partenaire->pourcentage_commission }} % </p>
+          <p> Notes : {{ $partenaire->notes }}</p>
 
         <div class="actions">
             <a href="{{ route('partenaires.show',$partenaire) }}">Voir</a>
 
-            @if(auth()->id() === $partenaire->user_id || auth()->user()->niveau == 3)
+            @if(auth()->id() === $partenaire->user_id || auth()->user()->niveau_admin >= 2)
                 <a href="{{ route('partenaires.edit',$partenaire) }}">Modifier</a>
-                <a href="{{ route('partenaires.destroy' , $partenaire) }}">Supprimer</a>
+                 <form method="POST" action="{{ route('partenaires.destroy',$partenaire->id) }}" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer ce partenaire ?');">
+                 @csrf
+                 @method('DELETE')
+                 <button class="btn delete">Supprimer</button>
+                 </form>
             @endif
         </div>
     </div>

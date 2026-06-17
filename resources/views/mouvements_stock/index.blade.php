@@ -148,15 +148,18 @@ td{
 
 </div>
 
-@if(auth()->id() === $mouvement->user_id || auth()->user()->niveau == 3)
+@if(auth()->id() === $mouvement->user_id || auth()->user()->niveau_admin >= 2)
 
 <a href="{{ route('mouvements.edit',$mouvement->id) }}" class="btn">
 Modifier
 </a>
 
-<a href="{{ route('mouvements.destroy',$mouvement->id) }}" class="btn">
-supprimer
-</a>
+<form method="POST" action="{{ route('mouvements.destroy',$mouvement->id) }}" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer ce mouvement de stock ?');">
+@csrf
+@method('DELETE')
+<button class="btn delete">Supprimer</button>
+</form>
 
 <a href="{{ route('mouvements.create') }}" class="btn">
 + Nouveau mouvement 

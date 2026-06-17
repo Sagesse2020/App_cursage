@@ -189,10 +189,11 @@ tr:hover{
 
 <a href="{{ route('reservations.show',$r) }}" class="btn view">Voir</a>
 
-@if(auth()->id() === $r->user_id || auth()->user()->niveau == 3)
+@if(auth()->id() === $r->user_id || auth()->user()->niveau_admin >= 2)
 <a href="{{ route('reservations.edit',$r) }}" class="btn edit">Modifier</a>
 
-<form action="{{ route('reservations.destroy',$r) }}" method="POST" style="display:inline;">
+<form action="{{ route('reservations.destroy',$r) }}" method="POST" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer cet reservation ?');">
 @csrf @method('DELETE')
 <button class="btn delete" onclick="return confirm('Supprimer ?')">Supprimer</button>
 </form>

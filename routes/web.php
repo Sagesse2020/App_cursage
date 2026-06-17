@@ -115,7 +115,7 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/profil', [UserController::class, 'profil'])->name('profil');
         Route::get('/edit', [UserController::class, 'profile'])->name('profile');
         Route::post('/userStore', [UserController::class, 'store'])->name('users.store');
-        Route::post('/userCreate', [UserController::class, 'create'])->name('users.create');
+        Route::get('/userCreate', [UserController::class, 'createUser'])->name('users.create');
         Route::post('/update', [UserController::class, 'update'])->name('profile-update');
         Route::post('/profile/photo', [UserController::class, 'updatePhoto'])->name('profile.photo');
         Route::get('/usersIndex', [UserController::class, 'index'])->name('users.index');
@@ -411,8 +411,6 @@ Route::delete('/publications/{publication}', [PublicationController::class,'dest
 
   Route::resource('reproductions', ReproductionController::class);
 
-  Route::resource('deces', DecesController::class);
-
   Route::resource('reservations', ReservationController::class);
 
   Route::resource('fiches_suivi', FicheSuiviController::class);
@@ -460,6 +458,12 @@ Route::get(
     [CommandeController::class, 'create']
 )->name('commandes.create');
 
+Route::get(
+    '/commandes/edit',
+    [CommandeController::class, 'edit']
+)->name('commandes.edit');
+
+
 Route::post(
     '/commandes',
     [CommandeController::class, 'store']
@@ -471,9 +475,14 @@ Route::get(
 )->name('commandes.index');
 
 Route::get(
-    '/commandes/{commande}',
+    '/commandes/{commande}/show',
     [CommandeController::class, 'show']
 )->name('commandes.show');
+
+Route::get(
+    '/commandes/{commande}/destroy',
+    [CommandeController::class, 'destroy']
+)->name('commandes.destroy');
 
 Route::post(
     '/commandes/{commande}/status',
@@ -493,13 +502,18 @@ Route::get(
     [NotificationController::class,'read']
 )->name('notifications.read');
 
+Route::delete(
+    '/notifications/{notification}/destroy',
+    [NotificationController::class,'destroy']
+)->name('notifications.destroy');
+// -----------------------
+    // DECES
+    // ------------------------
+    Route::get('/deces', [DecesController::class, 'index'])->name('deces.index');
+    Route::get('/deces/create', [DecesController::class, 'create'])->name('deces.create');
+    Route::post('/deces', [DecesController::class, 'store'])->name('deces.store');
+    Route::get('/deces/{deces}', [DecesController::class, 'show'])->name('deces.show');
+    Route::get('/deces/{deces}/edit', [DecesController::class, 'edit'])->name('deces.edit');
+    Route::put('/deces/{deces}', [DecesController::class, 'update'])->name('deces.update');
+    Route::delete('/deces/{deces}', [DecesController::class, 'destroy'])->name('deces.destroy');
 
-Route::get('/test-mail', function () {
-
-    Mail::raw('Test CURSAGE OK', function ($message) {
-        $message->to('contact@cursagesolutions.com')
-                ->subject('Test SMTP');
-    });
-
-    return 'mail envoyé';
-});

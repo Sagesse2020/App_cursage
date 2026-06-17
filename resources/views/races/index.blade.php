@@ -21,7 +21,7 @@ h1{font-size:28px;}
 .btn{
     background:#111;
     color:#fff;
-    padding:12px 20px;
+    padding:10px 10px;
     border-radius:6px;
     text-decoration:none;
 }
@@ -50,8 +50,8 @@ h1{font-size:28px;}
 }
 .actions a, .actions button{
     flex:1;
-    padding:8px;
-    border-radius:6px;
+    padding:1px;
+    border-radius:8px;
     border:none;
     cursor:pointer;
     text-align:center;
@@ -69,7 +69,6 @@ h1{font-size:28px;}
 
 <header>
     <h1>Races canines</h1>
-    <a href="{{ route('races.create') }}" class="btn">+ Ajouter</a>
 </header>
 
 <div class="grid">
@@ -82,9 +81,15 @@ h1{font-size:28px;}
         <p>{{ $race->origine }}</p>
 
         <div class="actions">
-            @if(auth()->id() === $race->user_id || auth()->user()->niveau == 3)
+            @if(auth()->id() === $race->user_id || auth()->user()->niveau_admin >= 2)
                 <a href="{{ route('races.edit',$race) }}" class="edit">Modifier</a>
-                <a href="{{ route('races.destroy',$race) }}" class="edit">Supprimer</a>
+                <form method="POST" action="{{ route('races.destroy',$race->id) }}" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer cet race ?');">
+                @csrf 
+                @method('DELETE')
+                <button class="btn delete">Supprimer</button>
+                </form>
+                <a href="{{ route('races.create') }}" class="btn">+ Ajouter</a>
             @endif
             <a href="{{ route('races.show',$race) }}" class="details">Voir</a>
         </div>

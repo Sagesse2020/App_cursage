@@ -106,17 +106,19 @@ class="btn show"
 Voir
 </a>
 
-@if(auth()->id() === $consultation->user_id || auth()->user()->niveau == 3)
+@if(auth()->id() === $consultation->user_id || auth()->user()->niveau_admin >= 2)
 
 <a
 href="{{ route('depenses.edit',$depense) }}" class="btn edit">
 Modifier
 </a>
 
-<a href="{{ route('depenses.destroy',$depense->id) }}" class="btn">
-supprimer
-</a>
-
+<form method="POST" action="{{ route('depenses.destroy',$depense->id) }}" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer cette depense ?');">
+@csrf
+@method('DELETE')
+<button class="btn delete">Supprimer</button>
+</form>
 <a href="{{ route('depenses.create') }}" class="btn add">
 + Nouvelle dépense
 </a>

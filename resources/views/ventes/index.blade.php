@@ -103,7 +103,7 @@ gap:10px
 }
 
 .icon-btn{
-padding:6px 10px;
+padding:6px 6px;
 border-radius:6px;
 font-size:14px;
 cursor:pointer;
@@ -199,27 +199,18 @@ font-size:12px
 <td>
 
 <div class="actions">
-
-<a href="{{ route('ventes.show',$vente->id) }}">
-
-<button class="icon-btn btn-view">
-<i class="fas fa-eye"></i>
-</button>
-
-</a>
-
 @if(auth()->user()->niveau_admin == 2 || auth()->user()->niveau_admin == 3)
 
 <a href="{{ route('ventes.edit',$vente->id) }}">
 
 <button class="icon-btn btn-edit">
-<i class="fas fa-edit"></i>
+
 </button>
 
 </a>
 
-<form method="POST"
-action="{{ route('ventes.destroy',$vente->id) }}">
+<form method="POST" action="{{ route('ventes.destroy',$vente->id) }}" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer cette vente ?');">
 
 @csrf
 @method('DELETE')
@@ -233,6 +224,13 @@ action="{{ route('ventes.destroy',$vente->id) }}">
 </form>
 
 @endif
+
+<a href="{{ route('ventes.show',$vente->id) }}">
+<button class="icon-btn btn-view">
+<i class="fas fa-eye"></i>
+</button>
+
+</a>
 
 </div>
 

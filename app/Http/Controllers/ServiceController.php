@@ -11,12 +11,33 @@ class ServiceController extends Controller
     /**
      * Liste des services
      */
-    public function index()
-    {
-        $services = Service::latest()->paginate(10);
+    public function index(Request $request)
+{
+    $query = Service::query();
 
-        return view('services.index',compact('services'));
+    if($request->filled('search'))
+    {
+        $query->where('nom','like',
+        '%'.$request->search.'%');
     }
+
+    if($request->filled('statut'))
+    {
+        $query->where(
+            'statut',
+            $request->statut
+        );
+    }
+
+    $services = $query
+        ->latest()
+        ->paginate(10);
+
+    return view(
+        'services.index',
+        compact('services')
+    );
+}
 
 
     /**

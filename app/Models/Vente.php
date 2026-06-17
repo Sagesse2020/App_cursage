@@ -3,9 +3,23 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Services\NotificationService;
 
 class Vente extends Model
 {
+     protected static function booted()
+    {
+        static::created(function ($vente) {
+
+            NotificationService::create(
+                'Nouvelle vente',
+                "Une vente a été enregistrée (ID {$vente->id})",
+                'success',
+                'vente'
+            );
+
+        });
+    }
      protected $fillable = [
         'chien_id', 'client_id','user_id', 'prix_vente',
         'commission_partenaire', 'commission_cursage', 'date_vente'
@@ -26,4 +40,6 @@ class Vente extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    
 }

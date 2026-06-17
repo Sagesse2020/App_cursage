@@ -260,15 +260,18 @@ FCFA
 Voir
 </a>
 
-@if(auth()->id() === $chien->user_id || auth()->user()->niveau == 3)
+@if(auth()->id() === $chien->user_id || auth()->user()->niveau_admin >= 2)
 
 <a href="{{ route('chiens.edit',$chien->id) }}" class="btn">
 Modifier
 </a>
 
-<a href="{{ route('chiens.destroy',$chien->id) }}" class="btn">
-supprimer
-</a>
+<form method="POST" action="{{ route('chiens.destroy',$chien->id) }}" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer ce chien ?');">
+@csrf
+@method('DELETE')
+<button class="btn delete">Supprimer</button>
+</form>
 
 <a href="{{ route('chiens.create') }}" class="btn">
 + Nouveau chien

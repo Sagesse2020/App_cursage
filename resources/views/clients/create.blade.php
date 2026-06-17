@@ -2,137 +2,141 @@
 <html lang="fr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <title>Créer un Client</title>
-    <style>
-        /* Général : corps de la page */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f7fa;
-            margin: 0;
-            padding: 0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        /* Conteneur principal */
-        .container {
-            width: 100%;
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
+<title>Créer un Client</title>
 
-        /* Titre principal */
-        h1 {
-            text-align: center;
-            font-size: 28px;
-            color: #333;
-            margin-bottom: 20px;
-        }
+<style>
 
-        /* Style des champs de formulaire */
-        .form-group {
-            margin-bottom: 20px;
-        }
+/* ================= GLOBAL ================= */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Segoe UI",Tahoma,sans-serif;
+}
 
-        .form-group label {
-            font-size: 16px;
-            font-weight: 600;
-            color: #555;
-            margin-bottom: 8px;
-            display: block;
-        }
+body{
+background:#f4f7fa;
+padding:20px;
+color:#1f2937;
+}
 
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-            color: #333;
-            background-color: #f9f9f9;
-            transition: border-color 0.3s ease;
-        }
+/* ================= CONTAINER ================= */
+.container{
+max-width:700px;
+margin:auto;
+background:#fff;
+padding:30px;
+border-radius:16px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
 
-        /* Effet au focus des champs */
-        .form-group input:focus,
-        .form-group select:focus {
-            border-color: #007bff;
-            background-color: #fff;
-            outline: none;
-        }
+/* ================= TITLE ================= */
+h1{
+text-align:center;
+margin-bottom:25px;
+color:#0d6efd;
+font-size:2rem;
+}
 
-        /* Boutons */
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin: 5px; /* Espacement entre les boutons */
-        }
+/* ================= ERRORS ================= */
+.errors{
+background:#ffe5e5;
+padding:12px;
+border-radius:10px;
+margin-bottom:15px;
+color:#dc3545;
+}
 
-        .btn-primary {
-            background-color: #007bff;
-            color: white;
-        }
+/* ================= FORM ================= */
+form{
+display:flex;
+flex-direction:column;
+gap:15px;
+}
 
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
+input{
+padding:12px;
+border:1px solid #d1d5db;
+border-radius:10px;
+outline:none;
+transition:.3s;
+}
 
-        .btn-secondary {
-            background-color: #f0f0f0;
-            color: #333;
-        }
+input:focus{
+border-color:#0d6efd;
+box-shadow:0 0 0 3px rgba(13,110,253,.15);
+}
 
-        .btn-secondary:hover {
-            background-color: #e0e0e0;
-        }
+/* ================= BUTTON ================= */
+button{
+padding:12px;
+background:#0d6efd;
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:600;
+transition:.3s;
+}
 
-        /* Message de succès */
-        .alert-success {
-            padding: 15px;
-            background-color: #d4edda;
-            color: #155724;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            font-size: 16px;
-        }
+button:hover{
+background:#0b5ed7;
+transform:translateY(-2px);
+}
 
-        /* Centrer les boutons dans leur conteneur */
-        .form-group-buttons {
-            text-align: center;
-        }
-    </style>
+/* ================= RESPONSIVE ================= */
+@media(max-width:768px){
+.container{
+padding:20px;
+}
+
+h1{
+font-size:1.6rem;
+}
+}
+
+</style>
 </head>
 
 <body>
-    <div class="container">
-<h1>Ajouter un client</h1>
+
+<div class="container">
+
+<h1>➕ Ajouter un client</h1>
 
 @if($errors->any())
-<ul style="color:red">
+<div class="errors">
+<ul>
 @foreach($errors->all() as $error)
 <li>{{ $error }}</li>
 @endforeach
 </ul>
+</div>
 @endif
 
 <form method="POST" action="{{ route('clients.store') }}">
 @csrf
-<input type="text" name="nom" placeholder="Nom" value="{{ old('nom') }}" required>
-<input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required>
+
+<input type="text" name="nom" placeholder="Nom complet" value="{{ old('nom') }}" required>
+
+<input type="email" name="email" placeholder="Adresse email" value="{{ old('email') }}" required>
+
 <input type="text" name="telephone" placeholder="Téléphone" value="{{ old('telephone') }}" required>
-<input type="text" name="adresse" placeholder="Adresse" value="{{ old('adresse') }}" required>
+
+<input type="text" name="adresse" placeholder="Adresse complète" value="{{ old('adresse') }}" required>
+
 <input type="password" name="password" placeholder="Mot de passe" required>
-<input type="password" name="password_confirmation" placeholder="Confirmer le mot de passe" required>
-<button type="submit">Créer</button>
+
+<input type="password" name="password_confirmation" placeholder="Confirmer mot de passe" required>
+
+<button type="submit">Créer le client</button>
+
+</form>
+
+</div>
+
 </body>
 </html>

@@ -16,13 +16,14 @@
         .box {
             text-align:center;
         }
+        
         h1 { color:#ff4d4d; }
     </style>
 </head>
 <body>
 <div class="box">
     <h1>⛔ Accès interdit</h1>
-    <p>Cette section est réservée à l’administrateur principal (niveau 3).</p>
+    <p>Cette section est réservée à l’administrateur principal (niveau_admin 3).</p>
     <a href="{{ url()->previous() }}">⬅ Retour</a>
 </div>
 </body>

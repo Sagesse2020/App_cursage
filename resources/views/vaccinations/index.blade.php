@@ -134,14 +134,13 @@ Filtrer
 <a href="{{ route('vaccinations.show',$v) }}">
 Voir
 </a>
-@if(auth()->id() === $v>user_id || auth()->user()->niveau == 3
+@if(auth()->id() === $v>user_id || auth()->user()->niveau >= 3
     <a href="{{ route('vaccinations.edit',$v) }}">
 Modifier
 </a>
 
-<form
-action="{{ route('vaccinations.destroy',$v) }}"
-method="POST">
+<form action="{{ route('vaccinations.destroy',$v) }}" method="POST" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer cette vaccination ?');">
 
 @csrf
 @method('DELETE')

@@ -20,6 +20,7 @@ class ProduitController extends Controller
     */
     public function index()
     {
+          $categories = Categorie::all();
         $user = Auth::user();
 
         $query = Produit::with(['categorie', 'user'])
@@ -32,7 +33,7 @@ class ProduitController extends Controller
 
         $produits = $query->paginate(12);
 
-        return view('produits.index', compact('produits'));
+        return view('produits.index', compact('produits','categories'));
     }
 
     /*

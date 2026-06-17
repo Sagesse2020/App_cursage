@@ -1,85 +1,153 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
 <meta charset="UTF-8">
 <title>Fiches de suivi</title>
 
 <style>
+
+/* GLOBAL */
 body{
-    font-family:Arial;
-    background:#f1f5f9;
-    padding:25px;
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:#0f172a;
+    color:#e2e8f0;
 }
 
+/* CONTAINER */
 .container{
     max-width:1200px;
-    margin:auto;
+    margin:40px auto;
+    padding:20px;
 }
 
+/* HEADER */
 h1{
+    font-size:28px;
     margin-bottom:20px;
+    background:linear-gradient(90deg,#00e6ff,#4facfe);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 }
 
-/* FILTRES */
-.filters{
+/* TOP BAR */
+.topbar{
     display:flex;
-    gap:10px;
+    justify-content:space-between;
+    align-items:center;
     flex-wrap:wrap;
     margin-bottom:20px;
 }
 
-.filters input,
-.filters select{
-    padding:10px;
-    border-radius:8px;
-    border:1px solid #ccc;
+.btn-add{
+    padding:10px 15px;
+    background:#00e6ff;
+    color:#0f172a;
+    border:none;
+    border-radius:10px;
+    font-weight:bold;
+    text-decoration:none;
 }
 
-.filters button{
-    padding:10px 15px;
-    background:#2563eb;
-    color:white;
-    border:none;
-    border-radius:8px;
+/* TABLE CARD */
+.table-card{
+    background:rgba(17,24,39,.92);
+    border-radius:18px;
+    padding:15px;
+    box-shadow:0 20px 50px rgba(0,0,0,.35);
+    border:1px solid rgba(255,255,255,.06);
+    overflow-x:auto;
 }
 
 /* TABLE */
 table{
     width:100%;
     border-collapse:collapse;
-    background:white;
-    border-radius:10px;
-    overflow:hidden;
+    min-width:800px;
+}
+
+thead{
+    background:#020617;
 }
 
 th{
-    background:#0f172a;
-    color:white;
-    padding:12px;
+    padding:14px;
+    text-align:left;
+    color:#94a3b8;
+    font-size:13px;
 }
 
 td{
-    padding:12px;
-    border-bottom:1px solid #eee;
+    padding:14px;
+    border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+tr:hover{
+    background:#172036;
 }
 
 /* BADGES */
-.entree{background:#16a34a;color:white;padding:5px 10px;border-radius:20px;}
-.sortie{background:#dc2626;color:white;padding:5px 10px;border-radius:20px;}
-
-.pagination{
-    margin-top:15px;
+.badge-entree{
+    background:#16a34a;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:12px;
 }
 
-/* BUTTONS */
+.badge-sortie{
+    background:#ef4444;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+/* ACTIONS */
 .btn{
     padding:6px 10px;
-    border-radius:6px;
+    border-radius:8px;
     text-decoration:none;
     font-size:12px;
     margin-right:5px;
     display:inline-block;
+    font-weight:bold;
 }
+
+.btn-view{
+    background:#334155;
+    color:white;
+}
+
+.btn-edit{
+    background:#f59e0b;
+    color:white;
+}
+
+.btn-del{
+    background:#ef4444;
+    color:white;
+}
+
+/* ALERT */
+.success{
+    background:#16a34a;
+    padding:10px;
+    border-radius:10px;
+    margin-bottom:15px;
+}
+
+/* PAGINATION */
+.pagination{
+    margin-top:15px;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    table{
+        min-width:600px;
+    }
+}
+
 </style>
 </head>
 
@@ -87,53 +155,74 @@ td{
 
 <div class="container">
 
-<h1>📊 Fiches de suivi</h1>
+    <div class="topbar">
+        <h1>📊 Fiches de suivi</h1>
+        <a href="{{ route('fiches_suivi.create') }}" class="btn-add">+ Ajouter fiche</a>
+    </div>
 
-<a href="{{ route('fiches_suivi.create') }}" class="btn">+ Ajouter</a>
+    @if(session('success'))
+        <div class="success">{{ session('success') }}</div>
+    @endif
 
-@if(session('success'))
-<p style="color:green">{{ session('success') }}</p>
-@endif
+    <div class="table-card">
 
-<table width="100%" border="1" cellspacing="0" cellpadding="10">
+        <table>
 
-<tr>
-<th>Chien</th>
-<th>Poids</th>
-<th>Température</th>
-<th>État</th>
-<th>Date</th>
-<th>Actions</th>
-</tr>
+            <thead>
+                <tr>
+                    <th>Chien</th>
+                    <th>Poids</th>
+                    <th>Température</th>
+                    <th>État</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-@foreach($fiches as $f)
+            <tbody>
 
-<tr>
-<td>{{ $f->chien->nom ?? '-' }}</td>
-<td>{{ $f->poids }}</td>
-<td>{{ $f->temperature }}</td>
-<td>{{ $f->etat_general }}</td>
-<td>{{ $f->date_suivi }}</td>
+            @foreach($fiches as $f)
 
-<td>
- @if(auth()->id() === $f->user_id || auth()->user()->niveau == 3)
-                  
-<a href="{{ route('fiches_suivi.edit',$f) }}" class="btn">Modifier</a>
-<form action="{{ route('fiches_suivi.destroy',$f) }}" method="POST" style="display:inline;">
-@csrf @method('DELETE')
-<button onclick="return confirm('Supprimer ?')">X</button>
-</form>
-<a href="{{ route('fiches_suivi.create') }}">➕ Nouvelle fiche de suivi</a>
-@endif
+                <tr>
+                    <td>{{ $f->chien->nom ?? '-' }}</td>
+                    <td>{{ $f->poids }} kg</td>
+                    <td>{{ $f->temperature }} °C</td>
+                    <td>
+                        <span class="badge-entree">{{ $f->etat_general }}</span>
+                    </td>
+                    <td>{{ $f->date_suivi }}</td>
 
-</td>
-</tr>
+                    <td>
 
-@endforeach
+                        @if(auth()->id() === $f->user_id || auth()->user()->niveau_admin >= 2)
 
-</table>
+                            <a href="{{ route('fiches_suivi.edit',$f) }}" class="btn btn-edit">Modifier</a>
 
-{{ $fiches->links() }}
+                            <form action="{{ route('fiches_suivi.destroy',$f) }}"
+                                  method="POST"
+                                  style="display:inline;"
+                                  onsubmit="return confirm('Supprimer cette fiche ?');">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-del">Supprimer</button>
+                            </form>
+
+                        @endif
+
+                        <a href="{{ route('fiches_suivi.show',$f) }}" class="btn btn-view">Voir</a>
+
+                    </td>
+                </tr>
+
+            @endforeach
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {{ $fiches->links() }}
 
 </div>
 

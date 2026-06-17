@@ -121,11 +121,12 @@ td{
 
 <a href="{{ route('naissances.show',$n) }}" class="btn">Voir</a>
 
-@if(auth()->id() === $n->user_id || auth()->user()->niveau == 3)
+@if(auth()->id() === $n->user_id || auth()->user()->niveau_admin >= 2)
 
 <a href="{{ route('naissances.edit',$n) }}" class="btn">Modifier</a>
 
-<form action="{{ route('naissances.destroy',$n) }}" method="POST" style="display:inline;">
+<form action="{{ route('naissances.destroy',$n) }}" method="POST" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer cette naissance ?');">
 @csrf @method('DELETE')
 <button onclick="return confirm('Supprimer ?')">X</button>
 </form>

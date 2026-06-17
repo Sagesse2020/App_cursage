@@ -77,6 +77,33 @@ td{
     text-decoration:none;
     font-size:13px;
 }
+
+.filters{
+display:flex;
+gap:15px;
+margin:20px 0;
+flex-wrap:wrap;
+}
+
+.filters input,
+.filters select{
+padding:12px;
+border:none;
+border-radius:8px;
+background:#1f2937;
+color:white;
+min-width:220px;
+}
+
+.filters button{
+padding:12px 18px;
+background:#00e6ff;
+color:black;
+border:none;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+}
 </style>
 </head>
 
@@ -84,8 +111,6 @@ td{
 
 <div class="container">
 <h1>📋 Liste des reproductions</h1>
-
-<a href="{{ route('reproductions.create') }}" class="btn">+ Ajouter</a>
 
 @if(session('success'))
 <p style="color:green">{{ session('success') }}</p>
@@ -112,12 +137,14 @@ td{
 <td>{{ $r->lignee_chien }}</td>
 
 <td>
-
-    @if(auth()->id() === $r->user_id || auth()->user()->niveau == 3)
 <a href="{{ route('reproductions.show',$r) }}" class="btn">Voir</a>
-<a href="{{ route('reproductions.edit',$r) }}" class="btn">Modifier</a>
 
-<form action="{{ route('reproductions.destroy',$r) }}" method="POST" style="display:inline;">
+    @if(auth()->id() === $r->user_id || auth()->user()->niveau_admin >= 2)
+<a href="{{ route('reproductions.edit',$r) }}" class="btn">Modifier</a>
+<a href="{{ route('reproductions.create') }}" class="btn">+ Ajouter</a>
+
+<form action="{{ route('reproductions.destroy',$r) }}" method="POST" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer cet reproduction ?');">
 @csrf @method('DELETE')
 <button onclick="return confirm('Supprimer ?')" class="btn">X</button>
 </form>

@@ -1,3 +1,4 @@
+
 <?php
 
 namespace App\Http\Controllers;
@@ -6,28 +7,35 @@ use App\Models\Vaccination;
 use App\Models\Chien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\NotificationService;
 
 class VaccinationController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Vaccination::with('chien');
+        $query = Vaccination::with([
+            'chien',
+            'user'
+        ]);
 
         if($request->chien)
         {
-            $query->whereHas('chien',function($q) use($request){
-
-                $q->where(
-                    'nom',
-                    'like',
-                    '%'.$request->chien.'%'
-                );
-            });
+            $query->whereHas(
+                'chien',
+                function($q) use($request)
+                {
+                    $q->where(
+                        'nom',
+                        'like',
+                        '%'.$request->chien.'%'
+                    );
+                }
+            );
         }
 
         $vaccinations = $query
-                        ->latest()
-                        ->paginate(10);
+            ->latest()
+            ->paginate(10);
 
         return view(
             'vaccinations.index',
@@ -37,7 +45,7 @@ class VaccinationController extends Controller
 
     public function create()
     {
-        $chiens = Chien::all();
+        $chiens = Chien::orderBy('nom')->get();
 
         return view(
             'vaccinations.create',
@@ -47,23 +55,41 @@ class VaccinationController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
 
-            'chien_id'=>'required',
-            'nom_vaccin'=>'required',
-            'date_vaccination'=>'required',
+            'chien_id'           => 'required|exists:chiens,id',
+            'nom_vaccin'         => 'required|string|max:255',
+            'date_vaccination'   => 'required|date',
+            'date_rappel'        => 'nullable|date',
+            'cout'               => 'nullable|numeric|min:0',
+            'observation'        => 'nullable|string'
+
         ]);
 
-        Vaccination::create([
+        $data['user_id'] = Auth::id();
 
-            'chien_id'=>$request->chien_id,
-            'nom_vaccin'=>$request->nom_vaccin,
-            'date_vaccination'=>$request->date_vaccination,
-            'date_rappel'=>$request->date_rappel,
-            'cout'=>$request->cout,
-            'observation'=>$request->observation,
-            'user_id'=>Auth::id(),
-        ]);
+        $vaccination = Vaccination::create($data);
+
+        $vaccination->load('chien');
+
+        NotificationService::create(
+            'Nouvelle vaccination',
+            "Le chien {$vaccination->chien->nom} a reçu le vaccin {$vaccination->nom_vaccin}.",
+            'success',
+            'vaccination',
+            auth()->id()
+        );
+
+        if($vaccination->date_rappel)
+        {
+            NotificationService::create(
+                'Rappel vaccination programmé',
+                "Un rappel du vaccin {$vaccination->nom_vaccin} est prévu pour {$vaccination->chien->nom}.",
+                'info',
+                'vaccination',
+                auth()->id()
+            );
+        }
 
         return redirect()
             ->route('vaccinations.index')
@@ -75,6 +101,11 @@ class VaccinationController extends Controller
 
     public function show(Vaccination $vaccination)
     {
+        $vaccination->load([
+            'chien',
+            'user'
+        ]);
+
         return view(
             'vaccinations.show',
             compact('vaccination')
@@ -83,7 +114,7 @@ class VaccinationController extends Controller
 
     public function edit(Vaccination $vaccination)
     {
-        $chiens = Chien::all();
+        $chiens = Chien::orderBy('nom')->get();
 
         return view(
             'vaccinations.edit',
@@ -94,11 +125,32 @@ class VaccinationController extends Controller
         );
     }
 
-    public function update(Request $request,
-                           Vaccination $vaccination)
+    public function update(
+        Request $request,
+        Vaccination $vaccination
+    )
     {
-        $vaccination->update(
-            $request->all()
+        $data = $request->validate([
+
+            'chien_id'           => 'required|exists:chiens,id',
+            'nom_vaccin'         => 'required|string|max:255',
+            'date_vaccination'   => 'required|date',
+            'date_rappel'        => 'nullable|date',
+            'cout'               => 'nullable|numeric|min:0',
+            'observation'        => 'nullable|string'
+
+        ]);
+
+        $vaccination->update($data);
+
+        $vaccination->load('chien');
+
+        NotificationService::create(
+            'Vaccination modifiée',
+            "La vaccination {$vaccination->nom_vaccin} du chien {$vaccination->chien->nom} a été modifiée.",
+            'warning',
+            'vaccination',
+            auth()->id()
         );
 
         return redirect()
@@ -113,7 +165,20 @@ class VaccinationController extends Controller
         Vaccination $vaccination
     )
     {
+        $vaccination->load('chien');
+
+        $nomChien = $vaccination->chien->nom;
+        $vaccin = $vaccination->nom_vaccin;
+
         $vaccination->delete();
+
+        NotificationService::create(
+            'Vaccination supprimée',
+            "La vaccination {$vaccin} du chien {$nomChien} a été supprimée.",
+            'danger',
+            'vaccination',
+            auth()->id()
+        );
 
         return redirect()
             ->route('vaccinations.index')

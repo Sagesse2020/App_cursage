@@ -1,10 +1,11 @@
+
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Chien;
 use App\Models\Race;
 use App\Models\Partenaire;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -18,7 +19,6 @@ class ChienController extends Controller
             'partenaire'
         ]);
 
-        // Recherche globale
         if($request->filled('search'))
         {
             $query->where(function($q) use ($request){
@@ -30,31 +30,26 @@ class ChienController extends Controller
             });
         }
 
-        // Race
         if($request->filled('race'))
         {
             $query->where('race_id',$request->race);
         }
 
-        // Sexe
         if($request->filled('sexe'))
         {
             $query->where('sexe',$request->sexe);
         }
 
-        // Statut
         if($request->filled('statut'))
         {
             $query->where('statut',$request->statut);
         }
 
-        // Provenance
         if($request->filled('provenance'))
         {
             $query->where('provenance',$request->provenance);
         }
 
-        // Age
         if($request->filled('age'))
         {
             $query->where('age',$request->age);
@@ -139,12 +134,19 @@ class ChienController extends Controller
         if($request->hasFile('photo'))
         {
             $data['photo'] =
-            $request
-                ->file('photo')
-                ->store('chiens','public');
+            $request->file('photo')
+                    ->store('chiens','public');
         }
 
-        Chien::create($data);
+        $chien = Chien::create($data);
+
+        NotificationService::create(
+            'Nouveau chien',
+            "Le chien {$chien->nom} a été ajouté.",
+            'success',
+            'chien',
+            auth()->id()
+        );
 
         return redirect()
             ->route('chiens.index')
@@ -183,6 +185,8 @@ class ChienController extends Controller
         Chien $chien
     )
     {
+        $ancienStatut = $chien->statut;
+
         $data = $request->validate([
 
             'nom'               => 'nullable|string|max:100',
@@ -232,12 +236,64 @@ class ChienController extends Controller
             }
 
             $data['photo'] =
-            $request
-                ->file('photo')
-                ->store('chiens','public');
+            $request->file('photo')
+                    ->store('chiens','public');
         }
 
         $chien->update($data);
+
+        NotificationService::create(
+            'Chien modifié',
+            "Le chien {$chien->nom} a été modifié.",
+            'warning',
+            'chien',
+            auth()->id()
+        );
+
+        if(
+            $ancienStatut != 'vendu'
+            &&
+            $chien->statut == 'vendu'
+        )
+        {
+            NotificationService::create(
+                'Chien vendu',
+                "Le chien {$chien->nom} a été vendu.",
+                'success',
+                'vente',
+                auth()->id()
+            );
+        }
+
+        if(
+            $ancienStatut != 'reserve'
+            &&
+            $chien->statut == 'reserve'
+        )
+        {
+            NotificationService::create(
+                'Chien réservé',
+                "Le chien {$chien->nom} a été réservé.",
+                'info',
+                'reservation',
+                auth()->id()
+            );
+        }
+
+        if(
+            $ancienStatut != 'en_soins'
+            &&
+            $chien->statut == 'en_soins'
+        )
+        {
+            NotificationService::create(
+                'Chien en soins',
+                "Le chien {$chien->nom} est placé en soins.",
+                'warning',
+                'sante',
+                auth()->id()
+            );
+        }
 
         return redirect()
             ->route('chiens.index')
@@ -249,6 +305,8 @@ class ChienController extends Controller
 
     public function destroy(Chien $chien)
     {
+        $nom = $chien->nom;
+
         if($chien->photo)
         {
             Storage::disk('public')
@@ -256,6 +314,14 @@ class ChienController extends Controller
         }
 
         $chien->delete();
+
+        NotificationService::create(
+            'Chien supprimé',
+            "Le chien {$nom} a été supprimé.",
+            'danger',
+            'chien',
+            auth()->id()
+        );
 
         return redirect()
             ->route('chiens.index')

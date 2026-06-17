@@ -290,7 +290,7 @@ grid-template-columns:1fr
 <td>
 
 <div class="actions">
-@if(auth()->id() === $transaction->user_id || auth()->user()->niveau == 3)
+@if(auth()->id() === $transaction->user_id || auth()->user()->niveau_admin == 3)
     <a href="{{ route('transactions.edit',$transaction) }}">
 
 <button class="icon-btn btn-edit">
@@ -301,7 +301,8 @@ grid-template-columns:1fr
 
 </a>
 
-<form action="{{ route('transactions.destroy',$transaction) }}" method="POST">
+<form action="{{ route('transactions.destroy',$transaction) }}" method="POST" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer cet transaction ?');">
 
 @csrf
 @method('DELETE')

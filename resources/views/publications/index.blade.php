@@ -60,8 +60,14 @@ small{color:#777}
                     </a>
             <a href="{{ route('publications.show',$pub) }}">Voir</a>
 
-            @if(auth()->id() === $pub->user_id || auth()->user()->niveau == 3)
+            @if(auth()->id() === $pub->user_id || auth()->user()->niveau_admin >= 2)
                 <a href="{{ route('publications.edit',$pub) }}">Modifier</a>
+                <form method="POST" action="{{ route('publications.destroy',$pub->id) }}" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer cette publication ?');">
+                @csrf
+                @method('DELETE')
+               <button class="btn delete">Supprimer</button>
+               </form>
             @endif
             @if(auth()->id() === $pub->user_id || auth()->user()->niveau == 3)
              <a href="{{ route('publications.create') }}">➕ Nouvelle publication</a>

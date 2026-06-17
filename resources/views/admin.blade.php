@@ -201,7 +201,6 @@ border-top:1px solid rgba(255,255,255,.05);
     .fa-youtube { color: #FF0000; }
 
 /* ===== LOGO ===== */
-/* ===== LOGO ===== */
 
 .logo-img{
 height:140px;
@@ -228,7 +227,126 @@ padding:2px 8px;
 border-radius:50%;
 font-size:12px;
 }
+/* ===== FILTRE ===== */
+.filters{
+display:flex;
+gap:15px;
+margin:20px 0;
+flex-wrap:wrap;
+}
 
+.filters input,
+.filters select{
+padding:12px;
+border:none;
+border-radius:8px;
+background:#1f2937;
+color:white;
+min-width:220px;
+}
+
+.filters button{
+padding:12px 18px;
+background:#00e6ff;
+color:black;
+border:none;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* ===== notiffications ===== */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* ================= NOTIFICATIONS DASHBOARD ================= */
+
+.notifications-dashboard{
+padding:30px 35px;
+}
+
+.notification-panel{
+background:rgba(17,24,39,.75);
+border:1px solid rgba(255,255,255,.05);
+border-radius:25px;
+padding:25px;
+backdrop-filter:blur(15px);
+}
+
+.notification-title{
+font-size:24px;
+font-weight:700;
+margin-bottom:20px;
+color:#00e6ff;
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.notification-item{
+padding:18px;
+border-radius:15px;
+margin-bottom:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+transition:.3s;
+}
+
+.notification-item.unread{
+background:rgba(239,68,68,.15);
+border-left:5px solid #ef4444;
+}
+
+.notification-item.read{
+background:rgba(255,255,255,.03);
+border-left:5px solid #10b981;
+}
+
+.notification-item:hover{
+transform:translateX(8px);
+}
+
+.notification-content h4{
+margin-bottom:8px;
+color:white;
+}
+
+.notification-content p{
+color:#cbd5e1;
+margin-bottom:6px;
+}
+
+.notification-content small{
+color:#94a3b8;
+}
+
+.btn-read{
+background:#00e6ff;
+border:none;
+padding:10px 15px;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.btn-read:hover{
+background:#4facfe;
+}
+
+.notification-footer{
+text-align:center;
+margin-top:20px;
+}
+
+.notification-footer a{
+color:#00e6ff;
+text-decoration:none;
+font-weight:bold;
+}
 </style>
 
 </head>
@@ -243,19 +361,23 @@ font-size:12px;
 <small>Plateforme intelligente</small>
 </div>
 </div>
-@php
-
-$nbNotifications =
-App\Models\Notification::where('lu',false)
-->count();
-
-@endphp
-
 <div class="menu-toggle" id="menuToggle">
 <i class="fas fa-bars"></i>
 </div>
 
 <ul id="navMenu">
+
+@php
+$nbNotifications = App\Models\Notification::where('lu',false)
+    ->where('user_id', auth()->id())
+    ->count();
+@endphp
+
+  @if($nbNotifications > 0)
+<span class="badge" style="background:#ef4444; animation:pulse 1.5s infinite;">
+    {{ $nbNotifications }}
+</span>
+@endif
 
 {{-- ================= CANINE ================= --}}
 @if(auth()->user()->niveau_admin >= 2)
@@ -311,8 +433,10 @@ App\Models\Notification::where('lu',false)
 <li><a href="{{ route('clients') }}">Clients</a></li>
 <li><a href="{{ route('partenaires') }}">Partenaires</a></li>
 <li><a href="{{ route('fournisseurs') }}">Fournisseurs</a></li>
+@if(auth()->user()->niveau_admin == 3)
 <li><a href="{{ route('users.index') }}">Liste des utilisateurs</a></li>
 <li><a href="{{ route('users.create') }}">Creer un utilisateur</a></li>
+@endif
 </ul>
 </li>
 
@@ -364,21 +488,12 @@ App\Models\Notification::where('lu',false)
 <li><a href="{{ route('benefices.index') }}">Bénéfices</a></li>
 <li><a href="{{ route('pertes.index') }}">Pertes</a></li>
 <li>
+<a href="{{ route('notifications.index') }}" style="position:relative;">
+    Notifications <i class="fas fa-bell"></i>
 
-<a href="{{ route('notifications.index') }}">
-
-<i class="fas fa-bell"></i>
-
-@if($nbNotifications > 0)
-
-<span class="badge">
-
-{{ $nbNotifications }}
-
-</span>
-
-@endif
-
+    @if($nbNotifications > 0)
+        <span class="badge">{{ $nbNotifications }}</span>
+    @endif
 </a>
 
 </li>
@@ -403,6 +518,76 @@ App\Models\Notification::where('lu',false)
 <section class="admin-header">
 <h1>Administration CURSAGE</h1>
 <p>Gestion intelligente multi-modules</p>
+</section>
+
+{{-- ================= ALERTES NOTIFICATIONS ================= --}}
+
+<section class="notifications-dashboard">
+
+    @php
+        $notificationsRecentes = App\Models\Notification::where('user_id', auth()->id())
+            ->latest()
+            ->take(5)
+            ->get();
+    @endphp
+
+    @if($notificationsRecentes->count())
+
+        <div class="notification-panel">
+
+            <div class="notification-title">
+                <i class="fas fa-bell"></i>
+                Alertes récentes
+            </div>
+
+            @foreach($notificationsRecentes as $notification)
+
+                <div class="notification-item {{ $notification->lu ? 'read' : 'unread' }}">
+
+                    <div class="notification-content">
+
+                        <h4>
+                            {{ $notification->titre }}
+                        </h4>
+
+                        <p>
+                            {{ $notification->message }}
+                        </p>
+
+                        <small>
+                            {{ $notification->created_at->diffForHumans() }}
+                        </small>
+
+                    </div>
+
+                    @if(!$notification->lu)
+
+                        <form action="{{ route('notifications.read',$notification) }}"
+                              method="POST">
+                            @csrf
+                            @method('PATCH')
+
+                            <button class="btn-read">
+                                Marquer lu
+                            </button>
+                        </form>
+
+                    @endif
+
+                </div>
+
+            @endforeach
+
+            <div class="notification-footer">
+                <a href="{{ route('notifications.index') }}">
+                    Voir toutes les notifications
+                </a>
+            </div>
+
+        </div>
+
+    @endif
+
 </section>
 
 <section class="dashboard">

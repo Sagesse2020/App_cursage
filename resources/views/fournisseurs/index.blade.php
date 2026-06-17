@@ -270,14 +270,14 @@ alt="Photo par défaut"
 
 <a href="{{ route('employees.show',$employee) }}" class="btn"> Voir </a>
 
-@if(auth()->user()->niveau_admin >= 2)
+@if(auth()->user()->niveau_admin == 3)
 
 <a href="{{ route('employees.edit',$employee) }}" class="btn btn-secondary">
 Modifier
 </a>
 
-<form method="POST" action="{{ route('employees.destroy',$employee->id) }}" style="display:inline;" "
-      onsubmit="return confirm('Voulez-vous vraiment supprimer cet employee ?');">
+<form method="POST" action="{{ route('consultations.destroy',$consultation->id) }}" style="display:inline;" "
+      onsubmit="return confirm('Voulez-vous vraiment supprimer ce fournisseur ?');">
 @csrf
 @method('DELETE')
 <button class="btn delete">Supprimer</button>

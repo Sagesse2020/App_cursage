@@ -1,3 +1,4 @@
+```php
 <?php
 
 namespace App\Http\Controllers;
@@ -6,6 +7,7 @@ use App\Models\Depense;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Services\NotificationService;
 
 class DepenseController extends Controller
 {
@@ -29,12 +31,12 @@ class DepenseController extends Controller
     {
         $data = $request->validate([
 
-            'libelle'=>'required',
-            'description'=>'nullable',
-            'montant'=>'required|numeric|min:0',
-            'date_depense'=>'required|date',
-            'categorie'=>'required',
-            'justificatif'=>'nullable|image'
+            'libelle'        => 'required',
+            'description'    => 'nullable',
+            'montant'        => 'required|numeric|min:0',
+            'date_depense'   => 'required|date',
+            'categorie'      => 'required',
+            'justificatif'   => 'nullable|image'
 
         ]);
 
@@ -48,9 +50,28 @@ class DepenseController extends Controller
                 );
         }
 
-        $data['user_id']=Auth::id();
+        $data['user_id'] = Auth::id();
 
-        Depense::create($data);
+        $depense = Depense::create($data);
+
+        NotificationService::create(
+            'Nouvelle dépense',
+            "Une dépense de ".number_format($depense->montant,0,',',' ')." FCFA a été enregistrée.",
+            'warning',
+            'finance',
+            auth()->id()
+        );
+
+        if($depense->montant >= 100000)
+        {
+            NotificationService::create(
+                'Dépense importante',
+                "Une dépense élevée de ".number_format($depense->montant,0,',',' ')." FCFA a été détectée.",
+                'danger',
+                'finance',
+                auth()->id()
+            );
+        }
 
         return redirect()
             ->route('depenses.index')
@@ -83,12 +104,12 @@ class DepenseController extends Controller
     {
         $data = $request->validate([
 
-            'libelle'=>'required',
-            'description'=>'nullable',
-            'montant'=>'required|numeric|min:0',
-            'date_depense'=>'required|date',
-            'categorie'=>'required',
-            'justificatif'=>'nullable|image'
+            'libelle'        => 'required',
+            'description'    => 'nullable',
+            'montant'        => 'required|numeric|min:0',
+            'date_depense'   => 'required|date',
+            'categorie'      => 'required',
+            'justificatif'   => 'nullable|image'
 
         ]);
 
@@ -112,6 +133,14 @@ class DepenseController extends Controller
 
         $depense->update($data);
 
+        NotificationService::create(
+            'Dépense modifiée',
+            "La dépense {$depense->libelle} a été modifiée.",
+            'info',
+            'finance',
+            auth()->id()
+        );
+
         return redirect()
             ->route('depenses.index')
             ->with(
@@ -132,7 +161,17 @@ class DepenseController extends Controller
                 );
         }
 
+        $libelle = $depense->libelle;
+
         $depense->delete();
+
+        NotificationService::create(
+            'Dépense supprimée',
+            "La dépense {$libelle} a été supprimée.",
+            'danger',
+            'finance',
+            auth()->id()
+        );
 
         return back()->with(
             'success',
