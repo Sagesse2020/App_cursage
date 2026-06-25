@@ -90,4 +90,9 @@ public function reservations()
         Reservation::class
     );
 }
+
+public function commissions()
+{
+    return $this->hasMany(PartenaireCommission::class);
+}
 }

@@ -101,6 +101,13 @@ h1{
 </div>
 
 <div class="info">
+<div class="label">Montant à verser</div>
+<div class="value">
+{{ number_format($reservation->montant_verse,0,',',' ') }} FCFA
+</div>
+</div>
+
+<div class="info">
 <div class="label">Reste à payer</div>
 <div class="value">
 {{ number_format($reservation->reste_a_payer,0,',',' ') }} FCFA

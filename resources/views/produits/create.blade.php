@@ -47,7 +47,25 @@ button{
 
 <form method="POST" enctype="multipart/form-data" action="{{ route('produits.store') }}">
 @csrf
+<label>Partenaire propriétaire</label>
 
+<select name="partenaire_id">
+
+    <option value="">
+        Produit Cursage
+    </option>
+
+    @foreach($partenaires as $partenaire)
+
+        <option value="{{ $partenaire->id }}">
+
+            {{ $partenaire->nom }}
+
+        </option>
+
+    @endforeach
+
+</select>
 <input type="text" name="nom" placeholder="Nom">
 
 <textarea name="description" placeholder="Description"></textarea>

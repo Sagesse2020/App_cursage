@@ -1,3 +1,5 @@
+<?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Service;
@@ -12,7 +14,7 @@ class ServiceController extends Controller
         $query = Service::query();
 
         if ($request->filled('search')) {
-            $query->where('nom', 'like', '%'.$request->search.'%');
+            $query->where('nom', 'like', '%' . $request->search . '%');
         }
 
         if ($request->filled('statut')) {
@@ -21,7 +23,12 @@ class ServiceController extends Controller
 
         $services = $query->latest()->paginate(10);
 
-        return view('services.index', compact('services'));
+        return view('services.index', [
+            'services' => $services,
+            'total' => Service::count(),
+            'actifs' => Service::where('statut', 'en_cours')->count(),
+            'inactifs' => Service::where('statut', 'termine')->count(),
+        ]);
     }
 
     public function create()
@@ -38,9 +45,10 @@ class ServiceController extends Controller
             'statut' => 'required|in:en_cours,termine'
         ]);
 
+        $data['user_id'] = Auth::id();
+
         $service = Service::create($data);
 
-        // 🔔 NOTIFICATION CREATE
         Notification::create([
             'titre' => 'Nouveau service',
             'message' => 'Service "' . $service->nom . '" ajouté avec succès',
@@ -75,7 +83,6 @@ class ServiceController extends Controller
 
         $service->update($data);
 
-        // 🔔 NOTIFICATION UPDATE
         Notification::create([
             'titre' => 'Service modifié',
             'message' => 'Service "' . $service->nom . '" a été mis à jour',
@@ -95,7 +102,6 @@ class ServiceController extends Controller
 
         $service->delete();
 
-        // 🔔 NOTIFICATION DELETE
         Notification::create([
             'titre' => 'Service supprimé',
             'message' => 'Service "' . $nom . '" a été supprimé',
@@ -104,7 +110,8 @@ class ServiceController extends Controller
             'user_id' => Auth::id()
         ]);
 
-        return back()
+        return redirect()
+            ->route('services.index')
             ->with('success', 'Service supprimé');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Produit;
 use App\Models\Categorie;
+use App\Models\Partenaire;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Storage;
@@ -44,8 +45,9 @@ class ProduitController extends Controller
     public function create()
     {
         $categories = Categorie::all();
+        $partenaires = Partenaire::orderBy('nom')->get();
 
-        return view('produits.create', compact('categories'));
+        return view('produits.create', compact('categories','partenaires'));
     }
 
     /*

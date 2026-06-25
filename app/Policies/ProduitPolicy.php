@@ -21,7 +21,29 @@ class ProduitPolicy
      */
     public function view(User $user, Produit $produit): bool
     {
+        if ($user->niveau_admin >= 1) {
         return true;
+    }
+
+    $partenaire = $user->partenaire;
+
+    if (!$partenaire) {
+        return false;
+    }
+
+    // Apporteur d'affaires
+    if ($partenaire->type_partenaire === 'apporteur_affaires') {
+        return true;
+    }
+
+    // Revendeur
+    if ($partenaire->type_partenaire === 'revendeur') {
+
+        return $produit->partenaire_id
+            === $partenaire->id;
+    }
+
+    return false;
     }
 
     /**

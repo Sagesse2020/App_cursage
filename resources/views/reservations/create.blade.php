@@ -149,7 +149,7 @@ textarea{
     </div>
 
     <div class="field">
-        <label>💵 Montant versé</label>
+        <label>💵 Montant à versé</label>
         <input type="number" step="0.01" name="montant_verse">
     </div>
 

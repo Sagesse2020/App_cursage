@@ -25,8 +25,6 @@ color:white;
 padding:25px;
 }
 
-/* ================= HEADER ================= */
-
 .header{
 display:flex;
 justify-content:space-between;
@@ -49,8 +47,6 @@ border-radius:10px;
 text-decoration:none;
 font-weight:bold;
 }
-
-/* ================= STATS ================= */
 
 .stats{
 display:grid;
@@ -76,8 +72,6 @@ margin-bottom:10px;
 .stat-card h2{
 font-size:30px;
 }
-
-/* ================= FILTRES ================= */
 
 .filters{
 background:#111827;
@@ -109,8 +103,6 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* ================= TABLE ================= */
-
 .table-container{
 overflow-x:auto;
 background:#111827;
@@ -138,8 +130,6 @@ tr:hover{
 background:#172036;
 }
 
-/* ================= BADGES ================= */
-
 .badge{
 padding:6px 12px;
 border-radius:20px;
@@ -156,8 +146,6 @@ color:#4ade80;
 background:#7f1d1d;
 color:#f87171;
 }
-
-/* ================= ACTIONS ================= */
 
 .actions{
 display:flex;
@@ -192,7 +180,17 @@ background:#dc2626;
 background:#10b981;
 }
 
-/* ================= RESPONSIVE ================= */
+.pagination-container{
+margin-top:25px;
+}
+
+.alert-success{
+background:#14532d;
+color:#4ade80;
+padding:15px;
+border-radius:10px;
+margin-bottom:20px;
+}
 
 @media(max-width:768px){
 
@@ -221,6 +219,12 @@ font-size:13px;
 
 <body>
 
+@if(session('success'))
+<div class="alert-success">
+    {{ session('success') }}
+</div>
+@endif
+
 <div class="header">
 
 <h1>
@@ -229,11 +233,13 @@ Gestion des Services
 </h1>
 
 @if(auth()->user()->niveau_admin == 3)
+
 <a href="{{ route('services.create') }}"
 class="add-btn">
 <i class="fas fa-plus"></i>
- Nouveau service
+Nouveau service
 </a>
+
 @endif
 
 </div>
@@ -242,23 +248,19 @@ class="add-btn">
 
 <div class="stat-card">
 <i class="fas fa-tools"></i>
-<h2>{{ $services->count() }}</h2>
+<h2>{{ $total }}</h2>
 <p>Services disponibles</p>
 </div>
 
 <div class="stat-card">
 <i class="fas fa-check-circle"></i>
-<h2>
-{{ $services->where('statut','Actif')->count() }}
-</h2>
+<h2>{{ $actifs }}</h2>
 <p>Services actifs</p>
 </div>
 
 <div class="stat-card">
 <i class="fas fa-times-circle"></i>
-<h2>
-{{ $services->where('statut','Inactif')->count() }}
-</h2>
+<h2>{{ $inactifs }}</h2>
 <p>Services inactifs</p>
 </div>
 
@@ -274,15 +276,17 @@ value="{{ request('search') }}">
 
 <select name="statut">
 
-<option value="">Tous les statuts</option>
+<option value="">
+Tous les statuts
+</option>
 
-<option value="Actif"
-{{ request('statut')=='Actif' ? 'selected':'' }}>
+<option value="en_cours"
+{{ request('statut') == 'en_cours' ? 'selected' : '' }}>
 Actif
 </option>
 
-<option value="Inactif"
-{{ request('statut')=='Inactif' ? 'selected':'' }}>
+<option value="termine"
+{{ request('statut') == 'termine' ? 'selected' : '' }}>
 Inactif
 </option>
 
@@ -290,7 +294,7 @@ Inactif
 
 <button type="submit">
 <i class="fas fa-search"></i>
- Filtrer
+Filtrer
 </button>
 
 </form>
@@ -322,7 +326,7 @@ Inactif
 </td>
 
 <td>
-{{ Str::limit($service->description,80) }}
+{{ \Illuminate\Support\Str::limit($service->description,80) }}
 </td>
 
 <td>
@@ -332,7 +336,7 @@ FCFA
 
 <td>
 
-@if($service->statut == 'Actif')
+@if($service->statut == 'en_cours')
 
 <span class="badge active">
 Actif
@@ -355,29 +359,28 @@ Inactif
 <a href="{{ route('services.show',$service->id) }}"
 class="btn show">
 <i class="fas fa-eye"></i>
- Voir
+Voir
 </a>
 
-@if(auth()->id() == $service->user_id
-|| auth()->user()->niveau_admin >= 2)
+@if(auth()->user()->niveau_admin >= 2)
 
 <a href="{{ route('services.edit',$service->id) }}"
 class="btn edit">
 <i class="fas fa-edit"></i>
- Modifier
+Modifier
 </a>
 
 <form method="POST"
 action="{{ route('services.destroy',$service->id) }}"
-onsubmit="return confirm('Voulez-vous vraiment supprimer ce service ?');"
-style="display:inline;">
+style="display:inline;"
+onsubmit="return confirm('Voulez-vous vraiment supprimer ce service ?');">
 
 @csrf
 @method('DELETE')
 
 <button type="submit" class="btn delete">
 <i class="fas fa-trash"></i>
- Supprimer
+Supprimer
 </button>
 
 </form>
@@ -393,9 +396,12 @@ style="display:inline;">
 @empty
 
 <tr>
-<td colspan="5" style="text-align:center;">
+
+<td colspan="5"
+style="text-align:center;padding:30px;">
 Aucun service trouvé.
 </td>
+
 </tr>
 
 @endforelse
@@ -406,9 +412,9 @@ Aucun service trouvé.
 
 </div>
 
-@if(method_exists($services,'links'))
+@if($services->hasPages())
 
-<div style="margin-top:25px;">
+<div class="pagination-container">
 {{ $services->links() }}
 </div>
 

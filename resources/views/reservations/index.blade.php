@@ -158,10 +158,9 @@ tr:hover{
 <tr>
 <th>Chien</th>
 <th>Client</th>
-<th>Contact</th>
 <th>Date</th>
 <th>Statut</th>
-<th>Montant</th>
+<th>Montant à versé</th>
 <th>Actions</th>
 </tr>
 
@@ -172,8 +171,6 @@ tr:hover{
 <td>{{ $r->chien->nom ?? '-' }}</td>
 
 <td>{{ $r->client->nom ?? '-' }}</td>
-
-<td>{{ $r->client->contact ?? '-' }}</td>
 
 <td>{{ $r->date_reservation }}</td>
 

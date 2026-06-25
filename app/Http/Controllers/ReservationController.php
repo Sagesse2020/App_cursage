@@ -81,7 +81,8 @@ class ReservationController extends Controller
     public function edit(Reservation $reservation)
     {
         $chiens = Chien::all();
-        return view('reservations.edit', compact('reservation','chiens'));
+        $clients = Client::all();
+        return view('reservations.edit', compact('reservation','chiens','clients'));
     }
 
     public function update(Request $request, Reservation $reservation)

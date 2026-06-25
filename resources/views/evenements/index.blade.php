@@ -29,14 +29,17 @@ h1{
     font-size:28px;
 }
 
-.btn{
+.btn,.view,.delete,.edit{
     background:#2563eb;
-    padding:10px 16px;
+    padding:8px 12px;
     border-radius:10px;
+    border: none;
     color:white;
     text-decoration:none;
     transition:.3s;
+    cursor:pointer;
 }
+
 .btn:hover{background:#1d4ed8}
 
 .grid{
@@ -82,24 +85,7 @@ h1{
     margin:6px 0;
 }
 
-.actions{
-    display:flex;
-    gap:8px;
-    margin-top:10px;
-}
 
-.actions a{
-    flex:1;
-    text-align:center;
-    padding:8px;
-    border-radius:8px;
-    color:white;
-    text-decoration:none;
-    font-size:13px;
-}
-
-.view{background:#22c55e}
-.edit{background:#f59e0b}
 
 @media(max-width:600px){
     header{flex-direction:column;gap:10px}
@@ -110,7 +96,11 @@ h1{
 <body>
 
 <div class="container">
-
+@if(auth()->user()->niveau_admin >= 2)
+  <header>
+    <a href="{{ route('evenements.create') }}" class="btn">+ Ajouter</a>
+</header>  
+@endif
 <div class="grid">
 
 @foreach($evenements as $ev)
@@ -140,12 +130,8 @@ h1{
       onsubmit="return confirm('Voulez-vous vraiment supprimer cet evenement ?');">
 @csrf
 @method('DELETE')
-<button class="btn delete">Supprimer</button>
+<button class="delete">Supprimer</button>
 </form>
-
-<header>
-    <a href="{{ route('evenements.create') }}" class="btn">+ Ajouter</a>
-</header>
 
 @endif
             <a href="{{ route('evenements.show', $ev->id) }}" class="view">Voir</a>

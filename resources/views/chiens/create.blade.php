@@ -38,7 +38,7 @@ gap:15px;
 
 input,
 select,
-textarea{
+textarea,label{
 width:100%;
 padding:12px;
 border:1px solid #ddd;
@@ -146,11 +146,10 @@ Femelle
 
 </select>
 
-<input type="date"
-name="date_naissance">
-
-<input type="date"
-name="date_arrive">
+<label> Date de naissance : </label>
+<input type="date" name="date_naissance" required>
+<label> Date d'arriver :</label>
+<input type="date" name="date_arrive" required>
 
 <input type="number"
 step="0.01"

@@ -379,6 +379,35 @@ $nbNotifications = App\Models\Notification::where('lu',false)
 </span>
 @endif
 
+{{-- ================= Gestion partenaire ================= --}}
+@if(auth()->user()->niveau_admin == 1)
+<li class="dropdown">
+<a href="#">Élevage</a>
+<ul class="dropdown-content">
+<li><a href="{{ route('chiens') }}"> Mes Chiens</a></li>
+<li><a href="{{ route('races') }}"> Mes Races</a></li>
+</ul>
+</li>
+<li class="dropdown">
+<a href="#"><i class="fas fa-shopping-cart"></i> Ventes</a>
+<ul class="dropdown-content">
+<li><a href="{{ route('categories') }}"> Mes catégories</a></li>
+<li><a href="{{ route('produits') }}"> Mes produits</a></li>
+<li><a href="{{ route('ventes') }}"> Mes ventes</a></li>
+<li><a href="{{ route('commandes') }}"> Mes commandes</a></li>
+</ul>
+</li>
+
+<li class="dropdown">
+<a href="#"><i class="fas fa-folder"></i> Contenu</a>
+<ul class="dropdown-content">
+<li><a href="{{ route('evenements') }}"> Mes évènements</a></li>
+<li><a href="{{ route('publications') }}">Mes publications</a></li>
+</ul>
+</li>
+
+@endif
+
 {{-- ================= CANINE ================= --}}
 @if(auth()->user()->niveau_admin >= 2)
 
@@ -411,8 +440,6 @@ $nbNotifications = App\Models\Notification::where('lu',false)
 </ul>
 </li>
 
-@endif
-
 {{-- ================= VENTES ================= --}}
 <li class="dropdown">
 <a href="#"><i class="fas fa-shopping-cart"></i> Ventes</a>
@@ -432,6 +459,7 @@ $nbNotifications = App\Models\Notification::where('lu',false)
 <li><a href="{{ route('employees') }}">Employés</a></li>
 <li><a href="{{ route('clients') }}">Clients</a></li>
 <li><a href="{{ route('partenaires') }}">Partenaires</a></li>
+<li><a href="{{ route('partenaire_commissions') }}">Commission de partenaires</a></li>
 <li><a href="{{ route('fournisseurs') }}">Fournisseurs</a></li>
 @if(auth()->user()->niveau_admin == 3)
 <li><a href="{{ route('users.index') }}">Liste des utilisateurs</a></li>
@@ -461,6 +489,7 @@ $nbNotifications = App\Models\Notification::where('lu',false)
 <li><a href="{{ route('publications') }}">Publications</a></li>
 </ul>
 </li>
+@endif
 
 {{-- ================= FINANCE ================= --}}
 @if(auth()->user()->niveau_admin == 3)
@@ -478,6 +507,10 @@ $nbNotifications = App\Models\Notification::where('lu',false)
 <li><a href="{{ route('factures') }}">Factures</a></li>
 <li><a href="{{ route('tresorerie.index') }}">Trésorerie</a></li>
 <li><a href="{{ route('paiements') }}">Paiements</a></li>
+<li><a href="{{ route('paiement_fournisseurs') }}">Paiements des fournisseurs</a></li>
+<li><a href="{{ route('paiement_commissions') }}">Paiements des commissions</a></li>
+<li><a href="{{ route('depenses') }}">Depenses</a></li>
+<li><a href="{{ route('salaires') }}">Salaires</a></li>
 </ul>
 </li>
 
@@ -495,17 +528,15 @@ $nbNotifications = App\Models\Notification::where('lu',false)
         <span class="badge">{{ $nbNotifications }}</span>
     @endif
 </a>
-
 </li>
 </ul>
 </li>
 </ul>
 </li>
-
-@endif
-
 <li>
 </li>
+@endif
+
 <li><a href="{{ route('profil') }}"><i class="fas fa-user"></i> Profil</a></li>
 <li><a href="{{ route('logout') }}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
 

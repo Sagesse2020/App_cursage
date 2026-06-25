@@ -50,6 +50,10 @@ use App\Http\Controllers\FicheSuiviController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PaiementCommissionController;
+use App\Http\Controllers\PaiementFournisseurController;
+use App\Http\Controllers\PartenaireCommissionController;
+use App\Http\Controllers\SalaireController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -118,11 +122,11 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/profil/photo', [UserController::class, 'updatePhoto'])->name('profile.photo');
 
     // users admin
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/create', [UserController::class, 'createUser'])->name('users.create');
     Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
     Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
-    Route::post('/users/{id}/update', [UserController::class, 'updateUser'])->name('users.update');
+    Route::put('/users/{id}', [UserController::class, 'updateUser'])->name('users.update');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 
         
@@ -228,6 +232,10 @@ Route::middleware(['auth'])->group(function(){
         return view('partenaires.accueil');
         })->name('partenaires');
 
+        Route::get('/PartenaireCommissionAccueil', function () {
+        return view('partenaire_commissions.accueil');
+        })->name('partenaire_commissions');
+
         Route::get('/CategorieAccueil', function () {
         return view('categories.accueil');
         })->name('categories');
@@ -235,10 +243,23 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/AchatAccueil', function () {
         return view('achats.accueil');
         })->name('achats');
+        
+        Route::get('/SalaireAccueil', function () {
+        return view('salaires.accueil');
+        })->name('salaires');
 
         Route::get('/PaiementAccueil', function () {
         return view('paiements.accueil');
         })->name('paiements');
+
+        Route::get('/PaiementCommissionAccueil', function () {
+        return view('paiement_commissions.accueil');
+        })->name('paiement_commissions');
+
+        Route::get('/PaiementFournisseurAccueil', function () {
+        return view('paiement_fournisseurs.accueil');
+        })->name('paiement_fournisseurs');
+
 
         Route::get('/DepenseAccueil', function () {
         return view('depenses.accueil');
@@ -352,9 +373,29 @@ Route::delete('/publications/{publication}', [PublicationController::class,'dest
     Route::resource('partenaires',PartenaireController::class);
 
       // -----------------------
+    // PARTENAIRE COMMISSIONS
+    // ------------------------
+    Route::resource('partenaire_commissions',PartenaireCommissionController::class);
+
+     // -----------------------
+    // PAIEMENT FOURNISSEURS
+    // ------------------------
+    Route::resource('paiement_fournisseurs',PaiementFournisseurController::class);
+     
+      // -----------------------
+    // PAIEMENT COMMISSIONS
+    // ------------------------
+    Route::resource('paiement_commissions',PaiementCommissionController::class);
+    
+    // -----------------------
     // VENTES
     // ------------------------
     Route::resource('ventes',VenteController::class);
+
+       // -----------------------
+    //SALAIRES
+    // ------------------------
+    Route::resource('salaires',SalaireController::class);
 
      // -----------------------
     // FOURNISSEURS

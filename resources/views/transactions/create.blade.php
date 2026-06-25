@@ -11,7 +11,7 @@ margin:auto;
 padding:30px;
 }
 
-input,select,textarea{
+input,select,textarea,label{
 width:100%;
 padding:10px;
 margin:10px 0;

@@ -6,7 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Partenaire extends Model
 {
-    protected $fillable = [ 'user_id','nom','telephone','email','adresse','pourcentage_commission','notes'];
+    protected $fillable = [
+
+        'nom',
+        'prenom',
+        'telephone',
+        'email',
+        'photo',
+        'type_partenaire',
+        'commission',
+        'entreprise',
+        'adresse',
+        'statut'
+
+    ];
 
     public function chiens()
     {
@@ -16,5 +29,15 @@ class Partenaire extends Model
     public function user()
     {
          return $this->belongsTo(User::class);
+    }
+
+    public function commissions()
+  {
+    return $this->hasMany(PartenaireCommission::class);
+  }
+
+   public function produits()
+    {
+        return $this->hasMany(Produit::class);
     }
 }

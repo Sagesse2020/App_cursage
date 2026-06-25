@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\Vente;
 use App\Services\NotificationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FactureController extends Controller
 {
@@ -93,7 +94,7 @@ class FactureController extends Controller
             "Une facture N° {$facture->numero} a été créée.",
             'success',
             'facture',
-            auth()->id()
+             Auth::id()
         );
 
         if ($facture->statut === 'impayée') {
@@ -103,7 +104,7 @@ class FactureController extends Controller
                 "La facture N° {$facture->numero} est impayée.",
                 'danger',
                 'finance',
-                auth()->id()
+                 Auth::id()
             );
         }
 
@@ -164,8 +165,6 @@ class FactureController extends Controller
             'vente_id'  => 'nullable|exists:ventes,id',
             'date'      => 'required|date',
             'total'     => 'required|numeric|min:0',
-            'statut'    => 'required|string',
-            'type'      => 'nullable|string'
 
         ]);
 
@@ -178,7 +177,7 @@ class FactureController extends Controller
             "La facture N° {$facture->numero} a été modifiée.",
             'warning',
             'facture',
-            auth()->id()
+            Auth::id()
         );
 
         if (
@@ -192,7 +191,7 @@ class FactureController extends Controller
                 "La facture N° {$facture->numero} est désormais impayée.",
                 'danger',
                 'finance',
-                auth()->id()
+                 Auth::id()
             );
         }
 
@@ -207,7 +206,7 @@ class FactureController extends Controller
                 "La facture N° {$facture->numero} a été réglée.",
                 'success',
                 'finance',
-                auth()->id()
+                 Auth::id()
             );
         }
 
@@ -233,7 +232,7 @@ class FactureController extends Controller
             "La facture N° {$numero} a été supprimée.",
             'danger',
             'facture',
-            auth()->id()
+             Auth::id()
         );
 
         return back()->with(

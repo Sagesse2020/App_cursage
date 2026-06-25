@@ -66,27 +66,28 @@ class UserController extends Controller
     // UPDATE PHOTO (IMPORTANT)
     // =========================
     public function updatePhoto(Request $request)
-    {
-        $request->validate([
-            'photo' => 'required|image|max:2048'
-        ]);
+{
+    $request->validate([
+        'photo' => 'required|image|max:2048'
+    ]);
 
-        $user = Auth::user();
+    $user = Auth::user();
 
-        if ($user->photo && Storage::disk('public')->exists($user->photo)) {
-            Storage::disk('public')->delete($user->photo);
-        }
-
-        $path = $request->file('photo')->store('profiles', 'public');
-
-        $user->photo = $path;
-        $user->save();
-
-        return response()->json([
-            'success' => true,
-            'photo_url' => asset('storage/' . $path)
-        ]);
+    // supprimer ancienne photo
+    if ($user->photo && Storage::disk('public')->exists($user->photo)) {
+        Storage::disk('public')->delete($user->photo);
     }
+
+    // upload nouvelle
+    $path = $request->file('photo')->store('profiles', 'public');
+
+    $user->photo = $path;
+    $user->save();
+
+    return redirect()
+        ->route('profil')
+        ->with('success', 'Photo de profil mise à jour avec succès');
+}
 
     // =========================
     // USERS LIST (ADMIN)
@@ -109,31 +110,32 @@ class UserController extends Controller
     // =========================
     public function createUser()
     {
-        return view('users.create');
+        return view('users');
     }
 
     // =========================
     // STORE USER
     // =========================
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|confirmed|min:8',
-            'role' => 'required'
-        ]);
+      public function store(Request $request)
+{
+    $request->validate([
+        'name' => 'required',
+        'email' => 'required|email|unique:users',
+        'password' => 'required|confirmed|min:8',
+        'role' => 'required',
+        'niveau_admin' => 'nullable|integer|min:1|max:3'
+    ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'role' => $request->role,
-        ]);
+    User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => bcrypt($request->password),
+        'role' => $request->role,
+        'niveau_admin' => $request->niveau_admin, // 🔥 IMPORTANT
+    ]);
 
-        return redirect()->route('users.index')->with('success', 'Utilisateur créé');
+    return redirect()->route('users.index')->with('success', 'Utilisateur créé');
     }
-
     // =========================
     // EDIT USER
     // =========================
@@ -147,22 +149,36 @@ class UserController extends Controller
     // =========================
     // UPDATE USER (ADMIN)
     // =========================
-    public function updateUser(Request $request, $id)
-    {
-        $user = User::findOrFail($id);
+       public function updateUser(Request $request, $id)
+{
+    $user = User::findOrFail($id);
 
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $id,
-        ]);
+    $request->validate([
+        'name' => 'required',
+        'email' => 'required|email|unique:users,email,' . $id,
+        'role' => 'required',
+        'niveau_admin' => 'nullable|integer|min:1|max:3',
+        'password' => 'nullable|min:8|confirmed',
+    ]);
 
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email
-        ]);
+    $data = [
+        'name' => $request->name,
+        'email' => $request->email,
+        'role' => $request->role,
+        'niveau_admin' => $request->role === 'admin'
+            ? (int) $request->niveau_admin
+            : null,
+    ];
 
-        return back()->with('success', 'Utilisateur modifié');
+    // 🔥 password seulement si rempli
+    if ($request->filled('password')) {
+        $data['password'] = bcrypt($request->password);
     }
+
+    $user->update($data);
+
+    return back()->with('success', 'Utilisateur modifié avec succès');
+   }
 
     // =========================
     // DELETE USER

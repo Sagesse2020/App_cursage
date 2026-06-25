@@ -37,4 +37,9 @@ class Produit extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function commissions()
+{
+    return $this->hasMany(PartenaireCommission::class);
+}
 }

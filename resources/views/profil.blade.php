@@ -108,6 +108,12 @@
 </head>
 <body>
   <div class="profile-container">
+
+    @if(session('success'))
+    <div style="padding:10px;background:#d4edda;color:#155724;margin-bottom:10px;">
+        {{ session('success') }}
+    </div>
+@endif
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="profile-card">

@@ -50,7 +50,7 @@ body{
 
      
 <a href="{{ route('commandes.show',$c->id) }}" class="btn">Voir</a>
-@if(auth()->id() === $c->user_id || auth()->user()->niveau_admin >= 2;)
+@if(auth()->id() === $c->user_id || auth()->user()->niveau_admin >= 2)
 
 <a href="{{ route('commandes.edit',$c->id) }}" class="btn">
 Modifier
