@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ config('app.name')}}-Formulaire Depense</title>
+    <title>{{ config('app.name')}}-Formulaire Salaire</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}"> <!-- Si tu as des styles -->
      <style>
 *{
@@ -137,10 +137,10 @@ img{
     <div class="container">
       <ul class="collapse navbar-collapse" id="navbarSupportedContent">
       <li class="nav-item">
-      <a class="nav-link @if(Request::route()->getName() == 'depenses.create') active @endif" aria-current="page" href="{{ route('depenses.create') }}">Enregistrer une depense</a>
+      <a class="nav-link @if(Request::route()->getName() == 'salaires.create') active @endif" aria-current="page" href="{{ route('salaires.create') }}">Enregistrer un salaire</a>
       </li>
        <li class="nav-item">
-       <a class="nav-link @if(Request::route()->getName() == 'depenses.index') active @endif" aria-current="page" href="{{ route('depenses.index') }}">Tous les depenses</a>
+       <a class="nav-link @if(Request::route()->getName() == 'salaires.index') active @endif" aria-current="page" href="{{ route('salaires.index') }}">Tous les salaires</a>
        </li>
        <li class="nav-item">
          <a class="nav-link active" aria-current="page" href="{{ route('admin') }}">Accueil</a>

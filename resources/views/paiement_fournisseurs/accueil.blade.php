@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ config('app.name')}}-Formulaire paiement de commission</title>
+    <title>{{ config('app.name')}}-Formulaire paiement du fournisseur</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}"> <!-- Si tu as des styles -->
      <style>
 *{
@@ -137,10 +137,10 @@ img{
     <div class="container">
       <ul class="collapse navbar-collapse" id="navbarSupportedContent">
       <li class="nav-item">
-      <a class="nav-link @if(Request::route()->getName() == 'paiement_commissions.create') active @endif" aria-current="page" href="{{ route('paiement_commissions.create') }}">Enregistrer un paiement de commission</a>
+      <a class="nav-link @if(Request::route()->getName() == 'paiement_fournisseurs.create') active @endif" aria-current="page" href="{{ route('paiement_fournisseurs.create') }}">Enregistrer un paiement de fournisseurs</a>
       </li>
        <li class="nav-item">
-       <a class="nav-link @if(Request::route()->getName() == 'paiement_commissions.index') active @endif" aria-current="page" href="{{ route('paiement_commissions.index') }}">Tous les paiements de commissions</a>
+       <a class="nav-link @if(Request::route()->getName() == 'paiement_fournisseurs.index') active @endif" aria-current="page" href="{{ route('paiement_fournisseurs.index') }}">Tous les paiements de fournisseurs</a>
        </li>
        <li class="nav-item">
          <a class="nav-link active" aria-current="page" href="{{ route('admin') }}">Accueil</a>

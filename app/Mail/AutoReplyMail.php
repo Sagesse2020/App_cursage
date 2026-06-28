@@ -9,8 +9,10 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ContactMail extends Mailable
+class AutoReplyMail extends Mailable
 {
+   use Queueable, SerializesModels;
+
     public $contact;
 
     public function __construct($contact)
@@ -18,22 +20,38 @@ class ContactMail extends Mailable
         $this->contact = $contact;
     }
 
+    public function build()
+    {
+        return $this->subject("Merci pour votre message")
+            ->view('mails.autoreply');
+    }
+    /**
+     * Get the message envelope.
+     */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Nouveau message CURSAGE',
+            subject: 'Auto Reply Mail',
         );
     }
 
+    /**
+     * Get the message content definition.
+     */
     public function content(): Content
     {
         return new Content(
             view: 'mails.contact',
-            with: [
-                'contact' => $this->contact
-            ],
         );
     }
+
+    /**
+     * Get the attachments for the message.
+     *
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     */
+    public function attachments(): array
+    {
+        return [];
+    }
 }
-
-

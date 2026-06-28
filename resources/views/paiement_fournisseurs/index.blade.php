@@ -2,6 +2,7 @@
 <html lang="fr">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -17,46 +18,147 @@ box-sizing:border-box;
 
 body{
 font-family:'Segoe UI',sans-serif;
-background:#f1f5f9;
+background:#f8fafc;
 padding:25px;
 color:#1e293b;
 }
 
-.topbar{
+/* HEADER */
+
+.header{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:30px;
 flex-wrap:wrap;
 gap:15px;
+margin-bottom:25px;
 }
 
-.topbar h1{
+.page-title{
 font-size:32px;
+font-weight:700;
 }
+
+.page-subtitle{
+color:#64748b;
+margin-top:5px;
+}
+
+/* BOUTONS */
 
 .btn{
-background:#2563eb;
-color:white;
+display:inline-flex;
+align-items:center;
+gap:8px;
 padding:12px 18px;
+border:none;
 border-radius:12px;
 text-decoration:none;
+cursor:pointer;
 font-weight:600;
+transition:.3s;
 }
 
-.btn:hover{ background:#1d4ed8; }
+.btn-primary{
+background:#2563eb;
+color:white;
+}
 
-.grid{
+.btn-primary:hover{
+background:#1d4ed8;
+}
+
+.btn-dark{
+background:#0f172a;
+color:white;
+}
+
+.btn-dark:hover{
+background:#020617;
+}
+
+.btn-danger{
+background:#dc2626;
+color:white;
+}
+
+.btn-danger:hover{
+background:#b91c1c;
+}
+
+/* STATS */
+
+.stats{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 gap:20px;
+margin-bottom:25px;
 }
 
-.card{
+.stat-card{
+background:white;
+padding:25px;
+border-radius:18px;
+box-shadow:0 8px 20px rgba(0,0,0,.05);
+}
+
+.stat-label{
+font-size:14px;
+color:#64748b;
+margin-bottom:10px;
+}
+
+.stat-value{
+font-size:28px;
+font-weight:700;
+}
+
+/* FILTRES */
+
+.filters{
 background:white;
 padding:20px;
 border-radius:18px;
-box-shadow:0 10px 25px rgba(0,0,0,.08);
+box-shadow:0 8px 20px rgba(0,0,0,.05);
+margin-bottom:25px;
+
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+
+gap:15px;
+}
+
+.filters input,
+.filters select{
+width:100%;
+padding:12px;
+border:1px solid #cbd5e1;
+border-radius:12px;
+outline:none;
+}
+
+.filters input:focus,
+.filters select:focus{
+border-color:#2563eb;
+}
+
+/* GRID */
+
+.grid{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(370px,1fr));
+gap:25px;
+}
+
+/* CARD */
+
+.card{
+background:white;
+border-radius:20px;
+padding:25px;
+box-shadow:0 10px 30px rgba(0,0,0,.06);
 transition:.3s;
 }
 
@@ -64,124 +166,296 @@ transition:.3s;
 transform:translateY(-5px);
 }
 
-.title{
-font-size:20px;
-font-weight:bold;
-margin-bottom:10px;
+.card-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
 }
 
-.info{
-color:#475569;
-margin-bottom:6px;
+.partner{
+font-size:22px;
+font-weight:700;
 }
 
 .amount{
-font-size:22px;
-font-weight:bold;
+font-size:30px;
+font-weight:700;
 color:#2563eb;
-margin-top:10px;
+margin:20px 0;
 }
 
+.info{
+display:flex;
+justify-content:space-between;
+padding:10px 0;
+border-bottom:1px solid #f1f5f9;
+font-size:14px;
+}
+
+.info:last-child{
+border-bottom:none;
+}
+
+/* BADGES */
+
+.badge{
+padding:8px 14px;
+border-radius:30px;
+font-size:12px;
+font-weight:700;
+text-transform:uppercase;
+}
+
+.badge.paye{
+background:#dcfce7;
+color:#166534;
+}
+
+.badge.attente{
+background:#fef3c7;
+color:#92400e;
+}
+
+.badge.annule{
+background:#fee2e2;
+color:#991b1b;
+}
+
+/* ACTIONS */
+
 .actions{
-margin-top:15px;
+margin-top:20px;
 display:flex;
 gap:10px;
 flex-wrap:wrap;
 }
 
-.btn-dark{
-background:#0f172a;
+.actions form{
+display:inline;
 }
 
-.btn-danger{
-background:#dc2626;
-border:none;
-color:white;
-padding:10px 14px;
-border-radius:10px;
-cursor:pointer;
+/* PAGINATION */
+
+.pagination{
+margin-top:35px;
 }
 
-.badge{
-display:inline-block;
-padding:6px 12px;
-border-radius:20px;
-font-size:12px;
-margin-top:8px;
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+body{
+padding:15px;
 }
 
-.paye{ background:#dcfce7; color:#166534; }
-.attente{ background:#fef9c3; color:#854d0e; }
+.page-title{
+font-size:24px;
+}
+
+.grid{
+grid-template-columns:1fr;
+}
+
+}
 
 </style>
+
 </head>
 
 <body>
 
-<div class="topbar">
-<h1>💰 Paiements fournisseurs</h1>
+<!-- HEADER -->
 
-<a href="{{ route('paiement_fournisseurs.create') }}" class="btn">
-+ Ajouter
-</a>
+<div class="header">
+
+<div>
+
+<h1 class="page-title">
+💰 Paiements fournisseurs
+</h1>
+
+<p class="page-subtitle">
+Gestion des règlements effectués aux fournisseurs
+</p>
+
 </div>
+
+<a href="{{ route('paiement_fournisseurs.create') }}"
+class="btn btn-primary">
+
+➕ Nouveau paiement
+
+</a>
+
+</div>
+
+<!-- STATISTIQUES -->
+
+<div class="stats">
+
+<div class="stat-card">
+<div class="stat-label">Nombre de paiements</div>
+<div class="stat-value">
+{{ $paiements->total() }}
+</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-label">Montant total payé</div>
+<div class="stat-value">
+{{ number_format($paiements->sum('montant'),0,',',' ') }}
+FCFA
+</div>
+</div>
+
+</div>
+
+<!-- FILTRES -->
+
+<form method="GET" class="filters">
+
+<input
+type="text"
+name="search"
+placeholder="🔍 Fournisseur..."
+value="{{ request('search') }}"
+>
+
+<select name="statut">
+
+<option value="">Tous les statuts</option>
+
+<option value="paye"
+{{ request('statut')=='paye' ? 'selected':'' }}>
+Payé
+</option>
+
+<option value="attente"
+{{ request('statut')=='attente' ? 'selected':'' }}>
+En attente
+</option>
+
+<option value="annule"
+{{ request('statut')=='annule' ? 'selected':'' }}>
+Annulé
+</option>
+
+</select>
+
+<select name="mode_paiement">
+
+<option value="">Tous les modes</option>
+
+<option value="especes">Espèces</option>
+<option value="mobile_money">Mobile Money</option>
+<option value="virement">Virement</option>
+<option value="cheque">Chèque</option>
+
+</select>
+
+<button class="btn btn-primary">
+🔎 Filtrer
+</button>
+
+</form>
+
+<!-- LISTE -->
 
 <div class="grid">
 
-@foreach($paiements as $paiement)
+@forelse($paiements as $paiement)
 
 <div class="card">
 
-<div class="title">
-{{ $paiement->fournisseur->nom }}
+<div class="card-header">
+
+<div class="partner">
+{{ $paiement->fournisseur->nom ?? 'Fournisseur inconnu' }}
 </div>
 
-<div class="info">
-📅 {{ $paiement->date_paiement }}
-</div>
+<span class="badge {{ $paiement->statut }}">
+{{ ucfirst($paiement->statut) }}
+</span>
 
-<div class="info">
-💳 {{ $paiement->mode_paiement }}
 </div>
 
 <div class="amount">
-{{ number_format($paiement->montant,0,',',' ') }} FCFA
+{{ number_format($paiement->montant,0,',',' ') }}
+FCFA
 </div>
 
-@if($paiement->statut == 'paye')
-<span class="badge paye">Payé</span>
-@else
-<span class="badge attente">En attente</span>
-@endif
+<div class="info">
+<span>Date paiement</span>
+<strong>{{ $paiement->date_paiement }}</strong>
+</div>
+
+<div class="info">
+<span>Mode paiement</span>
+<strong>{{ ucfirst(str_replace('_',' ',$paiement->mode_paiement)) }}</strong>
+</div>
+
+<div class="info">
+<span>Référence</span>
+<strong>{{ $paiement->reference ?? '---' }}</strong>
+</div>
+
+<div class="info">
+<span>Utilisateur</span>
+<strong>{{ $paiement->user->name ?? 'N/A' }}</strong>
+</div>
 
 <div class="actions">
 
-<a href="{{ route('paiement_fournisseurs.show',$paiement) }}" class="btn">
-Voir
+<a href="{{ route('paiement_fournisseurs.show',$paiement) }}"
+class="btn btn-primary">
+
+👁 Voir
+
 </a>
 
-<a href="{{ route('paiement_fournisseurs.edit',$paiement) }}" class="btn btn-dark">
-Modifier
+<a href="{{ route('paiement_fournisseurs.edit',$paiement) }}"
+class="btn btn-dark">
+
+✏ Modifier
+
 </a>
 
-<form action="{{ route('paiement_fournisseurs.destroy',$paiement) }}" method="POST">
+<form
+action="{{ route('paiement_fournisseurs.destroy',$paiement) }}"
+method="POST"
+onsubmit="return confirm('Supprimer ce paiement ?')">
+
 @csrf
 @method('DELETE')
 
-<button class="btn-danger">
-Supprimer
+<button
+type="submit"
+class="btn btn-danger">
+
+🗑 Supprimer
+
 </button>
+
 </form>
 
 </div>
 
 </div>
 
-@endforeach
+@empty
+
+<div class="card">
+<h3>Aucun paiement trouvé.</h3>
+</div>
+
+@endforelse
 
 </div>
 
+<div class="pagination">
 {{ $paiements->links() }}
+</div>
 
 </body>
 </html>

@@ -118,6 +118,21 @@ padding:20px;
 
 <div class="form-grid">
 
+<!-- Partenaire -->
+<div class="form-group full">
+<label>Partenaire</label>
+<select name="partenaire_id" required>
+<option value="">-- Choisir un partenaire --</option> 
+
+@foreach( $partenaires  as  $partenaire )
+<option value="{{  $partenaire->id }}">
+{{ $partenaire->nom }}
+</option>
+@endforeach
+
+</select>
+</div>
+
 <!-- Commission partenaire -->
 <div class="form-group full">
 <label>Commission partenaire</label>
@@ -154,7 +169,7 @@ padding:20px;
 <div class="form-group">
 <label>Mode de paiement</label>
 <select name="mode_paiement" required>
-<option value="espece">Espèce</option>
+<option value="especes">Espèce</option>
 <option value="virement">Virement</option>
 <option value="mobile_money">Mobile Money</option>
 </select>

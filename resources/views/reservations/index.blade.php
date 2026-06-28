@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -8,116 +10,215 @@
 
 <style>
 
+/* RESET */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
 body{
-    font-family:"Segoe UI",sans-serif;
-    background:#0b1020;
-    color:#f5f6fa;
-    margin:0;
-    padding:25px;
+font-family:'Segoe UI',sans-serif;
+background:#f8fafc;
+padding:25px;
+color:#1e293b;
 }
 
-.container{
-    max-width:1200px;
-    margin:auto;
+/* HEADER */
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:15px;
+margin-bottom:25px;
 }
 
-h1{
-    margin-bottom:25px;
-    color:#00e6ff;
+.page-title{
+font-size:32px;
+font-weight:700;
 }
 
-/* FILTRES */
+.page-subtitle{
+color:#64748b;
+margin-top:5px;
+}
+
+/* BUTTONS */
+.btn{
+display:inline-flex;
+align-items:center;
+gap:8px;
+padding:10px 14px;
+border:none;
+border-radius:10px;
+text-decoration:none;
+cursor:pointer;
+font-weight:600;
+font-size:13px;
+transition:.3s;
+}
+
+.btn-view{
+background:#2563eb;
+color:white;
+}
+
+.btn-edit{
+background:#f59e0b;
+color:#111827;
+}
+
+.btn-delete{
+background:#dc2626;
+color:white;
+}
+
+/* STATS */
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-bottom:25px;
+}
+
+.stat-card{
+background:white;
+padding:20px;
+border-radius:16px;
+box-shadow:0 8px 20px rgba(0,0,0,.05);
+}
+
+.stat-label{
+font-size:13px;
+color:#64748b;
+}
+
+.stat-value{
+font-size:26px;
+font-weight:700;
+margin-top:8px;
+}
+
+/* FILTERS */
 .filters{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-bottom:20px;
+background:white;
+padding:20px;
+border-radius:16px;
+box-shadow:0 8px 20px rgba(0,0,0,.05);
+margin-bottom:25px;
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
 }
 
 .filters input,
 .filters select{
-    padding:12px;
-    border-radius:10px;
-    border:none;
-    outline:none;
-    background:#111827;
-    color:white;
+width:100%;
+padding:12px;
+border:1px solid #cbd5e1;
+border-radius:10px;
+outline:none;
 }
 
-.filters button{
-    padding:12px 18px;
-    background:#00e6ff;
-    color:black;
-    border:none;
-    border-radius:10px;
-    font-weight:bold;
-    cursor:pointer;
+.filters input:focus,
+.filters select:focus{
+border-color:#2563eb;
 }
 
-.filters button:hover{
-    transform:scale(1.05);
+/* GRID CARDS */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(370px,1fr));
+gap:20px;
 }
 
-/* TABLE */
-.table-box{
-    background:#111827;
-    border-radius:12px;
-    overflow:auto;
-    box-shadow:0 10px 25px rgba(0,0,0,.5);
+/* CARD */
+.card{
+background:white;
+border-radius:18px;
+padding:20px;
+box-shadow:0 10px 25px rgba(0,0,0,.06);
+transition:.3s;
 }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:900px;
+.card:hover{
+transform:translateY(-5px);
 }
 
-th{
-    background:#020617;
-    color:#00e6ff;
-    padding:14px;
-    text-align:left;
+.card-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
 }
 
-td{
-    padding:14px;
-    border-bottom:1px solid #1f2937;
+.title{
+font-size:18px;
+font-weight:700;
 }
 
-tr:hover{
-    background:#1f2937;
+.info{
+display:flex;
+justify-content:space-between;
+padding:8px 0;
+border-bottom:1px solid #f1f5f9;
+font-size:14px;
+}
+
+.info:last-child{
+border-bottom:none;
 }
 
 /* BADGES */
 .badge{
-    padding:6px 12px;
-    border-radius:20px;
-    font-size:12px;
-    font-weight:bold;
-    display:inline-block;
+padding:6px 12px;
+border-radius:20px;
+font-size:12px;
+font-weight:700;
+text-transform:uppercase;
 }
 
-.attente{background:#f59e0b;}
-.confirmee{background:#16a34a;}
-.annulee{background:#dc2626;}
-
-/* BUTTONS */
-.btn{
-    padding:6px 10px;
-    border-radius:6px;
-    text-decoration:none;
-    font-size:12px;
-    margin-right:5px;
-    display:inline-block;
+.attente{
+background:#fef3c7;
+color:#92400e;
 }
 
-.view{background:#2563eb;color:white;}
-.edit{background:#f59e0b;color:black;}
-.delete{background:#dc2626;color:white;border:none;cursor:pointer;}
+.confirmee{
+background:#dcfce7;
+color:#166534;
+}
 
+.annulee{
+background:#fee2e2;
+color:#991b1b;
+}
+
+/* ACTIONS */
+.actions{
+margin-top:15px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+/* PAGINATION */
+.pagination{
+margin-top:30px;
+}
+
+/* RESPONSIVE */
 @media(max-width:768px){
-    table{font-size:12px;}
-    .filters{flex-direction:column;}
+
+body{
+padding:15px;
+}
+
+.page-title{
+font-size:24px;
+}
+
 }
 
 </style>
@@ -126,89 +227,117 @@ tr:hover{
 
 <body>
 
-<div class="container">
+<!-- HEADER -->
+<div class="header">
 
-<h1>📅 Réservations</h1>
+<div>
+<h1 class="page-title">📅 Réservations</h1>
+<p class="page-subtitle">Gestion des réservations clients</p>
+</div>
+
+</div>
 
 <!-- FILTRES -->
 <form method="GET" class="filters">
 
-<input type="text" name="client" placeholder="🔍 Client...">
+<input type="text" name="client" placeholder="🔍 Client..." value="{{ request('client') }}">
 
 <select name="statut">
-    <option value="">Tous statuts</option>
-    <option value="attente">Attente</option>
-    <option value="confirmee">Confirmée</option>
-    <option value="annulee">Annulée</option>
+
+<option value="">Tous statuts</option>
+
+<option value="attente">Attente</option>
+<option value="confirmee">Confirmée</option>
+<option value="annulee">Annulée</option>
+
 </select>
 
-<button>Filtrer</button>
+<button class="btn btn-view">Filtrer</button>
 
 </form>
 
-@if(session('success'))
-<p style="color:#22c55e">{{ session('success') }}</p>
-@endif
+<!-- LISTE -->
+<div class="grid">
 
-<!-- TABLE -->
-<div class="table-box">
+@forelse($reservations as $r)
 
-<table>
+<div class="card">
 
-<tr>
-<th>Chien</th>
-<th>Client</th>
-<th>Date</th>
-<th>Statut</th>
-<th>Montant à versé</th>
-<th>Actions</th>
-</tr>
+<div class="card-header">
 
-@foreach($reservations as $r)
+<div class="title">
+{{ $r->chien->nom ?? 'Chien inconnu' }}
+</div>
 
-<tr>
-
-<td>{{ $r->chien->nom ?? '-' }}</td>
-
-<td>{{ $r->client->nom ?? '-' }}</td>
-
-<td>{{ $r->date_reservation }}</td>
-
-<td>
 <span class="badge {{ $r->statut }}">
-{{ $r->statut }}
+{{ ucfirst($r->statut) }}
 </span>
-</td>
-
-<td>{{ number_format($r->montant_verse ?? 0,0,',',' ') }} FCFA</td>
-
-<td>
-
-<a href="{{ route('reservations.show',$r) }}" class="btn view">Voir</a>
-
-@if(auth()->id() === $r->user_id || auth()->user()->niveau_admin >= 2)
-<a href="{{ route('reservations.edit',$r) }}" class="btn edit">Modifier</a>
-
-<form action="{{ route('reservations.destroy',$r) }}" method="POST" style="display:inline;" "
-      onsubmit="return confirm('Voulez-vous vraiment supprimer cet reservation ?');">
-@csrf @method('DELETE')
-<button class="btn delete" onclick="return confirm('Supprimer ?')">Supprimer</button>
-</form>
- 
-@endif
-
-</td>
-
-</tr>
-
-@endforeach
-
-</table>
 
 </div>
 
-{{ $reservations->links() }}
+<div class="info">
+<span>Client</span>
+<strong>{{ $r->client->nom ?? '-' }}</strong>
+</div>
 
+<div class="info">
+<span>Date</span>
+<strong>{{ $r->date_reservation }}</strong>
+</div>
+
+<div class="info">
+<span>Montant versé</span>
+<strong>{{ number_format($r->montant_verse ?? 0,0,',',' ') }} FCFA</strong>
+</div>
+
+<div class="info">
+<span>Enregistré par</span>
+<strong>{{ $r->user->name ?? 'N/A' }}</strong>
+</div>
+
+<div class="actions">
+
+<a href="{{ route('reservations.show',$r) }}" class="btn btn-view">
+👁 Voir
+</a>
+
+@if(auth()->id() === $r->user_id || auth()->user()->niveau_admin >= 2)
+
+<a href="{{ route('reservations.edit',$r) }}" class="btn btn-edit">
+✏ Modifier
+</a>
+
+<form action="{{ route('reservations.destroy',$r) }}" method="POST"
+onsubmit="return confirm('Supprimer cette réservation ?')">
+
+@csrf
+@method('DELETE')
+
+<button type="submit" class="btn btn-delete">
+🗑 Supprimer
+</button>
+
+</form>
+
+@endif
+
+</div>
+
+</div>
+
+@empty
+
+<div class="card">
+<h3>Aucune réservation trouvée.</h3>
+</div>
+
+@endforelse
+
+</div>
+
+<!-- PAGINATION -->
+<div class="pagination">
+{{ $reservations->links() }}
 </div>
 
 </body>

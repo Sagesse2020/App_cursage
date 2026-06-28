@@ -145,7 +145,7 @@ padding:20px;
 <div class="form-group">
 <label>Mode de paiement</label>
 <select name="mode_paiement" required>
-<option value="espece">Espèce</option>
+<option value="especes">Espèces</option>
 <option value="virement">Virement</option>
 <option value="mobile_money">Mobile Money</option>
 </select>
@@ -157,6 +157,7 @@ padding:20px;
 <select name="statut">
 <option value="en_attente">En attente</option>
 <option value="paye">Payé</option>
+<option value="annule">Annule</option>
 </select>
 </div>
 

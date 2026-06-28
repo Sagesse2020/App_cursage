@@ -477,6 +477,11 @@ $nbNotifications = App\Models\Notification::where('lu',false)
 <li><a href="{{ route('journal.index') }}">Journal</a></li>
 <li><a href="{{ route('commentaires.index') }}">Commentaires</a></li>
 <li><a href="{{ route('activites.index') }}">Historique de modification</a></li>
+@if(auth()->user()->niveau_admin == 2)  
+<li><a href="{{ route('recettes.index') }}">Recettes</a></li>
+<li><a href="{{ route('benefices.index') }}">Bénéfices</a></li>
+<li><a href="{{ route('pertes.index') }}">Pertes</a></li>
+@endif
 </ul>
 </li>
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PaiementCommission;
 use App\Models\PartenaireCommission;
+use App\Models\Partenaire;
 use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,16 +13,69 @@ class PaiementCommissionController extends Controller
 {
     public function index()
     {
-        $paiements = PaiementCommission::with([
-            'commission.partenaire'
-        ])
-        ->latest()
-        ->paginate(12);
+       $paiements = PaiementCommission::with([
+    'commission.partenaire'
+])
 
-        return view(
-            'paiement_commissions.index',
-            compact('paiements')
-        );
+->when(request('search'), function($q){
+
+    $q->whereHas(
+        'commission.partenaire',
+        function($query){
+
+            $query->where(
+                'nom',
+                'like',
+                '%'.request('search').'%'
+            );
+
+        }
+    );
+
+})
+
+->when(request('statut'), function($q){
+
+    $q->where(
+        'statut',
+        request('statut')
+    );
+
+})
+
+->when(request('mode_paiement'), function($q){
+
+    $q->where(
+        'mode_paiement',
+        request('mode_paiement')
+    );
+
+})
+
+->latest()
+->paginate(12)
+->withQueryString();
+
+$totalPaye =
+PaiementCommission::where(
+    'statut',
+    'paye'
+)->sum('montant');
+
+$totalAttente =
+PaiementCommission::where(
+    'statut',
+    'en_attente'
+)->sum('montant');
+
+return view(
+    'paiement_commissions.index',
+    compact(
+        'paiements',
+        'totalPaye',
+        'totalAttente'
+    )
+);
     }
 
     public function create()
@@ -29,10 +83,11 @@ class PaiementCommissionController extends Controller
         $commissions =
             PartenaireCommission::with('partenaire')
             ->get();
+         $partenaires = Partenaire::all();    
 
         return view(
             'paiement_commissions.create',
-            compact('commissions')
+            compact('commissions','partenaires')
         );
     }
 
@@ -55,6 +110,8 @@ class PaiementCommissionController extends Controller
         ]);
 
         $paiement = PaiementCommission::create([
+            'partenaire_id'
+                => $request->partenaire_id,
 
             'partenaire_commission_id'
                 => $request->partenaire_commission_id,

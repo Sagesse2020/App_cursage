@@ -1,15 +1,12 @@
 <!DOCTYPE html>
-
 <html lang="fr">
 
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>Paiements commissions</title>
+<title>Paiements des commissions</title>
 
 <style>
 
@@ -21,92 +18,234 @@ box-sizing:border-box;
 
 body{
 font-family:'Segoe UI',sans-serif;
-background:#f1f5f9;
+background:#f8fafc;
 padding:25px;
 color:#1e293b;
 }
 
-.topbar{
+/* =======================
+HEADER
+======================= */
+
+.header{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:35px;
 flex-wrap:wrap;
 gap:15px;
+margin-bottom:25px;
 }
 
-.topbar h1{
+.page-title{
 font-size:32px;
+font-weight:700;
 }
+
+.page-subtitle{
+color:#64748b;
+margin-top:5px;
+}
+
+/* =======================
+BUTTONS
+======================= */
 
 .btn{
-background:#2563eb;
-color:white;
+display:inline-flex;
+align-items:center;
+gap:8px;
 padding:12px 18px;
+border:none;
 border-radius:12px;
 text-decoration:none;
-font-weight:600;
-border:none;
 cursor:pointer;
+font-weight:600;
+transition:.3s;
 }
 
-.btn:hover{
+.btn-primary{
+background:#2563eb;
+color:white;
+}
+
+.btn-primary:hover{
 background:#1d4ed8;
 }
 
 .btn-dark{
 background:#0f172a;
+color:white;
+}
+
+.btn-dark:hover{
+background:#020617;
 }
 
 .btn-danger{
 background:#dc2626;
+color:white;
 }
+
+.btn-danger:hover{
+background:#b91c1c;
+}
+
+/* =======================
+STATISTIQUES
+======================= */
+
+.stats{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+margin-bottom:25px;
+}
+
+.stat-card{
+background:white;
+padding:25px;
+border-radius:18px;
+box-shadow:0 8px 20px rgba(0,0,0,.05);
+}
+
+.stat-label{
+font-size:14px;
+color:#64748b;
+margin-bottom:10px;
+}
+
+.stat-value{
+font-size:28px;
+font-weight:700;
+}
+
+/* =======================
+FILTRES
+======================= */
+
+.filters{
+background:white;
+padding:20px;
+border-radius:18px;
+box-shadow:0 8px 20px rgba(0,0,0,.05);
+margin-bottom:25px;
+
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+
+gap:15px;
+}
+
+.filters input,
+.filters select{
+
+width:100%;
+padding:12px;
+border:1px solid #cbd5e1;
+border-radius:12px;
+outline:none;
+font-size:14px;
+
+}
+
+.filters input:focus,
+.filters select:focus{
+
+border-color:#2563eb;
+
+}
+
+/* =======================
+GRID
+======================= */
 
 .grid{
 display:grid;
 grid-template-columns:
-repeat(auto-fit,minmax(350px,1fr));
+repeat(auto-fit,minmax(370px,1fr));
 gap:25px;
 }
 
+/* =======================
+CARD
+======================= */
+
 .card{
+
 background:white;
 border-radius:20px;
 padding:25px;
-box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+box-shadow:
+0 10px 30px rgba(0,0,0,.06);
+
 transition:.3s;
+
 }
 
 .card:hover{
+
 transform:translateY(-5px);
+
 }
 
-.title{
-font-size:24px;
-font-weight:bold;
+.card-header{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
 margin-bottom:15px;
+
 }
 
-.info{
-margin-bottom:10px;
-font-size:15px;
-color:#475569;
+.partner{
+
+font-size:22px;
+font-weight:700;
+
 }
 
 .amount{
-font-size:28px;
-font-weight:bold;
+
+font-size:30px;
+font-weight:700;
 color:#2563eb;
-margin-top:15px;
+
+margin:20px 0;
+
 }
 
+.info{
+
+display:flex;
+justify-content:space-between;
+padding:10px 0;
+
+border-bottom:
+1px solid #f1f5f9;
+
+font-size:14px;
+
+}
+
+.info:last-child{
+border-bottom:none;
+}
+
+/* =======================
+BADGES
+======================= */
+
 .badge{
-display:inline-block;
-padding:8px 15px;
+
+padding:8px 14px;
 border-radius:30px;
-font-size:13px;
-font-weight:bold;
-margin-top:10px;
+font-size:12px;
+font-weight:700;
+text-transform:uppercase;
+
 }
 
 .badge.paye{
@@ -124,16 +263,35 @@ background:#fee2e2;
 color:#991b1b;
 }
 
+/* =======================
+ACTIONS
+======================= */
+
 .actions{
+
 margin-top:20px;
+
 display:flex;
 gap:10px;
 flex-wrap:wrap;
+
 }
 
-.pagination{
-margin-top:30px;
+.actions form{
+display:inline;
 }
+
+/* =======================
+PAGINATION
+======================= */
+
+.pagination{
+margin-top:35px;
+}
+
+/* =======================
+RESPONSIVE
+======================= */
 
 @media(max-width:768px){
 
@@ -141,8 +299,12 @@ body{
 padding:15px;
 }
 
-.topbar h1{
-font-size:25px;
+.page-title{
+font-size:24px;
+}
+
+.grid{
+grid-template-columns:1fr;
 }
 
 }
@@ -153,82 +315,258 @@ font-size:25px;
 
 <body>
 
-<div class="topbar">
+<!-- HEADER -->
 
-<h1>💳 Paiements des commissions</h1>
+<div class="header">
+
+<div>
+
+<h1 class="page-title">
+💰 Paiements des commissions
+</h1>
+
+<p class="page-subtitle">
+Gestion financière des commissions partenaires
+</p>
+
+</div>
 
 <a
 href="{{ route('paiement_commissions.create') }}"
-class="btn">
+class="btn btn-primary">
 
-* Nouveau paiement
+➕ Nouveau paiement
 
 </a>
 
 </div>
 
+<!-- STATISTIQUES -->
+
+<div class="stats">
+
+<div class="stat-card">
+
+<div class="stat-label">
+Nombre de paiements
+</div>
+
+<div class="stat-value">
+{{ $paiements->total() }}
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-label">
+Montant total
+</div>
+
+<div class="stat-value">
+
+{{ number_format(
+$paiements->sum('montant'),
+0,
+',',
+' '
+) }}
+
+FCFA
+
+</div>
+
+</div>
+
+</div>
+
+<!-- FILTRES -->
+
+<form method="GET" class="filters">
+
+<input
+type="text"
+name="search"
+placeholder="🔍 Recherche partenaire..."
+value="{{ request('search') }}"
+>
+
+<select name="statut">
+
+<option value="">
+Tous les statuts
+</option>
+
+<option
+value="paye"
+{{ request('statut')=='paye' ? 'selected':'' }}
+>
+
+Payé
+
+</option>
+
+<option
+value="en_attente"
+{{ request('statut')=='en_attente' ? 'selected':'' }}
+>
+
+En attente
+
+</option>
+
+<option
+value="annule"
+{{ request('statut')=='annule' ? 'selected':'' }}
+>
+
+Annulé
+
+</option>
+
+</select>
+
+<select name="mode_paiement">
+
+<option value="">
+Tous les modes
+</option>
+
+<option value="especes">
+Espèces
+</option>
+
+<option value="mobile_money">
+Mobile Money
+</option>
+
+<option value="virement">
+Virement
+</option>
+
+<option value="cheque">
+Chèque
+</option>
+
+</select>
+
+<button class="btn btn-primary">
+🔎 Filtrer
+</button>
+
+</form>
+
+<!-- LISTE -->
+
 <div class="grid">
 
-@foreach($paiements as $paiement)
+@forelse($paiements as $paiement)
 
 <div class="card">
 
-<div class="title">
+<div class="card-header">
 
-{{ $paiement->commission->partenaire->nom }}
+<div class="partner">
 
-</div>
+{{ $paiement->commission->partenaire->nom ?? 'Partenaire inconnu' }}
 
-<div class="info">
-📅 {{ $paiement->date_paiement }}
-</div>
-
-<div class="info">
-💳 {{ ucfirst($paiement->mode_paiement) }}
-</div>
-
-<div class="info">
-🔖 {{ $paiement->reference }}
-</div>
-
-<div class="amount">
-{{ number_format($paiement->montant,0,',',' ') }}
-FCFA
 </div>
 
 <span class="badge {{ $paiement->statut }}">
-{{ $paiement->statut }}
+
+{{ str_replace('_',' ',$paiement->statut) }}
+
 </span>
+
+</div>
+
+<div class="amount">
+
+{{ number_format(
+$paiement->montant,
+0,
+',',
+' '
+) }}
+
+FCFA
+
+</div>
+
+<div class="info">
+
+<span>Date paiement</span>
+
+<strong>
+{{ $paiement->date_paiement }}
+</strong>
+
+</div>
+
+<div class="info">
+
+<span>Mode paiement</span>
+
+<strong>
+{{ ucfirst(str_replace('_',' ',$paiement->mode_paiement)) }}
+</strong>
+
+</div>
+
+<div class="info">
+
+<span>Référence</span>
+
+<strong>
+{{ $paiement->reference ?? '---' }}
+</strong>
+
+</div>
+
+<div class="info">
+
+<span>Utilisateur</span>
+
+<strong>
+{{ $paiement->user->name ?? 'N/A' }}
+</strong>
+
+</div>
 
 <div class="actions">
 
 <a
 href="{{ route('paiement_commissions.show',$paiement) }}"
-class="btn">
+class="btn btn-primary">
 
-Voir
+👁 Voir
 
 </a>
 
-@if(auth()->check() && auth()->user()->niveau_admin >= 2)
+@if(auth()->user()->niveau_admin >= 2)
 
 <a
 href="{{ route('paiement_commissions.edit',$paiement) }}"
 class="btn btn-dark">
 
-Modifier
+✏ Modifier
 
 </a>
 
 <form
 action="{{ route('paiement_commissions.destroy',$paiement) }}"
-method="POST">
+method="POST"
+onsubmit="return confirm('Supprimer ce paiement ?')">
 
 @csrf
 @method('DELETE')
 
-<button class="btn btn-danger">
-Supprimer
+<button
+type="submit"
+class="btn btn-danger">
+
+🗑 Supprimer
+
 </button>
 
 </form>
@@ -239,12 +577,24 @@ Supprimer
 
 </div>
 
-@endforeach
+@empty
+
+<div class="card">
+
+<h3>
+Aucun paiement trouvé.
+</h3>
+
+</div>
+
+@endforelse
 
 </div>
 
 <div class="pagination">
+
 {{ $paiements->links() }}
+
 </div>
 
 </body>
