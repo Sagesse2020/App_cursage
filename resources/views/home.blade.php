@@ -434,7 +434,7 @@ Aide
 <section class="hero">
 
 <h1>
-Bienvenue sur CURSAGE 👋
+Bienvenue sur CURSAGE 
 </h1>
 
 <p>
@@ -517,6 +517,21 @@ en toute sécurité.
 
 </section>
 
+<section class="quick-actions">
+
+<h2>📊 Statistiques en temps réel</h2>
+
+<div class="actions-grid">
+
+<a>🐶 Chiens disponibles : {{ $chiensDisponibles }}</a>
+<a>💰 Chiens vendus : {{ $chiensVendus }}</a>
+<a>📦 Produits : {{ $totalProduits }}</a>
+<a>🛠 Services : {{ $totalServices }}</a>
+
+</div>
+
+</section>
+
 <div class="message">
 
 <h2>
@@ -538,6 +553,23 @@ traçables et protégés.
 </div>
 
 </main>
+<canvas id="homeChart"></canvas>
+
+<script>
+new Chart(document.getElementById('homeChart'), {
+type: 'doughnut',
+data: {
+labels: ['Disponibles', 'Vendus'],
+datasets: [{
+data: [
+{{ $chiensDisponibles }},
+{{ $chiensVendus }}
+],
+backgroundColor: ['#00e6ff', '#ff4d4d']
+}]
+}
+});
+</script>
 
 <footer>
 <div class="social-icons">

@@ -93,6 +93,7 @@ class UserController extends Controller
     // USERS LIST (ADMIN)
     // =========================
     public function index()
+
     {
         $user = Auth::user();
 

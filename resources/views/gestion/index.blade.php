@@ -54,7 +54,7 @@ footer { margin-top:auto; background:#020617; padding:20px; text-align:center; c
 <body>
 
 <nav>
-<img src="{{ asset('logo_chorale.png') }}" alt="Logo CURSAGE" class="logo">
+<img src="{{ asset('images/logo.png') }}" alt="Logo CURSAGE" class="logo">
 <ul>
     <li><a href="{{ route('admin') }}"><i class="fas fa-home"></i>Admin</a></li>
     <li><a href="{{ route('gestion.index') }}"><i class="fas fa-cogs"></i>Gestion</a></li>
@@ -66,79 +66,110 @@ footer { margin-top:auto; background:#020617; padding:20px; text-align:center; c
 
 <section class="admin-header">
 <h1>Gestion CURSAGE</h1>
-<p>Suivi des utilisateurs, partenaires et licences</p>
+<p>Dashboard complet du système</p>
 </section>
 
 <section class="dashboard">
+
+<!-- CARTES -->
 <div class="cards">
-    <div class="card"><i class="fas fa-users-cog"></i><h3>Utilisateurs</h3><p>{{ $totalUsers ?? '...' }} utilisateurs actifs</p></div>
-    <div class="card"><i class="fas fa-handshake"></i><h3>Partenaires</h3><p>{{ $totalPartners ?? '...' }} partenaires enregistrés</p></div>
-    <div class="card"><i class="fas fa-id-card"></i><h3>Licences</h3><p>{{ $totalLicenses ?? '...' }} licences actives</p></div>
-    <div class="card"><i class="fas fa-chart-line"></i><h3>Statistiques</h3><p>Analyse globale des performances</p></div>
+
+<div class="card">
+<i class="fas fa-users"></i>
+<h3>Utilisateurs</h3>
+<p>{{ $totalUsers }}</p>
 </div>
 
-<!-- Graphique -->
-<canvas id="gestionChart"></canvas>
+<div class="card">
+<i class="fas fa-handshake"></i>
+<h3>Partenaires</h3>
+<p>{{ $totalPartners }}</p>
+</div>
 
-<!-- Tableau des utilisateurs -->
-<h2 style="margin-top:40px; color:#00e6ff;">Liste des utilisateurs</h2>
+<div class="card">
+<i class="fas fa-dog"></i>
+<h3>Chiens</h3>
+<p>{{ $totalChiens }}</p>
+</div>
+
+<div class="card">
+<i class="fas fa-shopping-cart"></i>
+<h3>Ventes</h3>
+<p>{{ $totalVentes }}</p>
+</div>
+
+</div>
+
+<!-- CHART -->
+<canvas id="chart"></canvas>
+
+<!-- TABLE USERS -->
+<h2 style="margin-top:40px;color:#00e6ff;">Utilisateurs</h2>
+
 <table>
 <thead>
 <tr>
-    <th>Nom</th>
-    <th>Email</th>
-    <th>Rôle</th>
-    <th>Date inscription</th>
+<th>Nom</th>
+<th>Email</th>
+<th>Rôle</th>
+<th>Date</th>
 </tr>
 </thead>
+
 <tbody>
-@foreach(\App\Models\User::orderBy('created_at','desc')->get() as $user)
+@foreach($users as $user)
 <tr>
-    <td>{{ $user->name }}</td>
-    <td>{{ $user->email }}</td>
-    <td>{{ $user->role }}</td>
-    <td>{{ $user->created_at->format('d/m/Y') }}</td>
+<td>{{ $user->name }}</td>
+<td>{{ $user->email }}</td>
+<td>{{ $user->niveau_admin }}</td>
+<td>{{ $user->created_at->format('d/m/Y') }}</td>
 </tr>
 @endforeach
 </tbody>
 </table>
+
 </section>
 
 <footer>
-<div class="social-icons">
-    <a href="#"><i class="fab fa-facebook"></i></a>
-    <a href="#"><i class="fab fa-tiktok"></i></a>
-    <a href="#"><i class="fab fa-whatsapp"></i></a>
-    <a href="#"><i class="fab fa-youtube"></i></a>
-</div>
-<p>&copy; 2025 CURSAGE — Gestion</p>
+© 2025 Gestion CURSAGE
 </footer>
 
 <script>
-const ctx2 = document.getElementById('gestionChart').getContext('2d');
-const gestionChart = new Chart(ctx2, {
-    type: 'bar',
-    data: {
-        labels: ['Utilisateurs','Partenaires','Licences'],
-        datasets: [{
-            label: 'Total',
-            data: [
-                {{ $totalUsers ?? 0 }},
-                {{ $totalPartners ?? 0 }},
-                {{ $totalLicenses ?? 0 }}
-            ],
-            backgroundColor:['#00e6ff','#00bcd4','#008cff'],
-            borderRadius:10
-        }]
-    },
-    options: {
-        responsive:true,
-        plugins:{ legend:{ display:false } },
-        scales:{
-            x:{ ticks:{ color:'#f5f6fa' }, grid:{ color:'#1e293b' } },
-            y:{ ticks:{ color:'#f5f6fa' }, grid:{ color:'#1e293b' } }
-        }
-    }
+const ctx = document.getElementById('chart').getContext('2d');
+
+new Chart(ctx,{
+type:'bar',
+data:{
+labels:[
+'Chiens',
+'Ventes',
+'Services',
+'Partenaires',
+'Utilisateurs'
+],
+datasets:[{
+label:'Statistiques',
+data:[
+{{ $totalChiens }},
+{{ $totalVentes }},
+{{ $totalServices }},
+{{ $totalPartners }},
+{{ $totalUsers }}
+],
+backgroundColor:[
+'#00e6ff',
+'#00bcd4',
+'#4facfe',
+'#1e90ff',
+'#38bdf8'
+],
+borderRadius:10
+}]
+},
+options:{
+responsive:true,
+plugins:{ legend:{ display:false } }
+}
 });
 </script>
 

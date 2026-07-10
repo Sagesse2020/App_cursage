@@ -49,6 +49,7 @@ use App\Http\Controllers\BeneficeController;
 use App\Http\Controllers\FicheSuiviController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaiementCommissionController;
 use App\Http\Controllers\PaiementFournisseurController;
@@ -135,9 +136,7 @@ Route::middleware(['auth'])->group(function(){
         return view('admin');
         })->name('admin');
 
-        Route::get('/home', function () {
-        return view('home');
-        })->name('home');
+         Route::get('/home', [HomeController::class, 'index'])->name('home');
 
         Route::get('/users', function () {
         return view('users');

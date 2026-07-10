@@ -138,7 +138,7 @@ cursor:pointer;
 <th>Nom</th>
 <th>Catégorie</th>
 <th>Prix</th>
-<th>Stock</th>
+<th>Quantité en stock</th>
 <th>Actions</th>
 </tr>
 

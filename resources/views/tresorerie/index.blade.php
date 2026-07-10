@@ -9,43 +9,258 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family: "Segoe UI", Tahoma; }
-body { background:#0b1020; color:#f5f6fa; min-height:100vh; display:flex; flex-direction:column; }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",Tahoma,sans-serif;
+}
 
-/* NAVBAR */
-nav { display:flex; justify-content:space-between; padding:15px 30px; background:#020617; }
-.logo { width:180px; }
-nav ul { display:flex; list-style:none; gap:15px; }
-nav ul li a { padding:8px 12px; border-radius:6px; display:flex; align-items:center; }
-nav ul li a:hover { background:#00e6ff20; color:#00e6ff; }
+body{
+    background:#0b1020;
+    color:#f5f6fa;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+}
 
-/* HEADER */
-.admin-header { padding:60px 30px; text-align:center; }
-.admin-header h1 { color:#00e6ff; font-size:40px; }
+/*******************
+NAVBAR
+********************/
 
-/* CARDS */
-.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:25px; padding:40px; }
-.card { background:#111827; padding:25px; border-radius:15px; text-align:center; }
+nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 30px;
+    background:#020617;
+    flex-wrap:wrap;
+    gap:20px;
+}
 
-/* TABLE */
-table { width:100%; border-collapse:collapse; margin-top:30px; }
-th, td { padding:12px; }
-th { background:#1f2937; }
-tr:nth-child(even){ background:#1e293b; }
+.logo{
+    width:180px;
+    max-width:100%;
+    height:auto;
+}
+
+nav ul{
+    display:flex;
+    list-style:none;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+nav ul li a{
+    padding:10px 15px;
+    border-radius:8px;
+    text-decoration:none;
+    color:#f5f6fa;
+    transition:.3s;
+}
+
+nav ul li a:hover{
+    background:#00e6ff20;
+    color:#00e6ff;
+}
+
+/*******************
+HEADER
+********************/
+
+.admin-header{
+    padding:60px 20px;
+    text-align:center;
+}
+
+.admin-header h1{
+    color:#00e6ff;
+    font-size:40px;
+}
+
+.admin-header p{
+    margin-top:10px;
+    color:#cbd5e1;
+}
+
+/*******************
+CARDS
+********************/
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:25px;
+    padding:30px;
+}
+
+.card{
+    background:#111827;
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card i{
+    font-size:40px;
+    color:#00e6ff;
+    margin-bottom:15px;
+}
+
+.card h3{
+    margin-bottom:10px;
+}
+
+.card p{
+    font-size:18px;
+}
+
+/*******************
+GRAPHIQUE
+********************/
+
+.chart-container{
+    padding:30px;
+}
+
+#soldeChart{
+    width:100% !important;
+    max-height:450px;
+}
+
+/*******************
+TABLEAU
+********************/
+
+.table-container{
+    padding:30px;
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
+}
+
+th,
+td{
+    padding:14px;
+    text-align:left;
+}
+
+th{
+    background:#1f2937;
+}
+
+td{
+    background:#111827;
+}
+
+tr:nth-child(even){
+    background:#1e293b;
+}
+
+/*******************
+FOOTER
+********************/
+
+footer{
+    margin-top:auto;
+    padding:20px;
+    text-align:center;
+    background:#020617;
+}
+
+/*******************
+TABLETTE
+********************/
+
+@media(max-width:992px){
+
+    .admin-header h1{
+        font-size:32px;
+    }
+
+}
+
+/*******************
+MOBILE
+********************/
+
+@media(max-width:768px){
+
+    nav{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    nav ul{
+        justify-content:center;
+    }
+
+    .logo{
+        width:140px;
+    }
+
+    .admin-header{
+        padding:40px 15px;
+    }
+
+    .admin-header h1{
+        font-size:28px;
+    }
+
+    .cards{
+        padding:20px;
+        grid-template-columns:1fr;
+    }
+
+    .chart-container,
+    .table-container{
+        padding:15px;
+    }
+
+}
+
+/*******************
+PETITS TELEPHONES
+********************/
+
+@media(max-width:480px){
+
+    .admin-header h1{
+        font-size:24px;
+    }
+
+    .card{
+        padding:20px;
+    }
+
+    .card i{
+        font-size:30px;
+    }
+
+    th,
+    td{
+        padding:10px;
+        font-size:13px;
+    }
+
+}
 </style>
 </head>
 
 <body>
 
 <nav>
-<img src="{{ asset('logo_chorale.png') }}" class="logo">
+<img src="{{ asset('images/logo.png') }}" class="logo">
 <ul>
-    <li><a href="{{ route('admin') }}"><i class="fas fa-home"></i>Admin</a></li>
-    <li><a href="{{ route('journal.index') }}"><i class="fas fa-book"></i>Journal</a></li>
-    <li><a href="{{ route('tresorerie.index') }}"><i class="fas fa-coins"></i>Trésorerie</a></li>
-    <li><a href="{{ route('gestion.index') }}"><i class="fas fa-cogs"></i>Gestion</a></li>
-    <li><a href="{{ route('profil') }}"><i class="fas fa-user"></i>Profil</a></li>
-</ul>
 <section class="admin-header">
 <h1>Trésorerie CURSAGE</h1>
 <p>Suivi financier global</p>
@@ -75,12 +290,12 @@ tr:nth-child(even){ background:#1e293b; }
 </section>
 
 <!-- GRAPHIQUE -->
-<div style="padding:40px;">
+<div class="chart-container">
 <canvas id="soldeChart"></canvas>
 </div>
 
 <!-- TABLEAU -->
-<div style="padding:40px;">
+<div class="table-container">
 <table>
 <thead>
 <tr>

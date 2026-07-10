@@ -294,8 +294,8 @@ drop-shadow(0 0 30px rgba(0,230,255,.3));
 </div>
 
 <ul>
-<li><a href="{{ route('publications.index') }}"><i class="fas fa-newspaper"></i> Publications</a></li>
-<li><a href="{{ route('evenements.index') }}"><i class="fas fa-calendar-alt"></i> Évènements</a></li>
+<li><a href="{{ route('publications.index') }}"><i class="fas fa-newspaper"></i> Chiens</a></li>
+<li><a href="{{ route('evenements.index') }}"><i class="fas fa-calendar-alt"></i> Produits</a></li>
 <li>
 <a href="{{ route('aide') }}">
 <i class="fas fa-user"></i>

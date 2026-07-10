@@ -78,7 +78,7 @@ button{
 
 <input type="number" name="prix_achat" placeholder="Prix achat">
 <input type="number" name="prix_vente" placeholder="Prix vente">
-<input type="number" name="stock" placeholder="Stock">
+<input type="number" name="stock" placeholder="Quantite en Stock">
 
 <input type="file" name="photo">
 
