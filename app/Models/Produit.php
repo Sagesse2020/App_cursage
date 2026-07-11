@@ -8,6 +8,7 @@ class Produit extends Model
 {
     protected $fillable = [
 
+        'partenaire_id',
         'nom',
         'description',
         'categorie_id',
@@ -41,5 +42,10 @@ class Produit extends Model
     public function commissions()
 {
     return $this->hasMany(PartenaireCommission::class);
+}
+
+public function partenaire()
+{
+    return $this->belongsTo(Partenaire::class);
 }
 }

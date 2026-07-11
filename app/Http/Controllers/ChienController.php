@@ -9,68 +9,103 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ChienController extends Controller
 {
-    public function index(Request $request)
-    {
-        $query = Chien::with([
-            'race',
-            'partenaire'
-        ]);
+     use AuthorizesRequests;
 
-        if($request->filled('search'))
-        {
-            $query->where(function($q) use ($request){
+   public function index(Request $request)
+{
 
-                $q->where('reference','like','%'.$request->search.'%')
-                  ->orWhere('nom','like','%'.$request->search.'%')
-                  ->orWhere('numero_puce','like','%'.$request->search.'%')
-                  ->orWhere('numero_pedigree','like','%'.$request->search.'%');
-            });
-        }
+$user = Auth::user();
 
-        if($request->filled('race'))
-        {
-            $query->where('race_id',$request->race);
-        }
+$this->authorize('viewAny', Chien::class);
 
-        if($request->filled('sexe'))
-        {
-            $query->where('sexe',$request->sexe);
-        }
+$query = Chien::with([
+    'race',
+    'partenaire'
+]);
 
-        if($request->filled('statut'))
-        {
-            $query->where('statut',$request->statut);
-        }
 
-        if($request->filled('provenance'))
-        {
-            $query->where('provenance',$request->provenance);
-        }
 
-        if($request->filled('age'))
-        {
-            $query->where('age',$request->age);
-        }
+// Recherche
 
-        $chiens = $query
-            ->latest()
-            ->paginate(10)
-            ->withQueryString();
+if($request->filled('search'))
+{
+    $query->where(function($q) use ($request){
 
-        $races = Race::orderBy('nom')->get();
+        $q->where('reference','like','%'.$request->search.'%')
+        ->orWhere('nom','like','%'.$request->search.'%')
+        ->orWhere('numero_puce','like','%'.$request->search.'%')
+        ->orWhere('numero_pedigree','like','%'.$request->search.'%');
 
-        return view(
-            'chiens.index',
-            compact(
-                'chiens',
-                'races'
-            )
-        );
-    }
+    });
+}
 
+
+// filtres
+
+if($request->filled('race'))
+{
+    $query->where('race_id',$request->race);
+}
+
+
+if($request->filled('sexe'))
+{
+    $query->where('sexe',$request->sexe);
+}
+
+
+if($request->filled('statut'))
+{
+    $query->where('statut',$request->statut);
+}
+
+
+
+// 🔥 SECURITE PARTENAIRE
+
+if(
+    !(
+        $user->role === 'admin'
+        &&
+        $user->niveau_admin == 3
+    )
+)
+{
+
+    $query->where(
+        'partenaire_id',
+        $user->partenaire_id
+    );
+
+}
+
+
+
+$chiens = $query
+    ->latest()
+    ->paginate(10)
+    ->withQueryString();
+
+
+
+$races = Race::orderBy('nom')->get();
+
+
+
+return view(
+    'chiens.index',
+    compact(
+        'chiens',
+        'races'
+    )
+);
+
+
+}
     public function create()
     {
         $races = Race::orderBy('nom')->get();

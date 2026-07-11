@@ -50,7 +50,7 @@ class ChienPolicy
         }
 
         // Revendeur
-        if ($user->partenaire->type_partenaire == 'revendeur') {
+        if ($user->partenaire->type_partenaire == 'vendeur') {
 
             return $chien->partenaire_id == $user->partenaire_id;
         }

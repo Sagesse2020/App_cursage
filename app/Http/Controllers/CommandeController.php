@@ -22,7 +22,7 @@ class CommandeController extends Controller
 
    public function index()
 {
-    if(auth()->user()->niveau_admin == 3){
+    if(Auth()->user()->niveau_admin == 3){
 
         $commandes = Commande::latest()->paginate(10);
 
@@ -30,7 +30,7 @@ class CommandeController extends Controller
 
         $commandes = Commande::where(
             'user_id',
-            auth()->id()
+            Auth::id(),
         )->latest()->paginate(10);
 
     }

@@ -42,11 +42,10 @@ img{
 <div class="container">
 
 <h1>{{ $produit->nom }}</h1>
-
 @if($produit->photo)
 <img src="{{ asset('storage/'.$produit->photo) }}">
 @endif
-
+<p><strong>Partenaire :</strong> {{ $produit->partenaire->nom ?? '' }}</p>
 <p><strong>Description :</strong> {{ $produit->description }}</p>
 
 <p><strong>Catégorie :</strong> {{ $produit->categorie->nom ?? '' }}</p>

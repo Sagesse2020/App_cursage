@@ -23,6 +23,7 @@ class User extends Authenticatable
         'password',
         'role',
         'niveau_admin',
+        'partenaire_id',
     ];
 
     /**
@@ -57,5 +58,6 @@ public function partenaire()
 {
     return $this->belongsTo(Partenaire::class);
 }
+
 
 }

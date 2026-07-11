@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use App\Models\Perte;
-use App\Models\Achat;
+use App\Models\Salaire;
 use App\Models\Depense;
 use Illuminate\Support\Facades\DB;
 
@@ -21,10 +21,21 @@ class GraphiqueController extends Controller
         // =======================
         // 💸 CHARGES (sorties)
         // =======================
-        $charges = Transaction::whereIn('type', [
-            'paiement_partenaire',
-            'versement_cursage'
-        ])->sum('montant');
+        
+// Transactions
+$chargesTransactions = Transaction::whereIn('type', [
+    'paiement_partenaire',
+    'versement_cursage'
+])->sum('montant');
+
+// Dépenses
+$depenses = Depense::sum('montant');
+
+// Salaires
+$salaires = Salaire::sum('montant_net');
+
+// Total des charges
+$charges = $chargesTransactions + $depenses + $salaires;
 
         // =======================
         // 📉 PERTES (table dédiée si existante)
@@ -74,7 +85,10 @@ class GraphiqueController extends Controller
             'benefice',
             'transactions',
             'donnees',
-            'labels'
+            'labels',
+            'depenses',
+            'salaires',
+            'chargesTransactions',
         ));
     }
 }

@@ -130,6 +130,23 @@
             @error('niveau_admin') <p class="error">{{ $message }}</p> @enderror
         </div>
 
+        <div class="form-group">
+    <label>Partenaire</label>
+
+    <select name="partenaire_id" class="form-control">
+        <option value="">Aucun</option>
+
+        @foreach($partenaires as $partenaire)
+
+            <option value="{{ $partenaire->id }}">
+                {{ $partenaire->nom }}
+                ({{ $partenaire->type_partenaire }})
+            </option>
+
+        @endforeach
+    </select>
+    </div>
+
         <button type="submit" class="btn">Créer l’utilisateur</button>
     </form>
 </div>

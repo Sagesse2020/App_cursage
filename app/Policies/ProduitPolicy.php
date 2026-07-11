@@ -19,33 +19,32 @@ class ProduitPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Produit $produit): bool
-    {
-        if ($user->niveau_admin >= 1) {
-        return true;
-    }
+   public function view(User $user, Produit $produit): bool
+{
 
-    $partenaire = $user->partenaire;
 
-    if (!$partenaire) {
-        return false;
-    }
+// Admin
+if(
+$user->role === 'admin'
+&& $user->niveau_admin >= 1
+){
 
-    // Apporteur d'affaires
-    if ($partenaire->type_partenaire === 'apporteur_affaires') {
-        return true;
-    }
+return true;
 
-    // Revendeur
-    if ($partenaire->type_partenaire === 'revendeur') {
+}
 
-        return $produit->partenaire_id
-            === $partenaire->id;
-    }
 
-    return false;
-    }
 
+if(!$user->partenaire_id){
+
+return false;
+
+}
+
+return $produit->partenaire_id == $user->partenaire_id;
+
+
+}
     /**
      * Determine whether the user can create models.
      */
@@ -59,18 +58,21 @@ class ProduitPolicy
      */
 public function update(User $user, Produit $produit)
 {
-    // admin 3 peut tout modifier
-    if ($user->niveau_admin == 3) {
-        return true;
-    }
 
-    // admin 2 peut modifier tout sauf restriction future
-    if ($user->niveau_admin == 2) {
-        return true;
-    }
 
-    // partenaire : seulement ses produits
-    return $produit->user_id === $user->id;
+if(
+$user->role === 'admin'
+&&
+$user->niveau_admin >=2
+)
+{
+    return true;
+}
+
+
+return $produit->partenaire_id == $user->partenaire_id;
+
+
 }
     /**
      * Determine whether the user can delete the model.
@@ -81,7 +83,7 @@ public function update(User $user, Produit $produit)
           return true;
           }
 
-    return $produit->user_id === $user->id;
+  return $produit->partenaire_id == $user->partenaire_id;
     }
 
     /**
@@ -93,7 +95,7 @@ public function update(User $user, Produit $produit)
         return true;
         }
 
-       return $produit->user_id === $user->id;
+    return $produit->partenaire_id == $user->partenaire_id;
     }
 
     /**

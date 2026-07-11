@@ -110,7 +110,13 @@ tr:hover{
 
 <div class="card">
 <h3>Charges</h3>
-<p>{{ number_format($charges,0,',',' ') }} FCFA</p>
+<div>Transactions : {{ number_format($chargesTransactions,0,',',' ') }} FCFA</div>
+
+<div>Dépenses : {{ number_format($depenses,0,',',' ') }} FCFA</div>
+
+<div>Salaires : {{ number_format($salaires,0,',',' ') }} FCFA</div>
+
+<div>Charges totales : {{ number_format($charges,0,',',' ') }} FCFA</div>
 </div>
 
 <div class="card">

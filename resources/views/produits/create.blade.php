@@ -60,6 +60,7 @@ button{
         <option value="{{ $partenaire->id }}">
 
             {{ $partenaire->nom }}
+            {{ $partenaire->type_partenaire }}
 
         </option>
 

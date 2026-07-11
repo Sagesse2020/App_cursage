@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Partenaire;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -102,7 +103,7 @@ class UserController extends Controller
         }
 
         return view('users.index', [
-            'users' => User::latest()->get()
+            'users'=>User::with('partenaire')->latest()->get()
         ]);
     }
 
@@ -111,7 +112,8 @@ class UserController extends Controller
     // =========================
     public function createUser()
     {
-        return view('users');
+        $partenaires = Partenaire::orderBy('nom')->get();
+        return view('users', compact('partenaires'));
     }
 
     // =========================
@@ -124,29 +126,35 @@ class UserController extends Controller
         'email' => 'required|email|unique:users',
         'password' => 'required|confirmed|min:8',
         'role' => 'required',
-        'niveau_admin' => 'nullable|integer|min:1|max:3'
+        'niveau_admin' => 'nullable|integer|min:1|max:3',
+        'partenaire_id' => 'nullable|exists:partenaires,id',
     ]);
 
-    User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => bcrypt($request->password),
-        'role' => $request->role,
-        'niveau_admin' => $request->niveau_admin, // 🔥 IMPORTANT
-    ]);
+   User::create([
+    'name'=>$request->name,
+    'email'=>$request->email,
+    'password'=>bcrypt($request->password),
+    'role'=>$request->role,
+    'niveau_admin'=>$request->niveau_admin,
+    'partenaire_id'=>$request->partenaire_id,
+]);
 
     return redirect()->route('users.index')->with('success', 'Utilisateur créé');
     }
     // =========================
     // EDIT USER
     // =========================
-    public function edit($id)
-    {
-        return view('users.edit', [
-            'user' => User::findOrFail($id)
-        ]);
-    }
+public function edit($id)
+{
+    $user = User::findOrFail($id);
 
+    $partenaires = Partenaire::orderBy('nom')->get();
+
+    return view('users.edit', compact(
+        'user',
+        'partenaires'
+    ));
+}
     // =========================
     // UPDATE USER (ADMIN)
     // =========================
@@ -160,16 +168,22 @@ class UserController extends Controller
         'role' => 'required',
         'niveau_admin' => 'nullable|integer|min:1|max:3',
         'password' => 'nullable|min:8|confirmed',
+        'partenaire_id' => 'nullable|exists:partenaires,id',
     ]);
 
-    $data = [
-        'name' => $request->name,
-        'email' => $request->email,
-        'role' => $request->role,
-        'niveau_admin' => $request->role === 'admin'
-            ? (int) $request->niveau_admin
-            : null,
-    ];
+   $data = [
+
+'name'=>$request->name,
+'email'=>$request->email,
+'role'=>$request->role,
+
+'niveau_admin'=>$request->role == 'admin'
+    ? (int)$request->niveau_admin
+    : null,
+
+'partenaire_id'=>$request->partenaire_id
+
+];
 
     // 🔥 password seulement si rempli
     if ($request->filled('password')) {

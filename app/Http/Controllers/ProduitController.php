@@ -21,16 +21,36 @@ class ProduitController extends Controller
     */
     public function index()
     {
-          $categories = Categorie::all();
         $user = Auth::user();
 
-        $query = Produit::with(['categorie', 'user'])
-            ->latest();
+    $categories = Categorie::all();  
 
-        // 🔐 Filtrage selon rôle
-        if ($user->niveau_admin < 3) {
-            $query->where('user_id', $user->id);
-        }
+$query = Produit::with(['categorie', 'user', 'partenaire']);
+
+if ($user->niveau_admin == 3) {
+
+    // Tout voir
+
+} elseif (!$user->partenaire_id) {
+
+    // Employé CURSAGE
+    $query->whereNull('partenaire_id');
+
+} else {
+
+    $partenaire = $user->partenaire;
+
+    if ($partenaire->type_partenaire == 'vendeur') {
+
+        $query->where('partenaire_id', $partenaire->id);
+
+    } elseif ($partenaire->type_partenaire == 'apporteur_affaires') {
+
+        $query->whereNull('partenaire_id');
+
+    }
+
+}
 
         $produits = $query->paginate(12);
 
@@ -58,6 +78,7 @@ class ProduitController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
+            'partenaire_id' => 'nullable|exists:partenaires,id',
             'nom' => 'required|string|max:255',
             'description' => 'nullable|string',
             'categorie_id' => 'required|exists:categories,id',
@@ -67,7 +88,21 @@ class ProduitController extends Controller
             'photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
         ]);
 
-        $data['user_id'] = Auth::id();
+         $user = Auth::user();
+
+         $data['user_id'] = $user->id;
+
+         if($user->role == 'admin' && $user->niveau_admin >= 2){
+
+    // Admin CURSAGE peut choisir
+    $data['partenaire_id'] = $request->partenaire_id;
+
+}else{
+
+    // Partenaire normal
+    $data['partenaire_id'] = $user->partenaire_id;
+
+}
 
         // 📸 upload image propre
         if ($request->hasFile('photo')) {
@@ -86,12 +121,19 @@ class ProduitController extends Controller
     | SHOW
     |--------------------------------------------------------------------------
     */
-    public function show(Produit $produit)
-    {
-        $produit->load(['categorie', 'user']);
+   public function show(Produit $produit)
+{
+    $produit->load([
+        'categorie',
+        'user',
+        'partenaire'
+    ]);
 
-        return view('produits.show', compact('produit'));
-    }
+    return view(
+        'produits.show',
+        compact('produit')
+    );
+}
 
     /*
     |--------------------------------------------------------------------------
@@ -103,8 +145,9 @@ class ProduitController extends Controller
         $this->authorize('update', $produit);
 
         $categories = Categorie::all();
+        $partenaires = Partenaire::all();
 
-        return view('produits.edit', compact('produit', 'categories'));
+        return view('produits.edit', compact('produit', 'categories','partenaires'));
     }
 
     /*
@@ -117,6 +160,7 @@ class ProduitController extends Controller
         $this->authorize('update', $produit);
 
         $data = $request->validate([
+            'partenaire_id' => 'nullable|exists:partenaires,id',
             'nom' => 'required|string|max:255',
             'description' => 'nullable|string',
             'categorie_id' => 'required|exists:categories,id',

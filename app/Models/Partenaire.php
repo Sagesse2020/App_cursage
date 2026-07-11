@@ -40,4 +40,10 @@ class Partenaire extends Model
     {
         return $this->hasMany(Produit::class);
     }
+
+    public function users()
+{
+    return $this->hasMany(User::class);
+}
+
 }

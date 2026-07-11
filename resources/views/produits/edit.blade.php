@@ -49,6 +49,14 @@ img{
 @csrf
 @method('PUT')
 
+<select name="partenaire_id">
+@foreach($partenaires as $partenaire)
+<option value="{{ $partenaire->id }}" @selected($partenaire->id==$produit->partenaire_id)>
+{{ $partenaire->nom }} {{ $partenaire->type_partenaire }}
+</option>
+@endforeach
+</select>
+
 <input type="text" name="nom" value="{{ $produit->nom }}">
 
 <textarea name="description">{{ $produit->description }}</textarea>

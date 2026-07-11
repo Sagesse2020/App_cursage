@@ -68,7 +68,7 @@ class VenteController extends Controller
         "Le chien {$vente->chien->nom} a été vendu à {$vente->client->nom}.",
         'success',
         'vente',
-        auth()->id()
+         Auth::id(),
     );
 
     NotificationService::create(
@@ -76,7 +76,7 @@ class VenteController extends Controller
         "Le statut du chien {$vente->chien->nom} est désormais vendu.",
         'info',
         'chien',
-        auth()->id()
+         Auth::id(),
     );
 
     return redirect()
@@ -135,7 +135,7 @@ class VenteController extends Controller
         "La vente #{$vente->id} du chien {$vente->chien->nom} a été modifiée.",
         'warning',
         'vente',
-        auth()->id()
+         Auth::id(),
     );
 
     return redirect()
@@ -159,7 +159,7 @@ class VenteController extends Controller
         "La vente du chien {$nomChien} a été supprimée.",
         'danger',
         'vente',
-        auth()->id()
+         Auth::id(),
     );
 
     NotificationService::create(
@@ -167,7 +167,7 @@ class VenteController extends Controller
         "Vérifiez le statut du chien {$nomChien} après suppression de la vente.",
         'warning',
         'chien',
-        auth()->id()
+         Auth::id(),
     );
 
     return back()

@@ -135,6 +135,7 @@ cursor:pointer;
 
 <tr>
 <th>Image</th>
+<th>Partenaire</th>
 <th>Nom</th>
 <th>Catégorie</th>
 <th>Prix</th>
@@ -153,7 +154,9 @@ cursor:pointer;
 <img src="https://via.placeholder.com/60">
 @endif
 </td>
-
+<td>
+{{ $produit->partenaire->nom ?? 'Aucun partenaire' }}
+</td>
 <td>{{ $produit->nom }}</td>
 
 <td>{{ $produit->categorie->nom ?? '' }}</td>
