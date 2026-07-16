@@ -43,10 +43,10 @@
     <div class="container">
       <ul class="collapse navbar-collapse" id="navbarSupportedContent">
       <li class="nav-item">
-      <a class="nav-link @if(Request::route()->getName() == 'ventes.create') active @endif" aria-current="page" href="{{ route('ventes.create') }}">Enregistrer une vente</a>
+      <a class="nav-link @if(Request::route()->getName() == 'achats.create') active @endif" aria-current="page" href="{{ route('achats.create') }}">Enregistrer un achat</a>
       </li>
        <li class="nav-item">
-       <a class="nav-link @if(Request::route()->getName() == 'ventes.index') active @endif" aria-current="page" href="{{ route('ventes.index') }}">Liste des ventes</a>
+       <a class="nav-link @if(Request::route()->getName() == 'achats.index') active @endif" aria-current="page" href="{{ route('achats.index') }}">Liste des achats</a>
        </li>
        <li class="nav-item">
          <a class="nav-link active" aria-current="page" href="{{ route('admin') }}">Accueil</a>

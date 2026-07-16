@@ -166,8 +166,6 @@ Route::middleware(['auth'])->group(function(){
         return view('publications.accueil');
         })->name('publications');
 
-                })->name('evenements');
-
         Route::get('/Employeaccueil', function () {
         return view('employees.accueil');
         })->name('employees');
@@ -310,8 +308,10 @@ Route::middleware(['auth'])->group(function(){
     //  DOCUMENTS
     // ------------------------
 Route::resource('documents', DocumentController::class);
+
 Route::get('/factures/{facture}/print', [FactureController::class,'print'])
     ->name('factures.print');
+    
    // -----------------------
     //  EVENEMENTS
     // ------------------------
@@ -555,4 +555,4 @@ Route::delete('/notifications/{notification}', [NotificationController::class,'d
     Route::get('/deces/{deces}/edit', [DecesController::class, 'edit'])->name('deces.edit');
     Route::put('/deces/{deces}', [DecesController::class, 'update'])->name('deces.update');
     Route::delete('/deces/{deces}', [DecesController::class, 'destroy'])->name('deces.destroy');
-
+});

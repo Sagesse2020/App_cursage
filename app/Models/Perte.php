@@ -7,11 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Perte extends Model
 {
     protected $fillable = [
-        'motif',
+
+        'type',
+        'source',
+        'source_id',
+        'libelle',
         'montant',
-        'date_perte',
         'description',
         'user_id'
+
     ];
 
     public function user()

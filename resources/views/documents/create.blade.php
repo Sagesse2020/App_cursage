@@ -12,7 +12,7 @@ button{margin-top:20px;background:#0a7;color:#fff;border:none;padding:12px;width
 </style>
 </head>
 <body>
-<form method="POST" enctype="multipart/form-data">
+<form action="{{ route('documents.store') }}" method="POST" enctype="multipart/form-data">
 @csrf
 <h2>Ajouter un document</h2>
 

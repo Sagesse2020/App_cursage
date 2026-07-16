@@ -514,9 +514,11 @@ $nbNotifications = App\Models\Notification::where('lu',false)
 <li><a href="{{ route('tresorerie.index') }}">Trésorerie</a></li>
 <li><a href="{{ route('paiements') }}">Paiements</a></li>
 <li><a href="{{ route('paiement_fournisseurs') }}">Paiements des fournisseurs</a></li>
+<li><a href="{{ route('mouvements_stock') }}">Mouvements du stock</a></li>
 <li><a href="{{ route('paiement_commissions') }}">Paiements des commissions</a></li>
 <li><a href="{{ route('depenses') }}">Depenses</a></li>
 <li><a href="{{ route('salaires') }}">Salaires</a></li>
+<li><a href="{{ route('achats') }}">Achats</a></li>
 </ul>
 </li>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Depense;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -14,10 +15,10 @@ class DepenseController extends Controller
     {
         $depenses = Depense::latest()
             ->paginate(10);
-
+        $users = User::all();
         return view(
             'depenses.index',
-            compact('depenses')
+            compact('depenses','users')
         );
     }
 
@@ -148,9 +149,7 @@ class DepenseController extends Controller
             );
     }
 
-    public function destroy(
-        Depense $depense
-    )
+    public function destroy(Depense $depense)
     {
         if($depense->justificatif)
         {

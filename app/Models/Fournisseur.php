@@ -12,4 +12,9 @@ class Fournisseur extends Model
         'telephone',
         'adresse'
     ];
+
+    public function achats()
+{
+    return $this->hasMany(Achat::class);
+}
 }

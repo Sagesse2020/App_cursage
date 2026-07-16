@@ -15,13 +15,18 @@ class Achat extends Model
         'prix_unitaire',
         'montant_total',
         'date_achat',
-        'fournisseur',
+        'fournisseur_id',
         'observation'
     ];
 
     public function produit()
     {
         return $this->belongsTo(Produit::class);
+    }
+
+        public function fournisseur()
+    {
+        return $this->belongsTo(Fournisseur::class);
     }
 
     public function user()

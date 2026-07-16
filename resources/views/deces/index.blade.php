@@ -141,7 +141,7 @@ td{
 Modifier
 </a>
 
-<form method="POST" action="{{ route('deces.destroy',$deces->id) }}" style="display:inline;" "
+<form method="POST" action="{{ route('deces.destroy',$d->id) }}" style="display:inline;" "
       onsubmit="return confirm('Voulez-vous vraiment supprimer ce decès ?');">
 @csrf
 @method('DELETE')

@@ -82,15 +82,35 @@ name="date_depense"
 required
 >
 
-<select name="categorie">
+<select name="categorie" required>
 
-<option value="">Choisir</option>
+    <option value="">Choisir...</option>
 
-<option>Salaire</option>
-<option>Electricite</option>
-<option>Internet</option>
-<option>Carburant</option>
-<option>Autre</option>
+    <option value="Alimentation">Alimentation</option>
+
+    <option value="Santé vétérinaire">Santé vétérinaire</option>
+
+    <option value="Transport">Transport</option>
+
+    <option value="Carburant">Carburant</option>
+
+    <option value="Matériel">Matériel</option>
+
+    <option value="Entretien">Entretien</option>
+
+    <option value="Salaire">Salaire</option>
+
+    <option value="Publicité">Publicité</option>
+
+    <option value="Loyer">Loyer</option>
+
+    <option value="Eau / Électricité">Eau / Électricité</option>
+
+    <option value="Impôts">Impôts</option>
+
+    <option value="Formation">Formation</option>
+
+    <option value="Autre">Autre</option>
 
 </select>
 

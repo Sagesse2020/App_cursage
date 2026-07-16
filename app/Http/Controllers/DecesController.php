@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Deces;
 use App\Models\Chien;
+use App\Models\Perte;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,7 @@ class DecesController extends Controller
             'chien',
             'user'
         ])->latest();
+
 
         if ($request->chien)
         {
@@ -33,6 +35,7 @@ class DecesController extends Controller
             );
         }
 
+
         if ($request->date_debut)
         {
             $query->whereDate(
@@ -41,6 +44,7 @@ class DecesController extends Controller
                 $request->date_debut
             );
         }
+
 
         if ($request->date_fin)
         {
@@ -51,7 +55,9 @@ class DecesController extends Controller
             );
         }
 
+
         $deces = $query->paginate(10);
+
 
         return view(
             'deces.index',
@@ -59,10 +65,14 @@ class DecesController extends Controller
         );
     }
 
+
+
     public function create()
     {
         $users = User::all();
+
         $chiens = Chien::all();
+
 
         return view(
             'deces.create',
@@ -73,38 +83,138 @@ class DecesController extends Controller
         );
     }
 
+
+
     public function store(Request $request)
     {
         $request->validate([
+
             'chien_id' => 'required',
+
             'date_deces' => 'required|date',
+
         ]);
 
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Création du décès
+        |--------------------------------------------------------------------------
+        */
+
         $deces = Deces::create([
+
             'chien_id' => $request->chien_id,
+
             'date_deces' => $request->date_deces,
+
             'cause' => $request->cause,
+
             'description' => $request->description,
+
             'user_id' => Auth::id(),
+
         ]);
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Chargement du chien
+        |--------------------------------------------------------------------------
+        */
 
         $deces->load('chien');
 
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Création automatique de la perte
+        |--------------------------------------------------------------------------
+        */
+
+        $perte = Perte::create([
+
+            'type' => 'Décès',
+
+            'source' => 'deces',
+
+            'source_id' => $deces->id,
+
+            'libelle' => "Décès du chien {$deces->chien->nom}",
+
+            'montant' => $deces->chien->prix ?? 0,
+
+            'description' => $deces->cause,
+
+            'user_id' => Auth::id(),
+
+        ]);
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Notification perte créée
+        |--------------------------------------------------------------------------
+        */
+
         NotificationService::create(
-            'Décès enregistré',
-            "Le chien {$deces->chien->nom} est déclaré décédé.",
+
+            'Nouvelle perte enregistrée',
+
+            "Une perte a été enregistrée : {$perte->libelle} d'un montant de "
+            .number_format($perte->montant,0,',',' ')
+            ." FCFA.",
+
             'danger',
-            'deces',
-             Auth::id()
+
+            'perte',
+
+            Auth::id()
+
         );
 
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Notification décès
+        |--------------------------------------------------------------------------
+        */
+
+        NotificationService::create(
+
+            'Décès enregistré',
+
+            "Le chien {$deces->chien->nom} est déclaré décédé.",
+
+            'danger',
+
+            'deces',
+
+            Auth::id()
+
+        );
+
+
+
         return redirect()
+
             ->route('deces.index')
+
             ->with(
+
                 'success',
+
                 'Décès enregistré'
+
             );
     }
+
+
 
     public function show(Deces $deces)
     {
@@ -114,9 +224,12 @@ class DecesController extends Controller
         );
     }
 
+
+
     public function edit(Deces $deces)
     {
         $chiens = Chien::all();
+
 
         return view(
             'deces.edit',
@@ -127,53 +240,103 @@ class DecesController extends Controller
         );
     }
 
+
+
     public function update(
         Request $request,
         Deces $deces
     )
     {
         $request->validate([
+
             'chien_id' => 'required',
-            'date_deces' => 'required'
+
+            'date_deces' => 'required|date'
+
         ]);
+
+
 
         $deces->update($request->all());
 
+
+
         NotificationService::create(
+
             'Décès modifié',
+
             "Le décès #{$deces->id} a été modifié.",
+
             'warning',
+
             'deces',
+
             Auth::id()
+
         );
 
+
+
         return redirect()
+
             ->route('deces.index')
+
             ->with(
+
                 'success',
+
                 'Décès modifié'
+
             );
     }
+
+
 
     public function destroy(Deces $deces)
     {
         $id = $deces->id;
 
+
+        /*
+        Suppression de la perte liée
+        */
+
+        Perte::where('source','deces')
+            ->where('source_id',$deces->id)
+            ->delete();
+
+
+
         $deces->delete();
 
+
+
         NotificationService::create(
+
             'Décès supprimé',
+
             "Le décès #{$id} a été supprimé.",
+
             'danger',
+
             'deces',
+
             Auth::id()
+
         );
 
+
+
         return redirect()
+
             ->route('deces.index')
+
             ->with(
+
                 'success',
+
                 'Décès supprimé'
+
             );
     }
 }

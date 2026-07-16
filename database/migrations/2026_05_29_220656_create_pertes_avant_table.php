@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-           Schema::create('pertes', function (Blueprint $table) {
+    Schema::create('pertes_avant', function (Blueprint $table) {
 
     $table->id();
 

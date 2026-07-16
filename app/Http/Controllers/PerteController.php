@@ -9,56 +9,199 @@ use Illuminate\Support\Facades\Auth;
 
 class PerteController extends Controller
 {
-    public function index()
+
+    public function index(Request $request)
     {
-        $pertes = Perte::with('user')
+
+        $query = Perte::with('user');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | FILTRE TYPE
+        |--------------------------------------------------------------------------
+        */
+
+        if($request->filled('type')){
+
+            $query->where(
+                'type',
+                $request->type
+            );
+
+        }
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | FILTRE DATE
+        |--------------------------------------------------------------------------
+        */
+
+        if($request->filled('debut')){
+
+            $query->whereDate(
+                'created_at',
+                '>=',
+                $request->debut
+            );
+
+        }
+
+
+        if($request->filled('fin')){
+
+            $query->whereDate(
+                'created_at',
+                '<=',
+                $request->fin
+            );
+
+        }
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | RECHERCHE
+        |--------------------------------------------------------------------------
+        */
+
+        if($request->filled('search')){
+
+            $query->where(function($q) use ($request){
+
+                $q->where(
+                    'libelle',
+                    'LIKE',
+                    '%'.$request->search.'%'
+                )
+
+                ->orWhere(
+                    'description',
+                    'LIKE',
+                    '%'.$request->search.'%'
+                );
+
+            });
+
+        }
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | LISTE
+        |--------------------------------------------------------------------------
+        */
+
+        $pertes = $query
             ->latest()
-            ->paginate(20);
+            ->paginate(15)
+            ->withQueryString();
 
-        $total_pertes = Perte::sum('montant');
 
-        return view('pertes.index', compact('pertes', 'total_pertes'));
+
+        /*
+        |--------------------------------------------------------------------------
+        | STATISTIQUES
+        |--------------------------------------------------------------------------
+        */
+
+        $total = Perte::sum('montant');
+
+
+        $nombre = Perte::count();
+
+
+        $deces = Perte::where(
+            'type',
+            'Décès'
+        )->count();
+
+
+        $perimes = Perte::where(
+            'type',
+            'Produit périmé'
+        )->count();
+
+
+        $casses = Perte::where(
+            'type',
+            'Produit cassé'
+        )->count();
+
+
+        $vols = Perte::where(
+            'type',
+            'Vol'
+        )->count();
+
+
+        $annulations = Perte::where(
+            'type',
+            'Annulation'
+        )->count();
+
+
+
+        return view(
+            'pertes.index',
+            compact(
+                'pertes',
+                'total',
+                'nombre',
+                'deces',
+                'perimes',
+                'casses',
+                'vols',
+                'annulations'
+            )
+        );
+
     }
 
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'montant' => 'required|numeric',
-            'motif' => 'required|string'
-        ]);
 
-        $perte = Perte::create([
-            ...$data,
-            'user_id' => Auth::id()
-        ]);
-
-        // 🔔 NOTIFICATION CREATE
-        Notification::create([
-            'titre' => 'Nouvelle perte enregistrée',
-            'message' => 'Perte de ' . $perte->montant . ' FCFA ajoutée',
-            'type' => 'warning',
-            'lu' => false,
-            'user_id' => Auth::id()
-        ]);
-
-        return back()->with('success', 'Perte ajoutée');
-    }
 
     public function destroy(Perte $perte)
     {
+
+
+        $libelle = $perte->libelle;
+
+
         $montant = $perte->montant;
+
 
         $perte->delete();
 
-        // 🔔 NOTIFICATION DELETE
+
+
         Notification::create([
-            'titre' => 'Perte supprimée',
-            'message' => 'Perte de ' . $montant . ' FCFA supprimée',
-            'type' => 'danger',
-            'lu' => false,
-            'user_id' => Auth::id()
+
+            'titre'=>'Perte supprimée',
+
+            'message'=>
+            "La perte {$libelle} de ".
+            number_format($montant,0,',',' ').
+            " FCFA a été supprimée.",
+
+            'type'=>'danger',
+
+            'lu'=>false,
+
+            'user_id'=>Auth::id()
+
         ]);
 
-        return back()->with('success', 'Perte supprimée');
+
+
+        return back()->with(
+            'success',
+            'Perte supprimée avec succès.'
+        );
+
     }
+
 }
